@@ -1,6 +1,8 @@
 1. # QUERYING DATA
 
-    - ## SELECT => that retrieves data from a single table
+    - ## SELECT
+
+        - that retrieves data from a single table
 
         - Single Columns
 
