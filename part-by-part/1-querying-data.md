@@ -13,7 +13,9 @@
         - All Columns
             - SELECT \* FROM accounts;
 
-    - ## Column Alias => A column alias allows you to assign a column or an expression in the select list of a SELECT statement a temporary name.
+    - ## Column Alias
+
+        - A column alias allows you to assign a column or an expression in the select list of a SELECT statement a temporary name.
 
         - EXAMPLE - SELECT username AS isim FROM accounts;
 
@@ -24,7 +26,9 @@
 
         - Contain Space - SELECT fullname AS "uname lname" FROM accounts;
 
-    - ## ORDER BY => To sort the rows of the result set, you use the ORDER BY clause in the SELECT statement. ( two options as ASC and DESC (default ASC) )
+    - ## ORDER BY
+
+        - To sort the rows of the result set, you use the ORDER BY clause in the SELECT statement. ( two options as ASC and DESC (default ASC) )
 
         - Sort Rows By One Column
 
@@ -41,7 +45,9 @@
         - NULLS FIRST/LAST
             - SELECT username FROM accounts ORDER BY DESC NULLS LAST;
 
-    - ## SELECT DISTINCT => The DISTINCT clause is used in the SELECT statement to remove duplicate rows from a result set. The DISTINCT clause keeps one row foreach group of duplicates. The DISTINCT clause can be applied to one or more columns in the select list of the SELECT statement.
+    - ## SELECT DISTINCT
+
+        - The DISTINCT clause is used in the SELECT statement to remove duplicate rows from a result set. The DISTINCT clause keeps one row foreach group of duplicates. The DISTINCT clause can be applied to one or more columns in the select list of the SELECT statement.
 
         - One Column
 
