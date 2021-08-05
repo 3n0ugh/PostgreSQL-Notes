@@ -998,1399 +998,1428 @@
 
 13. # UNDERSTANDING POSTGRESQL CONSTRAINTS
 
-    1- PRIMARY KEY => A primary key is a column or a group of columns used to
-    identify a row uniquely in a table.
+    -   **_PRIMARY KEY => A primary key is a column or a group of columns used to identify a row uniquely in a table._**
 
-        # Define Primary Key While Creating A Table
-            -> CREATE TABLE TABLE (
-            column_1 data_type PRIMARY KEY,
-            column_2 data_type,
-            …
-            );
+        -   Define Primary Key While Creating A Table
 
-        # To Define Primary Key For Two Or More Column
-            -> CREATE TABLE TABLE (
-            column_1 data_type,
-            column_2 data_type,
-            …
-                PRIMARY KEY (column_1, column_2)
-            );
+            -   ` CREATE TABLE TABLE ( column_1 data_type PRIMARY KEY, column_2 data_type, … );`
 
-        # Define Primary Key While Changing The Existing Table Structure
-            -> ALTER TABLE table_name ADD PRIMARY KEY (column_1, column_2);
+        -   To Define Primary Key For Two Or More Column
 
-        # To Add An Auto-Incremented Primary Key To An Existing Table
-            -> ALTER TABLE existing_table_name ADD COLUMN column_name SERIAL PRIMARY KEY;
+            -   `CREATE TABLE TABLE ( column_1 data_type, column_2 data_type, … PRIMARY KEY (column_1, column_2) );`
 
-        # Remove Primary Key
-            -> ALTER TABLE table_name DROP CONSTRAINT primary_key_constraint;
+        -   Define Primary Key While Changing The Existing Table Structure
 
-    2- FOREIGN KEY => A foreign key is a column or a group of columns in a
-    table that reference the primary key of another table.
+            -   `ALTER TABLE table_name ADD PRIMARY KEY (column_1, column_2);`
 
-        # Syntax
-            -> [CONSTRAINT fk_name]
-            FOREIGN KEY(fk_columns)
-            REFERENCES parent_table(parent_key_columns)
-            [ON DELETE delete_action]
-            [ON UPDATE update_action]
+        -   To Add An Auto-Incremented Primary Key To An Existing Table
 
-        # NO ACTION
-            -> If you try to delete a referenced primary key, you will get an error.
+            -   `ALTER TABLE existing_table_name ADD COLUMN column_name SERIAL PRIMARY KEY;`
 
-        # SET NULL
-            -> The SET NULL automatically sets NULL to the foreign key columns in
-            the referencing rows of the child table when the referenced rows in
-            the parent table are deleted.
-            -> CREATE TABLE contacts(
-            contact_id INT GENERATED ALWAYS AS IDENTITY,
-            customer_id INT,
-            contact_name VARCHAR(255) NOT NULL,
-            phone VARCHAR(15),
-            email VARCHAR(100),
-            PRIMARY KEY(contact_id),
-            CONSTRAINT fk_customer
-              FOREIGN KEY(customer_id)
-              REFERENCES customers(customer_id)
-              ON DELETE SET NULL -- Important!!!!
-            );
+        -   Remove Primary Key
 
-        # CASCADE
-            -> The ON DELETE CASCADE automatically deletes all the referencing
-            rows in the child table when the referenced rows in the parent
-            table are deleted.
-            -> CREATE TABLE contacts(
-            contact_id INT GENERATED ALWAYS AS IDENTITY,
-            customer_id INT,
-            contact_name VARCHAR(255) NOT NULL,
-            phone VARCHAR(15),
-            email VARCHAR(100),
-            PRIMARY KEY(contact_id),
-            CONSTRAINT fk_customer
-              FOREIGN KEY(customer_id)
-              REFERENCES customers(customer_id)
-              ON DELETE CASCADE
-            );
+            -   ` ALTER TABLE table_name DROP CONSTRAINT primary_key_constraint;`
 
-        # SET DEFAULT
-            -> The ON DELETE SET DEFAULT sets the default value to the foreign
-            key column of the referencing rows in the child table when the
-            referenced rows from the parent table are deleted.
+    -   **_FOREIGN KEY => A foreign key is a column or a group of columns in a table that reference the primary key of another table._**
 
-        # Add A Foreign Key Constraint To An Existing Table
-            -> ALTER TABLE child_table
-            ADD CONSTRAINT constraint_name
-            FOREIGN KEY (fk_columns)
-            REFERENCES parent_table (parent_key_columns);
+        -   Syntax
 
-    3- CHECK => A CHECK constraint is a kind of constraint that allows you to
-    specify if values in a column must meet a specific requirement.
+            -   `[CONSTRAINT fk_name] FOREIGN KEY(fk_columns) REFERENCES parent_table(parent_key_columns) [ON DELETE delete_action] [ON UPDATE update_action]`
 
-        # Define PostgreSQL CHECK Constraint For New Tables
-            -> DROP TABLE IF EXISTS employees;
-            CREATE TABLE employees (
-            id SERIAL PRIMARY KEY,
-            first_name VARCHAR (50),
-            last_name VARCHAR (50),
-            birth_date DATE CHECK (birth_date > '1900-01-01'),
-            joined_date DATE CHECK (joined_date > birth_date),
-            salary numeric CHECK(salary > 0)
-            );
+        -   NO ACTION
 
-        # Define PostgreSQL CHECK Constraint For Existing Tables
-            -> ALTER TABLE prices_list
-            ADD CONSTRAINT price_discount_check
-            CHECK (
-            price > 0
-            AND discount >= 0
-            AND price > discount
-            );
+            -   If you try to delete a referenced primary key, you will get an error.
 
-    4- UNIQUE => to constraint the uniqueness of the data correctly.
+        -   SET NULL
 
-        # When a UNIQUE constraint is in place, every time you insert a new row,
-        it checks if the value is already in the table. It rejects the change
-        and issues an error if the value already exists. The same process is
-        carried out for updating existing data.
+            -   The SET NULL automatically sets NULL to the foreign key columns in
+                the referencing rows of the child table when the referenced rows in
+                the parent table are deleted.
+            -   `CREATE TABLE contacts( contact_id INT GENERATED ALWAYS AS IDENTITY, customer_id INT, contact_name VARCHAR(255) NOT NULL, phone VARCHAR(15), email VARCHAR(100), PRIMARY KEY(contact_id), CONSTRAINT fk_customer FOREIGN KEY(customer_id) REFERENCES customers(customer_id) ON DELETE SET NULL -- Important!!!! );`
 
-        # Syntax (two variant)
-            -> email VARCHAR (50) UNIQUE
-            -> UNIQUE (email)
-            -> CREATE TABLE person (
-            id SERIAL PRIMARY KEY,
-            first_name VARCHAR (50),
-            last_name VARCHAR (50),
-            email VARCHAR (50) UNIQUE
-            );
+        -   CASCADE
 
-        # Creating A UNIQUE Constraint On Multiple Columns
-            -> CREATE TABLE table (
-                c1 data_type,
-                c2 data_type,
-                c3 data_type
-                UNIQUE (c2, c3)
-            );
+            -   The ON DELETE CASCADE automatically deletes all the referencing
+                rows in the child table when the referenced rows in the parent
+                table are deleted.
+            -   `CREATE TABLE contacts( contact_id INT GENERATED ALWAYS AS IDENTITY, customer_id INT, contact_name VARCHAR(255) NOT NULL, phone VARCHAR(15), email VARCHAR(100), PRIMARY KEY(contact_id), CONSTRAINT fk_customer FOREIGN KEY(customer_id) REFERENCES customers(customer_id) ON DELETE CASCADE );`
 
-        # Adding UNIQUE Constraint Using A UNIQUE INDEX
-            -> CREATE UNIQUE INDEX CONCURRENTLY equipment_equip_id
-            ON equipment (equip_id);
-            -> Add a unique constraint to the equipment table using the
-            equipment_equip_id index.
-                -> ALTER TABLE equipment
-                ADD CONSTRAINT unique_equip_id
-                UNIQUE USING INDEX equipment_equip_id;
+        -   SET DEFAULT
 
-        # ALTER TABLE statement acquires an exclusive lock on the table. If you
-        have any pending transactions, it will wait for all transactions to
-        complete before changing the table.
+            -   The ON DELETE SET DEFAULT sets the default value to the foreign
+                key column of the referencing rows in the child table when the
+                referenced rows from the parent table are deleted.
 
-    5- NOT-NULL => to ensure the values of a column are not null.
+        -   Add A Foreign Key Constraint To An Existing Table
 
-        # NOT NULL CONSTRAINT
-            -> CREATE TABLE table_name (
-                ...
-                column_name data_type NOT NULL,
-                ...
-            );
+            -   `ALTER TABLE child_table ADD CONSTRAINT constraint_name FOREIGN KEY (fk_columns) REFERENCES parent_table (parent_key_columns);`
 
-        # Declaring NOT NULL Columns
-            -> CREATE TABLE invocies (
-                id SERIAL PRIMARY KEY,
-                product_id INT NOT NULL,
-                qty NUMERIC NOT NULL CHECK (qty > 0),
-                net_price numeric CHECK (net_price > 0)
-            );
+    -   **_CHECK => A CHECK constraint is a kind of constraint that allows you to specify if values in a column must meet a specific requirement._**
 
-        # Adding NOT NULL Constraint To An Existing Table
-            -> ALTER TABLE table_name
-            ALTER COLUMN column_name SET NOT NULL;
+        -   Define PostgreSQL CHECK Constraint For New Tables
 
-        # The Special Case Of NOT NULL Constraint
-            -> Besides the NOT NULL constraint, you can use a CHECK constraint
-            to force a column to accept not NULL values.
-            -> CHECK (column IS NOT NULL)
-            -> CREATE TABLE users (
-                id serial PRIMARY KEY,
-                username VARCHAR (50),
-                password VARCHAR (50),
-                email VARCHAR (50),
-                CONSTRAINT username_email_notnull CHECK (
-                NOT (
-                 ( username IS NULL  OR  username = '' )
-                 AND
-                 ( email IS NULL  OR  email = '' )
-                )
-                )
-            );
+            -   `DROP TABLE IF EXISTS employees; CREATE TABLE employees ( id SERIAL PRIMARY KEY, first_name VARCHAR (50), last_name VARCHAR (50), birth_date DATE CHECK (birth_date > '1900-01-01'), joined_date DATE CHECK (joined_date > birth_date), salary numeric CHECK(salary > 0) );`
+
+        -   Define PostgreSQL CHECK Constraint For Existing Tables
+
+            -   `ALTER TABLE prices_list ADD CONSTRAINT price_discount_check CHECK ( price > 0 AND discount >= 0 AND price > discount );`
+
+    -   **_UNIQUE => to constraint the uniqueness of the data correctly._**
+
+        -   When a UNIQUE constraint is in place, every time you insert a new row,
+            it checks if the value is already in the table. It rejects the change
+            and issues an error if the value already exists. The same process is
+            carried out for updating existing data.
+
+        -   Syntax (two variant)
+
+            -   `email VARCHAR (50) UNIQUE UNIQUE (email) CREATE TABLE person ( id SERIAL PRIMARY KEY, first_name VARCHAR (50), last_name VARCHAR (50), email VARCHAR (50) UNIQUE );`
+
+        -   Creating A UNIQUE Constraint On Multiple Columns
+
+            -   `CREATE TABLE table ( c1 data_type, c2 data_type, c3 data_type UNIQUE (c2, c3) );`
+
+        -   Adding UNIQUE Constraint Using A UNIQUE INDEX
+
+            -   `CREATE UNIQUE INDEX CONCURRENTLY equipment_equip_id ON equipment (equip_id);`
+            -   `Add a unique constraint to the equipment table using the equipment_equip_id index. - ALTER TABLE equipment ADD CONSTRAINT unique_equip_id UNIQUE USING INDEX equipment_equip_id;`
+
+        -   ALTER TABLE statement acquires an exclusive lock on the table. If you
+            have any pending transactions, it will wait for all transactions to
+            complete before changing the table.
+
+    -   **_NOT-NULL => to ensure the values of a column are not null._**
+
+        -   NOT NULL CONSTRAINT
+
+            -   `CREATE TABLE table_name ( ... column_name data_type NOT NULL, ... );`
+
+        -   Declaring NOT NULL Columns
+
+            -   `CREATE TABLE invocies ( id SERIAL PRIMARY KEY, product_id INT NOT NULL, qty NUMERIC NOT NULL CHECK (qty > 0), net_price numeric CHECK (net_price > 0) );`
+
+        -   Adding NOT NULL Constraint To An Existing Table
+
+            -   `ALTER TABLE table_name ALTER COLUMN column_name SET NOT NULL;`
+
+        -   The Special Case Of NOT NULL Constraint
+
+            -   Besides the NOT NULL constraint, you can use a CHECK constraint
+                to force a column to accept not NULL values.
+            -   `CHECK (column IS NOT NULL)`
+            -   `CREATE TABLE users ( id serial PRIMARY KEY, username VARCHAR (50), password VARCHAR (50), email VARCHAR (50), CONSTRAINT username_email_notnull CHECK ( NOT ( ( username IS NULL OR username = '' ) AND ( email IS NULL OR email = '' ) ) ) );`
 
 14. # POSTGRESQL DATA TYPES IN DEPTH
 
-    1- BOOLEAN
+    -   **_BOOLEAN_**
 
-        # The following table shows the valid literal values for TRUE and
-        FALSE in PostgreSQL.
-            -> TRUE - '1', 't', 'y', 'yes', 'true', true
-            -> FALSE - '0', 'f', 'n', 'no', 'false', false
+        -   The following table shows the valid literal values for TRUE and
+            FALSE in PostgreSQL. - TRUE - '1', 't', 'y', 'yes', 'true', true - FALSE - '0', 'f', 'n', 'no', 'false', false
 
-        # To Check Boolean Column Are false
-            -> SELECT * FROM table_name WHERE column_name = 'no';
-            -> SELECT * FROM table_name WHERE column_name = '0';
+        -   To Check Boolean Column Are false
 
-        # To Check Boolean Column Are true
-            -> SELECT * FROM table_name WHERE column_name = 't';
-            -> SELECT * FROM table_name WHERE column_name = '1';
+            -   `SELECT * FROM table_name WHERE column_name = 'no';`
+            -   `SELECT * FROM table_name WHERE column_name = '0';`
 
-        # Set A Default Value Of The Boolean Column
-            -> ALTER TABLE table_name
-            ALTER COLUMN column_name
-            SET DEFAULT FALSE;
+        -   To Check Boolean Column Are true
 
-    2- CHAR, VARCHAR AND TEXT
+            -   `SELECT * FROM table_name WHERE column_name = 't';`
+            -   `SELECT * FROM table_name WHERE column_name = '1';`
 
-        # The following table illstrate the character types in PostgreSQL:
-            -> CHARACTER VARYING(n), VARCHAR(n)
-                * variable-length with length limit
-            -> CHARACTER(n), CHAR(n)
-                * fixed-length, blank padded
-            -> TEXT(n), VARCHAR
-                * variable unlimited length
+        -   Set A Default Value Of The Boolean Column
+            -   `ALTER TABLE table_name ALTER COLUMN column_name SET DEFAULT FALSE;`
 
-    3- NUMERIC
+    -   **_CHAR, VARCHAR AND TEXT_**
 
-        # Syntax
-            -> NUMERIC (precision, scale)
-            -> In this syntax, the precision is the total number of digits and
-            the scale is the number of digits in the fraction part. For example,
-            the number 1234.567 has the precision 7 and scale 3.
+        -   The following table illstrate the character types in PostgreSQL:
 
-        # Numeric Type And NaN
-            -> NaN - Not A Number
+            -   CHARACTER VARYING(n), VARCHAR(n)
 
-        # The NaN is not equal to any number including itself. It means that the
-        expression NaN = NaN returns false.
+                -   variable-length with length limit
 
-        # Two NaN values are equal and NaN is greater than other numbers. This
-        implementation allows PostgreSQL to sort NUMERIC values and use them in
-        tree-based indexes.
+            -   CHARACTER(n), CHAR(n)
 
-    4- INTEGER
+                -   fixed-length, blank padded
 
-        # The following table illustrates the specification of each integer type:
-            -> SMALLINT - 2 bytes
-            -> INTEGER - 4 bytes
-            -> BIGINT - 8 bytes
+            -   TEXT(n), VARCHAR
 
-        # Unlike MySQL integer, PostgreSQL does not provide unsigned integer types.
+                -   variable unlimited length
 
-        # BIGINT
-            -> Using BIGINT type is not only consuming a lot of storage but also
-            decreasing the performance of the database, therefore, you should
-            have a good reason to use it.
+    -   **_NUMERIC_**
 
-    5- DATE
+        -   Syntax
 
-        # PostgreSQL uses 4 bytes to store the date values.
+            -   NUMERIC (precision, scale)
+            -   In this syntax, the precision is the total number of digits and
+                the scale is the number of digits in the fraction part. For example,
+                the number 1234.567 has the precision 7 and scale 3.
 
-        # The lowest and highest values of the DATE data type are 4713 BC and
-        5874897 AD.
+        -   Numeric Type And NaN
 
-        # CURRENT DATE
-            -> column_name DATE NOT NULL SET DEFAULT CURRENT DATE
-            -> You may get a different posting date value based on the current
-            date of the database server.
+            -   NaN - Not A Number
 
-        # Output A PostgreSQL Date Value In A Specific Format
-            -> SELECT column_name (NOW() :: DATE, 'dd/mm/yyyy');
+        -   The NaN is not equal to any number including itself. It means that the
+            expression NaN = NaN returns false.
 
-        # Get The Interval Between Two dates
-            -> SELECT username, now() - creating_date AS age FROM accounts;
+        -   Two NaN values are equal and NaN is greater than other numbers. This
+            implementation allows PostgreSQL to sort NUMERIC values and use them in
+            tree-based indexes.
 
-        # Calculate Ages In Years, Months And Days
-            -> To calculate age at the current date in years, months, and days,
-            you use the AGE() function.
-            -> SELECT first_name, lastname, AGE(birth_date) FROM employees;
+    -   **_INTEGER_**
 
-        # If you pass a date value to the AGE() function, it will subtract that
-        date value from the current date. If you pass two arguments to the AGE()
-        function, it will subtract the second argument from the first argument.
-            -> SELECT first_name, lastname, AGE('2015-01-01', birth_date) FROM employees;
+        -   The following table illustrates the specification of each integer type:
 
-        # Extract Year, Quarter, Month, Week, Day From A Date Value
-            -> SELECT
-            employee_id,
-            first_name,
-            last_name,
-            EXTRACT (YEAR FROM birth_date) AS YEAR,
-            EXTRACT (MONTH FROM birth_date) AS MONTH,
-            EXTRACT (DAY FROM birth_date) AS DAY
-            FROM
-            employees;
+            -   SMALLINT - 2 bytes
+            -   INTEGER - 4 bytes
+            -   BIGINT - 8 bytes
 
-    6- TIMESTAMP
+        -   Unlike MySQL integer, PostgreSQL does not provide unsigned integer types.
 
-        # PostgreSQL provides you with two temporal data types for handling
-        timestamp:
-            -> timestamp : a timestamp without timezone one.
-            -> timestamptz : timestamp with a timezone.
+        -   BIGINT
 
-        # While using timestamp data type, value stored in the database will
-        not changed automatically if you change the timezone of your database.
+            -   Using BIGINT type is not only consuming a lot of storage but also
+                decreasing the performance of the database, therefore, you should
+                have a good reason to use it.
 
-        # PostgreSQL stores the timestamptz in UTC value.
+    -   **_DATE_**
 
-        # Both timestamp and timestamptz uses 8 bytes for storing the timestamp
-        values.
+        -   PostgreSQL uses 4 bytes to store the date values.
 
-        # To Change The timezone
-            -> Set timezone = 'your_timezone_location';
+        -   The lowest and highest values of the DATE data type are 4713 BC and
+            5874897 AD.
 
-        # To Show Timezone
-            -> SHOW TIMEZONE;
+        -   CURRENT DATE
 
-        # Timestamp Functions
-            -> To get current timestamp
-                * SELECT NOW();
-            -> To get current time
-                * SELECT CURRENT_TIME;
-            -> To get timeofday in the string format
-                * SELECT TIMEOFDAY;
+            -   column_name DATE NOT NULL SET DEFAULT CURRENT DATE
+            -   You may get a different posting date value based on the current
+                date of the database server.
 
-        # Convert Between Timezones
-            -> To convert a timestamp to another time zone, you use the
-            timezone(zone, timestamp) function.
-            -> SELECT timezone('America/New_York','2016-06-01 00:00');
-            -> we pass the timestamp as a string to the timezone() function,
-            PostgreSQL casts it to timestamptz implicitly. It is better to cast
-            a timestamp value to the timestamptz data type explicitly as the
-            following statement:
-                * SELECT timezone('America/New_York','2016-06-01 00:00'::timestamptz);
+        -   Output A PostgreSQL Date Value In A Specific Format
 
-    7- INTERVAL
+            -   `SELECT column_name (NOW() :: DATE, 'dd/mm/yyyy');`
 
-        # The interval data type allows you to store and manipulate a period of
-        time in years, months, days, hours, minutes, seconds, etc.
+        -   Get The Interval Between Two dates
 
-        # Syntax
-            -> @ interval [ fields ] [ (p) ]
+            -   `SELECT username, now() - creating_date AS age FROM accounts;`
 
-        # An interval value requires 16 bytes storage size that can store a
-        period with the allowed range from -178,000,000 years to 178,000,000
-        years.
+        -   Calculate Ages In Years, Months And Days
 
-        # In addition, an interval value can have an optional precision value p
-        with the permitted range is from 0 to 6. The precisionp is the number of
-        fraction digits retained in the second field.
+            -   To calculate age at the current date in years, months, and days,
+                you use the AGE() function.
+            -   `SELECT first_name, lastname, AGE(birth_date) FROM employees;`
 
-        # Example
-            -> SELECT NOW(), NOW() - INTERVAL '1 year 3 month 20 minute' AS "3 months 20 minutes ago of last year";
+        -   If you pass a date value to the AGE() function, it will subtract that
+            date value from the current date. If you pass two arguments to the AGE()
+            function, it will subtract the second argument from the first argument.
 
-        # Interval Input Format
-            -> Syntax
-                * quantity unit [quantity unit...] [direction]
-                * quantity - is a number, sign + or - is also accepted
-                * unit - can be any of millennium, century, decade, year, month,
-                week, day, hour, minute, second, millisecond, microsecond, or
-                abbreviation (y, m, d, etc.,) or plural forms (months, days, etc.).
-                * direction - can be ago or empty string ''
+            -   `SELECT first_name, lastname, AGE('2015-01-01', birth_date) FROM employees;`
 
-        # ISO 8601 Interval Format
-            -> Syntax
-                * P quantity unit [ quantity unit ...] [ T [ quantity unit ...]]
-                * In this format, the interval value must start with the letter P.
-                The letter T is for determining time-of-day unit.
-                * Y: Years
-                * M: Months (in the date part)
-                * W: Weeks
-                * D: Days
-                * H: Hours
-                * M: Minutes (in the time part)
-                * S: Seconds
+        -   Extract Year, Quarter, Month, Week, Day From A Date Value
+
+            -   `SELECT employee_id, first_name, last_name, EXTRACT (YEAR FROM birth_date) AS YEAR, EXTRACT (MONTH FROM birth_date) AS MONTH, EXTRACT (DAY FROM birth_date) AS DAY FROM employees;`
+
+    -   **_TIMESTAMP_**
+
+        -   PostgreSQL provides you with two temporal data types for handling
+            timestamp:
+
+            -   timestamp : a timestamp without timezone one.
+            -   timestamptz : timestamp with a timezone.
+
+        -   While using timestamp data type, value stored in the database will
+            not changed automatically if you change the timezone of your database.
+
+        -   PostgreSQL stores the timestamptz in UTC value.
+
+        -   Both timestamp and timestamptz uses 8 bytes for storing the timestamp
+            values.
+
+        -   To Change The timezone
+
+            -   `Set timezone = 'your_timezone_location';`
+
+        -   To Show Timezone
+
+            -   `SHOW TIMEZONE;`
+
+        -   Timestamp Functions
+
+            -   To get current timestamp
+
+                -   `SELECT NOW();`
+
+            -   To get current time
+
+                -   `SELECT CURRENT_TIME;`
+
+            -   To get timeofday in the string format
+                -   `SELECT TIMEOFDAY;`
+
+        -   Convert Between Timezones
+
+            -   To convert a timestamp to another time zone, you use the
+                timezone(zone, timestamp) function.
+            -   `SELECT timezone('America/New_York','2016-06-01 00:00');`
+            -   we pass the timestamp as a string to the timezone() function,
+                PostgreSQL casts it to timestamptz implicitly. It is better to cast
+                a timestamp value to the timestamptz data type explicitly as the
+                following statement:
+
+                -   `SELECT timezone('America/New_York','2016-06-01 00:00'::timestamptz);`
+
+    -   **_INTERVAL_**
+
+        -   The interval data type allows you to store and manipulate a period of
+            time in years, months, days, hours, minutes, seconds, etc.
+
+        -   Syntax
+
+            -   @ interval [ fields ] [ (p) ]
+
+        -   An interval value requires 16 bytes storage size that can store a
+            period with the allowed range from -178,000,000 years to 178,000,000
+            years.
+
+        -   In addition, an interval value can have an optional precision value p
+            with the permitted range is from 0 to 6. The precisionp is the number of
+            fraction digits retained in the second field.
+
+        -   Example
+
+            -   `SELECT NOW(), NOW() - INTERVAL '1 year 3 month 20 minute' AS "3 months 20 minutes ago of last year";`
+
+        -   Interval Input Format
+
+            -   Syntax
+                -   quantity unit [quantity unit...] [direction]
+                -   quantity - is a number, sign + or - is also accepted
+                -   unit - can be any of millennium, century, decade, year, month,
+                    week, day, hour, minute, second, millisecond, microsecond, or
+                    abbreviation (y, m, d, etc.,) or plural forms (months, days, etc.).
+                -   direction - can be ago or empty string ''
+
+        -   ISO 8601 Interval Format
+
+            -   Syntax
+                -   P quantity unit [ quantity unit ...] [ T [ quantity unit ...]]
+                -   In this format, the interval value must start with the letter P.
+                    The letter T is for determining time-of-day unit.
+                -   Y: Years
+                -   M: Months (in the date part)
+                -   W: Weeks
+                -   D: Days
+                -   H: Hours
+                -   M: Minutes (in the time part)
+                -   S: Seconds
                     !!! M can be months or minutes depending on whether it
                     appears before or after the letter T.
-            -> Example
-                * P6Y5M4DT3H2M1S
-                * 6 Years 5 Months 4 Days 3 Hours 2 Minutes 1 Seconds
-            -> Alternative Form Of ISO 8601 Form
-                * P [ years-months-days ] [ T hours:minutes:seconds ]
-            -> Example
-                * P0006-05-04T03:02:01
+            -   Example
+                -   P6Y5M4DT3H2M1S
+                -   6 Years 5 Months 4 Days 3 Hours 2 Minutes 1 Seconds
+            -   Alternative Form Of ISO 8601 Form
+                -   P [ years-months-days ] [ T hours:minutes:seconds ]
+            -   Example
+                -   P0006-05-04T03:02:01
 
-        # Interval Output Format
-            -> PostgreSQL provides four output formats: sql standard, postgres,
-            postgresverbose, and iso_8601. PostgresQL uses the postgres style
-            by default for formatting the interval values.
-            -> sql standard : +6-5 +4 +3:02:01
-            -> postgres : 6 years 5 mons 4 days 03:02:01
-            -> postgresverbose : @ 6 years 5 mons 4 days 3 hours 2 mins 1 sec
-            -> iso_8601 : P6Y5M4DT3H2M1S
+        -   Interval Output Format
 
-        # Interval operators
-            -> You can apply the arithmetic operator ( +, -, *, etc.,) to the interval values.
-            -> SELECT
-            INTERVAL '2h 50m' + INTERVAL '10m'; -- 03:00:00
-            -> SELECT
-            INTERVAL '2h 50m' - INTERVAL '50m'; -- 02:00:00
-            -> SELECT
-            600 * INTERVAL '1 minute'; -- 10:00:00
+            -   PostgreSQL provides four output formats: sql standard, postgres,
+                postgresverbose, and iso_8601. PostgresQL uses the postgres style
+                by default for formatting the interval values.
+            -   sql standard : +6-5 +4 +3:02:01
+            -   postgres : 6 years 5 mons 4 days 03:02:01
+            -   postgresverbose : @ 6 years 5 mons 4 days 3 hours 2 mins 1 sec
+            -   iso_8601 : P6Y5M4DT3H2M1S
 
-        # Converting PostgreSQL Interval To String
-            -> To convert an interval value to string, you use the TO_CHAR()
-            function.
-                * TO_CHAR(interval,format)
-            -> Example
-                * SELECT
-                TO_CHAR(
-                    INTERVAL '17h 20m 05s',
-                    'HH24:MI:SS'
-                );
+        -   Interval operators
 
-        # Extracting Data From A 0PostgreSQL Interval
-            -> To extract field such as year, month, date, etc., from an interval,
-            you use the EXTRACT() function.
-            -> Syntax
-                * EXTRACT(field FROM interval)
-            -> Example
-                * SELECT
-                EXTRACT (
-                    MINUTE
-                    FROM
-                        INTERVAL '5 hours 21 minutes'
-                );
+            -   You can apply the arithmetic operator ( +, -, \*, etc.,) to the interval values.
+            -   `SELECT INTERVAL '2h 50m' + INTERVAL '10m'; -- 03:00:00`
+            -   `SELECT INTERVAL '2h 50m' - INTERVAL '50m'; -- 02:00:00`
+            -   `SELECT 600 \* INTERVAL '1 minute'; -- 10:00:00`
 
-        # Adjusting Interval Values
-            -> PostgreSQL provides two functions justifydays and  justifyhours
-            that allows you to adjust the interval of 30-day as one month and
-            the interval of 24-hour as one day:
-                * SELECT
-                justify_days(INTERVAL '30 days'), -- 1 mon
-                justify_hours(INTERVAL '24 hours'); -- 1 day
-            -> The justify_interval function adjusts interval using justifydays
-            and  justifyhours with additional sign adjustments:
-                * SELECT
-                justify_interval(interval '1 year -1 hour'); -- 11 mons 29 days 23:00:00
+        -   Converting PostgreSQL Interval To String
 
-    8- TIME
+            -   To convert an interval value to string, you use the TO_CHAR()
+                function.
 
-        # Syntax
-            -> column_name TIME(precision);
-            -> A time value may have a precision up to 6 digits. The precision
-            specifies the number of fractional digits placed in the second field.
+                -   `TO_CHAR(interval,format)`
 
-        # The TIME data type requires 8 bytes and its allowed range is from
-        00:00:00 to 24:00:00.
+            -   Example
 
-        # Common Format Of Time Values:
-            -> HH:MI with precision HH:MI.pppppp
-            -> HH:MI:SS with precision HH:MI:SS.pppppp
-            -> HHMISS with precision HHMISS.pppppp
+                -   `SELECT TO_CHAR( INTERVAL '17h 20m 05s', 'HH24:MI:SS' );`
 
-        # Time With Time Zone Type
-            -> Besides the TIME data type, PostgreSQL provides the TIME with time
-            zone data type that allows you to store and manipulate the time of
-            day with time zone.
-            -> column_name TIME with time zone
+        -   Extracting Data From A 0PostgreSQL Interval
 
-        # Getting Current Time
-            -> SELECT CURRENT_TIME;
-            -> SELECT CURRENT_TIME(5); -- 5 is the precision
+            -   To extract field such as year, month, date, etc., from an interval,
+                you use the EXTRACT() function.
 
-        # Getting Local Time
-            -> SELECT LOCALTIME;
-            -> SELECT LOCALTIME(5); -- 5 is the precision
+            -   Syntax
 
-        # Converting Time To A Different Time Zone
-            -> [TIME with time zone] AT TIME ZONE time_zone
-            -> SELECT LOCALTIME AT TIME ZONE 'UTC-7';
+                -   `EXTRACT(field FROM interval)`
 
-        # Extracting Hours, Minutes, Seconds From A Time Value
-            -> SELECT
-            LOCALTIME,
-            EXTRACT (HOUR FROM LOCALTIME) as hour,
-            EXTRACT (MINUTE FROM LOCALTIME) as minute,
-            EXTRACT (SECOND FROM LOCALTIME) as second,
-            EXTRACT (milliseconds FROM LOCALTIME) as milliseconds;
+            -   Example
 
-        # Arithmetic Operations On Time values
-            -> PostgreSQL allows you to apply arithmetic operators such as +, -,
-            and *  on time values and between time and interval values.
-                * SELECT time '10:00' - time '02:00' AS result; -- 08:00:00
-                * SELECT LOCALTIME + interval '2 hours' AS result; -- Adding 2 hour to local time
+                -   `SELECT EXTRACT ( MINUTE FROM INTERVAL '5 hours 21 minutes' );`
 
-    9- UUID
+        -   Adjusting Interval Values
 
-        # UUID stands for Universal Unique Identifier defined by RFC 4122 and
-        other related standards.
+            -   PostgreSQL provides two functions justifydays and justifyhours
+                that allows you to adjust the interval of 30-day as one month and
+                the interval of 24-hour as one day:
 
-        # A UUID value is 128-bit quantity generated by an algorithm that make it
-        unique in the known universe using the same algorithm.
+                -   `SELECT justify_days(INTERVAL '30 days'), -- 1 mon justify_hours(INTERVAL '24 hours'); -- 1 day`
 
-        # The following shows some examples of the UUID values:
-            -> 40e6215d-b5c6-4896-987c-f30f3678f608
-            -> 6ecd8c99-4036-403d-bf84-cf8400f67836
-            -> 3f333df6-90a4-4fda-8dd3-9485d27cee36
+            -   The justify_interval function adjusts interval using justifydays
+                and justifyhours with additional sign adjustments:
 
-        # Generating UUID Values
-            -> PostgreSQL allows you store and compare UUID values but it does
-            not include functions for generating the UUID values in its core.
-            -> To install the uuid-ossp module, you use the CREATE EXTENSION
-            statement as follows:
-                * CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
-            -> To generate the UUID values based on the combination of computer’s
-            MAC address, current timestamp, and a random value, you use the
-            uuid_generate_v1() function:
-                * SELECT uuid_generate_v1();
-            -> To generate the UUID values based on the combination of computer’s
-            MAC address, current timestamp, and a random value, you use the
-            uuid_generate_v1() function:
-                * SELECT uuid_generate_v4();
+                -   `SELECT justify_interval(interval '1 year -1 hour'); -- 11 mons 29 days 23:00:00`
 
-        # Creating Table With UUID Column
-            -> CREATE TABLE table_name (
-                ...
-                column_name uuid DEFAULT uuid_generate_v4();
-                ...
-            );
+    -   **_TIME_**
 
-    10- ARRAY
+        -   Syntax
 
-        # Every data type has its own companion array type e.g., integer has an
-        integer[] array type, character has character[] array type, etc.
+            -   `column_name TIME(precision);`
+            -   A time value may have a precision up to 6 digits. The precision
+                specifies the number of fractional digits placed in the second field.
 
-        # Creating Table With Array Column
-            -> CREATE TABLE contacts (
-            id serial PRIMARY KEY,
-            name VARCHAR (100),
-            phones TEXT []
-            );
+        -   The TIME data type requires 8 bytes and its allowed range is from
+            00:00:00 to 24:00:00.
 
-        # Inserting Array Values
-            -> INSERT INTO contacts (name, phones)
-            VALUES('John Doe',ARRAY [ '(408)-589-5846','(408)-589-5555' ]);
-            -> INSERT INTO contacts (name, phones)
-            VALUES('Lily Bush','{"(408)-589-5841"}'),
-              ('William Gate','{"(408)-589-5842","(408)-589-58423"}');
-                * When you use curly braces, you use single quotes ' to wrap
-                the array and double quotes " to wrap text array items.
+        -   Common Format Of Time Values:
 
-        # Query Array Data
-            -> We can access array elements using the subscript within square
-            brackets []. By default, PostgreSQL uses one-based numbering for
-            array elements. It means the first array element starts with number 1.
-                * SELECT column_name [1] FROM table_name; -- To get first item of array.
-            -> We can use array element in the WHERE clause as the condition to
-            filter the rows.
+            -   HH:MI with precision HH:MI.pppppp
+            -   HH:MI:SS with precision HH:MI:SS.pppppp
+            -   HHMISS with precision HHMISS.pppppp
 
-        # Modifying Array
-            -> PostgreSQL allows you to update each element of an array or  the
-            whole array. The following statement updates the second phone number
-            of William Gate.
-                * UPDATE contacts
-                SET phones [2] = '(408)-589-5843'
-                WHERE ID = 3;
-            -> To change whole array:
-                * UPDATE contacts
-                SET phones = '(408)-589-5843'
-                WHERE ID = 3;
+        -   Time With Time Zone Type
 
-        # Search In Array
-            -> ANY() Function
-                * SELECT
-                name,
-                phones
+            -   Besides the TIME data type, PostgreSQL provides the TIME with time
+                zone data type that allows you to store and manipulate the time of
+                day with time zone.
+            -   column_name TIME with time zone
+
+        -   Getting Current Time
+
+            -   `SELECT CURRENT_TIME;`
+            -   `SELECT CURRENT_TIME(5); -- 5 is the precision`
+
+        -   Getting Local Time
+
+            -   `SELECT LOCALTIME;`
+            -   `SELECT LOCALTIME(5); -- 5 is the precision`
+
+        -   Converting Time To A Different Time Zone
+
+            -   [TIME with time zone] AT TIME ZONE time_zone
+            -   `SELECT LOCALTIME AT TIME ZONE 'UTC-7';`
+
+        -   Extracting Hours, Minutes, Seconds From A Time Value
+
+            -   `SELECT LOCALTIME, EXTRACT (HOUR FROM LOCALTIME) as hour, EXTRACT (MINUTE FROM LOCALTIME) as minute, EXTRACT (SECOND FROM LOCALTIME) as second, EXTRACT (milliseconds FROM LOCALTIME) as milliseconds;`
+
+        -   Arithmetic Operations On Time values
+
+            -   PostgreSQL allows you to apply arithmetic operators such as +, -,
+                and \* on time values and between time and interval values.
+
+                -   `SELECT time '10:00' - time '02:00' AS result; -- 08:00:00`
+                -   `SELECT LOCALTIME + interval '2 hours' AS result; -- Adding 2 hour to local time`
+
+    -   **_UUID_**
+
+        -   UUID stands for Universal Unique Identifier defined by RFC 4122 and
+            other related standards.
+
+        -   A UUID value is 128-bit quantity generated by an algorithm that make it
+            unique in the known universe using the same algorithm.
+
+        -   The following shows some examples of the UUID values:
+
+            -   40e6215d-b5c6-4896-987c-f30f3678f608
+            -   6ecd8c99-4036-403d-bf84-cf8400f67836
+            -   3f333df6-90a4-4fda-8dd3-9485d27cee36
+
+        -   Generating UUID Values
+
+            -   PostgreSQL allows you store and compare UUID values but it does
+                not include functions for generating the UUID values in its core.
+
+            -   To install the uuid-ossp module, you use the CREATE EXTENSION
+                statement as follows:
+
+                -   `CREATE EXTENSION IF NOT EXISTS "uuid-ossp";`
+
+            -   To generate the UUID values based on the combination of computer’s
+                MAC address, current timestamp, and a random value, you use the
+                uuid_generate_v1() function:
+
+                -   `SELECT uuid_generate_v1();`
+
+            -   To generate the UUID values based on the combination of computer’s
+                MAC address, current timestamp, and a random value, you use the
+                uuid_generate_v1() function:
+
+                -   `SELECT uuid_generate_v4();`
+
+        -   Creating Table With UUID Column
+
+            -   `CREATE TABLE table_name ( ... column_name uuid DEFAULT uuid_generate_v4(); ... );`
+
+    -   **_ARRAY_**
+
+        -   Every data type has its own companion array type e.g., integer has an
+            integer[] array type, character has character[] array type, etc.
+
+        -   Creating Table With Array Column
+
+            -   `CREATE TABLE contacts ( id serial PRIMARY KEY, name VARCHAR (100), phones TEXT [] );`
+
+        -   Inserting Array Values
+
+            -   `INSERT INTO contacts (name, phones) VALUES('John Doe',ARRAY [ '(408)-589-5846','(408)-589-5555' ]);`
+            -   `INSERT INTO contacts (name, phones) VALUES('Lily Bush','{"(408)-589-5841"}'), ('William Gate','{"(408)-589-5842","(408)-589-58423"}');` - When you use curly braces, you need to use single quotes ' to wrap the array and double quotes " to wrap text array items.
+
+        -   Query Array Data
+
+            -   We can access array elements using the subscript within square
+                brackets []. By default, PostgreSQL uses one-based numbering for
+                array elements. It means the first array element starts with number 1.
+
+                -   `SELECT column_name [1] FROM table_name; -- To get first item of array.`
+
+            -   We can use array element in the WHERE clause as the condition to
+                filter the rows.
+
+        -   Modifying Array
+
+            -   PostgreSQL allows you to update each element of an array or the
+                whole array. The following statement updates the second phone number
+                of William Gate.
+
+                -   `UPDATE contacts SET phones [2] = '(408)-589-5843' WHERE ID = 3;`
+
+            -   To change whole array:
+
+                -   `UPDATE contacts SET phones = '(408)-589-5843' WHERE ID = 3;`
+
+        -   Search In Array
+
+            -   ANY() Function
+
+                -   `SELECT name, phones FROM contacts WHERE '(408)-589-5555' = ANY (phones);`
+
+        -   Expand Arrays
+
+            -   PostgreSQL provides the unnest() function to expand an array to
+                a list of rows.
+
+                -   `SELECT name, unnest(phones) FROM contacts;`
+
+    -   **_HSTORE_**
+
+        -   The hstore module implements the hstore data type for storing
+            key-value pairs in a single value.
+
+        -   Enable Hstore Extension
+
+            -   `CREATE EXTENSION hstore;`
+
+        -   Create A Table With Hstore Data Type
+
+            -   `CREATE TABLE books ( id SERIAL PRIMARY KEY, title VARCHAR (255), attr hstore );`
+
+        -   Insert Data Into Hstore Column
+
+            -   `INSERT INTO books (title, attr) VALUES ( 'PostgreSQL Tutorial', '"paperback" => "243", "publisher" => "postgresqltutorial.com", "language" => "English", "ISBN-13" => "978-1449370000", "weight" => "11.2 ounces"' );`
+
+        -   Query Data From An Hstore Column
+
+            -   `SELECT attr FROM books;`
+
+        -   Query Value For A Specific Key
+
+            -   Postgresql hstore provides the -> operator to query the value of
+                a specific key from an hstore column.
+
+            -   If we want to know ISBN-13 of all available books in the books
+                table, we can use the -> operator as follows:
+
+                -   `SELECT attr -> 'ISBN-13' AS isbn FROM books;`
+
+        -   Use Value In The Where Clause
+
+            -   You can use the -> operator in the WHERE clause to filter the
+                rows whose values of the hstore column match the input value
+            -   The following query retrieves the title and weight of a book that has ISBN-13 value matches 978-1449370000:
+
+                -   `SELECT title, attr -> 'weight' AS weight FROM books WHERE attr -> 'ISBN-13' = '978-1449370000';`
+
+        -   Add key-value pairs to existing rows
+
+            -   Syntax
+
+                -   `UPDATE books SET attr = attr || '"freeshipping"=>"yes"' :: hstore;`
+
+        -   Update Existing Key-Value Pair
+
+            -   Syntax
+
+                -   `UPDATE books SET attr = attr || '"freeshipping"=>"no"' :: hstore;`
+
+        -   Remove Existing Key-Value Pair
+
+            -   `UPDATE books SET attr = delete(attr, 'freeshipping');`
+
+        -   Check For A Specific Key In Hstore Column
+
+            -   You can check for a specific key in an hstore column using the
+                ? operator in the WHERE clause.
+            -   `SELECT title, attr->'publisher' as publisher, attr FROM books WHERE attr ? 'publisher';`
+
+        -   Check For A Key-Value Pair
+
+            -   You can query based on the hstore key-value pair using the @> operator.
+            -   `SELECT title FROM books WHERE attr @> '"weight"=>"11.2 ounces"' :: hstore;`
+
+        -   Query Rows That Contain Multiple Specified keys
+
+            -   You can query the rows whose hstore column contain multiple keys
+                using ?& operator.
+            -   To check if a row whose hstore column contains any key from a
+                list of keys, you use the ?| operator instead of the ?& operator.
+            -   `SELECT title FROM books WHERE attr ?& ARRAY [ 'language', 'weight' ];`
+
+        -   Get All Keys From An Hstore Column
+
+            -   To get all keys from an hstore column, you use the akeys()
+                function as follows:
+
+                -   `SELECT akeys (attr) FROM books;`
+
+            -   Or you can use the skey() function if you want PostgreSQL
+                to return the result as a set.
+
+                -   `SELECT skeys (attr) FROM books;`
+
+        -   Get All Values From An Hstore Column
+
+            -   Like keys, you can get all values from an hstore column using the
+                avals() function in the form of arrays.
+
+                -   `SELECT avals (attr) FROM books;`
+
+            -   Or you can use the svals() function if you want to get the
+                result as a set.
+
+                -   `SELECT svals (attr) FROM books;`
+
+        -   Convert Hstore Data To Json
+
+            -   PostgreSQL provides the hstore_to_json() function to convert
+                hstore data to JSON.
+
+                -   `SELECT title, hstore_to_json (attr) AS json FROM books;`
+
+        -   Convert Hstore Data To Sets
+
+            -   To convert hstore data to sets, you use the each() function as follows:
+
+                -   `SELECT title, (EACH(attr) ).* FROM books;`
+
+    -   **_JSON_**
+
+        -   JSON stands for JavaScript Object Notation. JSON is an open standard
+            format that consists of key-value pairs.
+
+        -   The main usage of JSON is to transport data between a server and a
+            web application. Unlike other formats, JSON is human-readable text.
+
+        -   Syntax
+
+            -   `CREATE TABLE orders ( id serial NOT NULL PRIMARY KEY, info json NOT NULL );`
+            -   The orders table consists of two columns:
+
+                -   The id column is the primary key column that identifies the order.
+                -   The info column stores the data in the form of JSON.
+
+        -   Insert Json Data
+
+            -   To insert data into a JSON column, you have to ensure that data
+                is in a valid JSON format.
+
+                -   `INSERT INTO orders (info) VALUES('{ "customer": "Lily Bush", "items": {"product": "Diaper","qty": 24}}'), ('{ "customer": "Josh William", "items": {"product": "Toy Car","qty": 1}}'), ('{ "customer": "Mary Clark", "items": {"product": "Toy Train","qty": 2}}');`
+
+        -   Querying Json Data
+
+            -   To query JSON data, you use the SELECT statement, which is similar
+                to querying other native data types:
+
+                -   `SELECT info FROM orders;`
+
+            -   PostgreSQL provides two native operators -> and ->> to help you
+                query JSON data.
+
+                -   The operator -> returns JSON object field by key.
+
+                    -   `SELECT info -> 'customer' AS customer FROM orders;`
+
+                -   The operator ->> returns JSON object field by text.
+
+                    -   `SELECT info ->> 'customer' AS customer FROM orders;`
+
+            -   Because -> operator returns a JSON object, you can chain it with
+                the operator ->> to retrieve a specific node. For example, the
+                following statement returns all products sold:
+
+                -   `SELECT info -> 'items' ->> 'product' as product FROM orders ORDER BY product;`
+
+        -   Use Json Operator In Where Clause
+
+            -   We can use the JSON operators in WHERE clause to filter the
+                returning rows.
+
+                -   `SELECT info ->> 'customer' AS customer, info -> 'items' ->> 'product' AS product FROM orders WHERE CAST ( info -> 'items' ->> 'qty' AS INTEGER) = 2;`
+
+            -   Notice that we used the type cast to convert the qty field
+                into INTEGER type and compare it with two.
+
+        -   Apply Aggregate Functions To Json Data Type
+
+            -   We can apply aggregate functions such as MIN, MAX, AVERAGE, SUM,
+                etc., to JSON data.
+
+                -   `SELECT MIN (CAST (info -> 'items' ->> 'qty' AS INTEGER)), MAX (CAST (info -> 'items' ->> 'qty' AS INTEGER)), SUM (CAST (info -> 'items' ->> 'qty' AS INTEGER)), AVG (CAST (info -> 'items' ->> 'qty' AS INTEGER)) FROM orders;`
+
+        -   PostgreSql Json Functions
+
+            -   json_each function
+
+                -   The json_each() function allows us to expand the outermost
+                    JSON object into a set of key-value pairs.
+                -   `SELECT json_each (info) FROM orders;`
+                -   If you want to get a set of key-value pairs as text, you
+                    use the json_each_text() function instead.
+
+            -   json_object_keys function
+
+                -   To get a set of keys in the outermost JSON object, you use the
+                    json_object_keys() function.
+                -   `SELECT json_object_keys (info->'items') FROM orders;`
+
+            -   json_typeof function
+
+                -   The json_typeof() function returns type of the outermost JSON
+                    value as a string. It can be number, boolean, null, object,
+                    array, and string.
+                -   `SELECT json_typeof (info->'items') FROM orders;`
+                -   `SELECT json_typeof (info->'items'->'qty') FROM orders;`
+
+    -   **_USER DEFINED DATA TYPES_**
+
+        -   Besides built-in data types, PostgreSQL allows you to create
+            user-defined data types through the following statements:
+
+            -   CREATE DOMAIN creates a user-defined data type with constraints
+                such as NOT NULL, CHECK, etc.
+
+            -   CREATE TYPE creates a composite type used in stored procedures
+                as the data types of returned values.
+
+        -   PostgreSQL Create Domain Statement
+
+            -   In PostgreSQL, a domain is a data type with optional constraints
+                e.g., NOT NULL and CHECK. A domain has a unique name within the
+                schema scope.
+
+            -   Example
+
+                -   `CREATE TABLE mailing_list ( id SERIAL PRIMARY KEY, first_name VARCHAR NOT NULL, last_name VARCHAR NOT NULL, email VARCHAR NOT NULL, CHECK ( first_name !~ '\s' AND last_name !~ '\s' ) );`
+                -   In this table, both first_name and last_name columns do not
+                    accept null and spaces.
+
+        -   Getting Domain information
+
+            -   To get all domains in a specific schema, you use the following
+                query:
+
+                -   `SELECT typname FROM pg_catalog.pg_type JOIN pg_catalog.pg_namespace ON pg_namespace.oid = pg_type.typnamespace WHERE typtype = 'd' and nspname = '<schema_name>';`
+
+            -   The following statement returns domains in the public schema of
+                the current database:
+
+                -   `SELECT typname FROM pg_catalog.pg_type JOIN pg_catalog.pg_namespace ON pg_namespace.oid = pg_type.typnamespace WHERE typtype = 'd' and nspname = 'public';`
+
+        -   PostgreSQL CREATE TYPE
+
+            -   The CREATE TYPE statement allows you to create a composite type,
+                which can be used as the return type of a function.
+            -   ```sql
+                CREATE TYPE film_summary AS ( film_id INT, title VARCHAR, release_year SMALLINT );
+                ```
+            -   ```sql
+                CREATE OR REPLACE FUNCTION get_film_summary (f_id INT)
+                RETURNS film_summary AS
+
+                $$
+                SELECT
+                    film_id,
+                    title,
+                    release_year
                 FROM
-                contacts
+                    film
                 WHERE
-                '(408)-589-5555' = ANY (phones);
+                    film_id = f_id ;
+                $$
 
-        # Expand Arrays
-            -> PostgreSQL provides the unnest() function to expand an array to
-            a list of rows.
-                * SELECT
-                name,
-                unnest(phones)
-                FROM
-                contacts;
+                LANGUAGE SQL;
+                ```
 
-    11- HSTORE
-
-        # The hstore module implements the hstore data type for storing
-        key-value pairs in a single value.
-
-        # Enable Hstore Extension
-            -> CREATE EXTENSION hstore;
-
-        # Create A Table With Hstore Data Type
-            -> CREATE TABLE books (
-                id SERIAL PRIMARY KEY,
-                title VARCHAR (255),
-                attr hstore
-            );
-
-        # Insert Data Into Hstore Column
-            -> INSERT INTO books (title, attr)
-            VALUES
-            (
-                'PostgreSQL Tutorial',
-                '"paperback" => "243",
-               "publisher" => "postgresqltutorial.com",
-               "language"  => "English",
-               "ISBN-13"   => "978-1449370000",
-                 "weight"    => "11.2 ounces"'
-            );
-
-        # Query Data From An Hstore Column
-            -> SELECT attr FROM books;
-
-        # Query Value For A Specific Key
-            -> Postgresql hstore provides the -> operator to query the value of
-            a specific key from an hstore column.
-            -> If we want to know ISBN-13 of all available books in the books
-            table, we can use the -> operator as follows:
-                * SELECT
-                attr -> 'ISBN-13' AS isbn
-                FROM
-                books;
-
-        # Use Value In The Where Clause
-            -> You can use the -> operator in the WHERE clause to filter the
-            rows whose values of the hstore column match the input value.
-            -> The following  query retrieves the title and weight of a book that has ISBN-13 value matches 978-1449370000:
-                * SELECT
-                title, attr -> 'weight' AS weight
-                FROM
-                books
-                WHERE
-                attr -> 'ISBN-13' = '978-1449370000';
-
-        # Add key-value pairs to existing rows
-            -> Syntax
-                * UPDATE books
-                SET attr = attr || '"freeshipping"=>"yes"' :: hstore;
-
-        # Update Existing Key-Value Pair
-            -> Syntax
-                * UPDATE books
-                SET attr = attr || '"freeshipping"=>"no"' :: hstore;
-
-        # Remove Existing Key-Value Pair
-            -> UPDATE books
-            SET attr = delete(attr, 'freeshipping');
-
-        # Check For A Specific Key In Hstore Column
-            -> You can check for a specific key in an hstore column using the
-            ? operator in the WHERE clause.
-            -> SELECT
-            title,
-            attr->'publisher' as publisher,
-            attr
-            FROM
-            books
-            WHERE
-            attr ? 'publisher';
-
-        # Check For A Key-Value Pair
-            -> You can query based on the hstore key-value pair using the @> operator.
-            -> SELECT
-            title
-            FROM
-            books
-            WHERE
-            attr @> '"weight"=>"11.2 ounces"' :: hstore;
-
-        # Query Rows That Contain Multiple Specified keys
-            -> You can query the rows whose hstore column contain multiple keys
-            using ?& operator.
-            -> To check if a row whose hstore column contains any key from a
-            list of keys, you use the ?| operator instead of the ?& operator.
-            -> SELECT
-            title
-            FROM
-            books
-            WHERE
-            attr ?& ARRAY [ 'language', 'weight' ];
-
-        # Get All Keys From An Hstore Column
-            -> To get all keys from an hstore column, you use the akeys()
-            function as follows:
-                * SELECT
-                akeys (attr)
-                FROM
-                books;
-            -> Or you can use the  skey() function if you want PostgreSQL
-            to return the result as a set.
-                * SELECT
-                skeys (attr)
-                FROM
-                books;
-
-        # Get All Values From An Hstore Column
-            -> Like keys, you can get all values from an hstore column using the
-            avals() function in the form of arrays.
-                * SELECT
-                avals (attr)
-                FROM
-                books;
-            -> Or you can use the  svals() function if you want to get the
-            result as a set.
-                * SELECT
-                svals (attr)
-                FROM
-                books;
-
-        # Convert Hstore Data To Json
-            -> PostgreSQL provides the hstore_to_json() function to convert
-            hstore data to JSON.
-                * SELECT title, hstore_to_json (attr) AS json
-                FROM
-                books;
-
-        # Convert Hstore Data To Sets
-            -> To convert hstore data to sets, you use the  each() function as follows:
-                * SELECT
-                title,
-                (EACH(attr) ).*
-                FROM
-                books;
-
-    12- JSON
-
-        # JSON stands for JavaScript Object Notation. JSON is an open standard
-        format that consists of key-value pairs.
-
-        # The main usage of JSON is to transport data between a server and a
-        web application. Unlike other formats, JSON is human-readable text.
-
-        # Syntax
-            -> CREATE TABLE orders (
-            id serial NOT NULL PRIMARY KEY,
-            info json NOT NULL
-            );
-            -> The orders table consists of two columns:
-                * The id column is the primary key column that identifies the order.
-                * The info column stores the data in the form of JSON.
-
-        # Insert Json Data
-            -> To insert data into a JSON column, you have to ensure that data
-            is in a valid JSON format.
-                * INSERT INTO orders (info)
-                VALUES('{ "customer": "Lily Bush", "items": {"product": "Diaper","qty": 24}}'),
-                  ('{ "customer": "Josh William", "items": {"product": "Toy Car","qty": 1}}'),
-                  ('{ "customer": "Mary Clark", "items": {"product": "Toy Train","qty": 2}}');
-
-        # Querying Json Data
-            -> To query JSON data, you use the SELECT statement, which is similar
-            to querying other native data types:
-                * SELECT info FROM orders;
-            -> PostgreSQL provides two native operators -> and ->> to help you
-            query JSON data.
-                * The operator -> returns JSON object field by key.
-                    * SELECT info -> 'customer' AS customer
-                    FROM orders;
-                * The operator ->> returns JSON object field by text.
-                    * SELECT info ->> 'customer' AS customer
-                    FROM orders;
-            -> Because -> operator returns a JSON object, you can chain it with
-            the operator ->> to retrieve a specific node. For example, the
-            following statement returns all products sold:
-                * SELECT info -> 'items' ->> 'product' as product
-                FROM orders
-                ORDER BY product;
-
-        # Use Json Operator In Where Clause
-            -> We can use the JSON operators in WHERE clause to filter the
-            returning rows.
-                * SELECT info ->> 'customer' AS customer,
-                info -> 'items' ->> 'product' AS product
-                FROM orders
-                WHERE CAST ( info -> 'items' ->> 'qty' AS INTEGER) = 2
-            -> Notice that we used the type cast to convert the qty field
-            into INTEGER type and compare it with two.
-
-        # Apply Aggregate Functions To Json Data Type
-            -> We can apply aggregate functions such as MIN, MAX, AVERAGE, SUM,
-            etc., to JSON data.
-                * SELECT
-                MIN (CAST (info -> 'items' ->> 'qty' AS INTEGER)),
-                MAX (CAST (info -> 'items' ->> 'qty' AS INTEGER)),
-                SUM (CAST (info -> 'items' ->> 'qty' AS INTEGER)),
-                AVG (CAST (info -> 'items' ->> 'qty' AS INTEGER))
-                FROM orders;
-
-        # PostgreSql Json Functions
-            -> json_each function
-                * The json_each() function allows us to expand the outermost
-                JSON object into a set of key-value pairs.
-                * SELECT json_each (info) FROM orders;
-                * If you want to get a set of key-value pairs as text, you
-                use the json_each_text() function instead.
-            -> json_object_keys function
-                * To get a set of keys in the outermost JSON object, you use the
-                json_object_keys() function.
-                * SELECT json_object_keys (info->'items')
-                FROM orders;
-            -> json_typeof function
-                * The json_typeof() function returns type of the outermost JSON
-                value as a string. It can be number, boolean, null, object,
-                array, and string.
-                * SELECT json_typeof (info->'items')
-                FROM orders;
-                * SELECT json_typeof (info->'items'->'qty')
-                FROM orders;
-
-    13- USER DEFINED DATA TYPES
-
-        # Besides built-in data types, PostgreSQL allows you to create
-        user-defined data types through the following statements:
-            -> CREATE DOMAIN creates a user-defined data type with constraints
-            such as NOT NULL, CHECK, etc.
-            -> CREATE TYPE creates a composite type used in stored procedures
-            as the data types of returned values.
-
-        # PostgreSQL Create Domain Statement
-            -> In PostgreSQL, a domain is a data type with optional constraints
-            e.g., NOT NULL and CHECK. A domain has a unique name within the
-            schema scope.
-            -> Example
-                * CREATE TABLE mailing_list (
-                id SERIAL PRIMARY KEY,
-                first_name VARCHAR NOT NULL,
-                last_name VARCHAR NOT NULL,
-                email VARCHAR NOT NULL,
-                CHECK (
-                    first_name !~ '\s'
-                    AND last_name !~ '\s'
-                )
-                );
-                * In this table, both first_name and last_name columns do not
-                accept null and spaces.
-            -> In this table, both first_name and last_name columns do not accept
-            null and spaces.
-
-        # Getting Domain information
-            -> To get all domains in a specific schema, you use the following
-            query:
-                * SELECT typname
-                FROM pg_catalog.pg_type
-                JOIN pg_catalog.pg_namespace
-                  ON pg_namespace.oid = pg_type.typnamespace
-                WHERE
-                typtype = 'd' and nspname = '<schema_name>';
-            -> The following statement returns domains in the public schema of
-            the current database:
-                * SELECT typname
-                FROM pg_catalog.pg_type
-                JOIN pg_catalog.pg_namespace
-                  ON pg_namespace.oid = pg_type.typnamespace
-                WHERE
-                typtype = 'd' and nspname = 'public';
-
-        # PostgreSQL CREATE TYPE
-            -> The CREATE TYPE statement allows you to create a composite type,
-            which can be used as the return type of a function.
-            -> CREATE TYPE film_summary AS (
-            film_id INT,
-            title VARCHAR,
-            release_year SMALLINT
-            );
-            -> CREATE OR REPLACE FUNCTION get_film_summary (f_id INT)
-            RETURNS film_summary AS
-            $$
-            SELECT
-            film_id,
-            title,
-            release_year
-            FROM
-            film
-            WHERE
-            film_id = f_id;
-            $$ LANGUAGE SQL;
-            -> To change a user-defined type, you use the ALTER TYPE statement.
-            To remove a user-defined type, you use the DROP TYPE statement.
+            -   To change a user-defined type, you use the ALTER TYPE statement.
+            -   To remove a user-defined type, you use the DROP TYPE statement.
 
 15. # CONDITIONAL EXPRESSIONS AND OPERATORS
 
-    1- CASE
+    -   **_CASE_**
 
-        # The PostgreSQL CASE expression is the same as IF/ELSE statement in other
-        programming languages. It allows you to add if-else logic to the query to
-        form a powerful query.
+        -   The PostgreSQL CASE expression is the same as IF/ELSE statement in other
+            programming languages. It allows you to add if-else logic to the query to
+            form a powerful query.
 
-        # Since CASE is an expression, you can use it in any places where an
-        expression can be used e.g.,SELECT, WHERE, GROUP BY, and HAVING clause.
+        -   Since CASE is an expression, you can use it in any places where an
+            expression can be used e.g.,SELECT, WHERE, GROUP BY, and HAVING clause.
 
-        # General PostgreSQL Case Expression
-            -> Syntax
-                * CASE
-                      WHEN condition_1  THEN result_1
-                      WHEN condition_2  THEN result_2
-                      [WHEN ...]
-                      [ELSE else_result]
+        -   General PostgreSQL Case Expression
+
+            -   Syntax
+
+                -   ````sql
+                    CASE
+                    WHEN condition_1 THEN result_1
+                    WHEN condition_2 THEN result_2
+                    [WHEN ...]
+                    [ELSE else_result]
+                    END```
+                    ````
+                -   In this syntax, each condition (condition_1, condition_2…) is
+                    a boolean expression that returns either true or false.
+                -   When a condition evaluates to false, the CASE expression
+                    evaluates the next condition from the top to bottom until it
+                    finds a condition that evaluates to true.
+
+            -   Example
+
+                -   ````sql
+                    SELECT title,
+                    length,
+                    CASE
+                    WHEN length> 0
+                    AND length <= 50 THEN 'Short'
+                    WHEN length > 50
+                    AND length <= 120 THEN 'Medium'
+                    WHEN length> 120 THEN 'Long'
+                    END duration
+                    FROM film
+                    ORDER BY title;```
+                    ````
+
+        -   Using Case With An Aggregate Function Example
+
+            -   ````sql
+                SELECT
+                SUM (CASE
+                WHEN rental_rate = 0.99 THEN 1
+                ELSE 0
                 END
-                * In this syntax, each condition (condition_1, condition_2…) is
-                a boolean expression that returns either true or false.
-                * When a condition evaluates to false, the CASE expression
-                evaluates the next condition from the top to bottom until it
-                finds a condition that evaluates to true.
-            -> Example
-                * SELECT title,
-                       length,
-                       CASE
-                           WHEN length> 0
-                                AND length <= 50 THEN 'Short'
-                           WHEN length > 50
-                                AND length <= 120 THEN 'Medium'
-                           WHEN length> 120 THEN 'Long'
-                       END duration
-                FROM film
-                ORDER BY title;
-
-        # Using Case With An Aggregate Function Example
-            -> SELECT
-            	SUM (CASE
-                           WHEN rental_rate = 0.99 THEN 1
-            	       ELSE 0
-            	      END
-            	) AS "Economy",
-            	SUM (
-            		CASE
-            		WHEN rental_rate = 2.99 THEN 1
-            		ELSE 0
-            		END
-            	) AS "Mass",
-            	SUM (
-            		CASE
-            		WHEN rental_rate = 4.99 THEN 1
-            		ELSE 0
-            		END
-            	) AS "Premium"
-            FROM
-            	film;
-
-        # Simple PostgreSQL Case Expression
-            -> Syntax
-                * CASE expression
-                   WHEN value_1 THEN result_1
-                   WHEN value_2 THEN result_2
-                   [WHEN ...]
-                ELSE
-                   else_result
+                ) AS "Economy",
+                SUM (
+                CASE
+                WHEN rental_rate = 2.99 THEN 1
+                ELSE 0
                 END
-            -> Example
-                * SELECT title,
-                       rating,
-                       CASE rating
-                           WHEN 'G' THEN 'General Audiences'
-                           WHEN 'PG' THEN 'Parental Guidance Suggested'
-                           WHEN 'PG-13' THEN 'Parents Strongly Cautioned'
-                           WHEN 'R' THEN 'Restricted'
-                           WHEN 'NC-17' THEN 'Adults Only'
-                       END rating_description
-                FROM film
-                ORDER BY title;
+                ) AS "Mass",
+                SUM (
+                CASE
+                WHEN rental_rate = 4.99 THEN 1
+                ELSE 0
+                END
+                ) AS "Premium"
+                FROM
+                film;```
+                ````
 
-        # Using Simple PostgreSQL Case Expression With Aggregate Function Example
-            -> SELECT
-                   SUM(CASE rating
-                         WHEN 'G' THEN 1
-            		     ELSE 0
-            		   END) "General Audiences",
-                   SUM(CASE rating
-                         WHEN 'PG' THEN 1
-            		     ELSE 0
-            		   END) "Parental Guidance Suggested",
-                   SUM(CASE rating
-                         WHEN 'PG-13' THEN 1
-            		     ELSE 0
-            		   END) "Parents Strongly Cautioned",
-                   SUM(CASE rating
-                         WHEN 'R' THEN 1
-            		     ELSE 0
-            		   END) "Restricted",
-                   SUM(CASE rating
-                         WHEN 'NC-17' THEN 1
-            		     ELSE 0
-            		   END) "Adults Only"
-            FROM film;
+        -   Simple PostgreSQL Case Expression
 
-    2- COALESCE => to returns the first non-null argument.
+            -   Syntax
 
-        # Syntax
-            -> COALESCE (argument_1, argument_2, …);
+                -   ````sql
+                    CASE expression
+                    WHEN value_1 THEN result_1
+                    WHEN value_2 THEN result_2
+                    [WHEN ...]
+                    ELSE
+                    else_result
+                    END```
+                    ````
 
-        # The COALESCE function accepts an unlimited number of arguments. It
-        returns the first argument that is not null. If all arguments are null,
-        the COALESCE function will return null.
+            -   Example
 
-        # The COALESCE function evaluates arguments from left to right until it
-        finds the first non-null argument.
+                -   ````sql
+                    SELECT title,
+                    rating,
+                    CASE rating
+                    WHEN 'G' THEN 'General Audiences'
+                    WHEN 'PG' THEN 'Parental Guidance Suggested'
+                    WHEN 'PG-13' THEN 'Parents Strongly Cautioned'
+                    WHEN 'R' THEN 'Restricted'
+                    WHEN 'NC-17' THEN 'Adults Only'
+                    END rating_description
+                    FROM film
+                    ORDER BY title;```
+                    ````
 
-        # Example
-            -> SELECT
-            product,
-            (price - COALESCE(discount,0)) AS net_price
-            FROM
-            items;
+        -   Using Simple PostgreSQL Case Expression With Aggregate Function Example
 
-        # Usage With Case Expression
-            -> SELECT
-            product,
-            (price - COALESCE(discount,0)) AS net_price
-            FROM
-            items;
+            -   ````sql
+                SELECT
+                SUM(CASE rating
+                WHEN 'G' THEN 1
+                ELSE 0
+                END) "General Audiences",
+                SUM(CASE rating
+                WHEN 'PG' THEN 1
+                ELSE 0
+                END) "Parental Guidance Suggested",
+                SUM(CASE rating
+                WHEN 'PG-13' THEN 1
+                ELSE 0
+                END) "Parents Strongly Cautioned",
+                SUM(CASE rating
+                WHEN 'R' THEN 1
+                ELSE 0
+                END) "Restricted",
+                SUM(CASE rating
+                WHEN 'NC-17' THEN 1
+                ELSE 0
+                END) "Adults Only"
+                FROM film;```
+                ````
 
-    3- NULLIF => to handle null values.
+    -   **_COALESCE => to returns the first non-null argument._**
 
-        # Syntax
-            -> NULLIF(argument_1,argument_2);
+        -   Syntax
 
-        # The NULLIF function returns a null value if argument_1 equals to
-        argument_2, otherwise it returns argument_1.
+            -   ````sql
+                COALESCE (argument_1, argument_2, …);```
+                ````
 
-        # Example
-            -> SELECT
-            id,
-            title,
-            COALESCE (
+        -   The COALESCE function accepts an unlimited number of arguments. It
+            returns the first argument that is not null. If all arguments are null,
+            the COALESCE function will return null.
+
+        -   The COALESCE function evaluates arguments from left to right until it
+            finds the first non-null argument.
+
+        -   Example
+
+            -   ````sql
+                SELECT
+                product,
+                (price - COALESCE(discount,0)) AS net_price
+                FROM
+                items;```
+                ````
+
+        -   Usage With Case Expression
+
+            -   ````sql
+                SELECT
+                product,
+                (price - COALESCE(discount,0)) AS net_price
+                FROM
+                items;```
+                ````
+
+    -   **_NULLIF => to handle null values._**
+
+        -   Syntax
+
+            -   ````sql
+                NULLIF(argument_1,argument_2);```
+                ````
+
+        -   The NULLIF function returns a null value if argument_1 equals to
+            argument_2, otherwise it returns argument_1.
+
+        -   Example
+
+            -   ````sql
+                SELECT
+                id,
+                title,
+                COALESCE (
                 NULLIF (excerpt, ''),
                 LEFT (body, 40)
-            )
-            FROM
-            posts;
-
-        # Use NULLIF To Prevent Division-By-Zero Error
-            -> SELECT
-            (
-                SUM (
-                    CASE
-                    WHEN gender = 1 THEN
-                        1
-                    ELSE
-                        0
-                    END
-                ) / NULLIF (
-                    SUM (
-                        CASE
-                        WHEN gender = 2 THEN
-                            1
-                        ELSE
-                            0
-                        END
-                    ),
-                    0
                 )
-            ) * 100 AS "Male/Female ratio"
-            FROM
-            members;
+                FROM
+                posts;```
+                ````
 
-    4- CAST => to convert a value of one type to another
+        -   Use NULLIF To Prevent Division-By-Zero Error
 
-        # Syntax
-            -> CAST ( expression AS target_type );
+            -   ````sql
+                SELECT
+                (
+                SUM (
+                CASE
+                WHEN gender = 1 THEN
+                1
+                ELSE
+                0
+                END
+                ) / NULLIF (
+                SUM (
+                CASE
+                WHEN gender = 2 THEN
+                1
+                ELSE
+                0
+                END
+                ),
+                0
+                )
+                ) \* 100 AS "Male/Female ratio"
+                FROM
+                members;```
+                ````
 
-        # PostgreSQL Type Cast :: Operator
-            -> Example
-                * SELECT
-                '100'::INTEGER,
-                '01-OCT-2015'::DATE;
+    -   **_CAST => to convert a value of one type to another._**
 
-        # Cast A String To An Integer Example
-            -> SELECT
-            CAST ('100' AS INTEGER);
+        -   Syntax
 
-        # Cast A String To A Date Example
-            -> SELECT
-            CAST ('2015-01-01' AS DATE), -- convert to January 1st 2015
-            CAST ('01-OCT-2015' AS DATE);  -- convert to October 1st 2015
+            -   ````sql
+                CAST ( expression AS target_type );```
+                ````
 
-        # Cast A String To A Double Example
-            -> SELECT
-            CAST ('10.2' AS DOUBLE);
+        -   PostgreSQL Type Cast :: Operator
 
-        # Cast A String To A Boolean Example
-            -> SELECT
-            CAST('true' AS BOOLEAN),
-            CAST('false' as BOOLEAN),
-            CAST('T' as BOOLEAN),
-            CAST('F' as BOOLEAN);
+            -   Example
 
-        # Convert A String To A Timestamp Example
-            -> SELECT '2019-06-15 14:30:20'::timestamp;
+                -   ````sql
+                    SELECT
+                    '100'::INTEGER,
+                    '01-OCT-2015'::DATE;```
+                    ````
 
-        # Convert A String To A Interval Example
-            -> SELECT '15 minute'::interval,
-            '2 hour'::interval,
-            '1 day'::interval,
-            '2 week'::interval,
-            '3 month'::interval;
+        -   Cast A String To An Integer Example
+
+            -   ````sql
+                SELECT
+                CAST ('100' AS INTEGER);```
+                ````
+
+        -   Cast A String To A Date Example
+
+            -   ````sql
+                SELECT
+                CAST ('2015-01-01' AS DATE), -- convert to January 1st 2015
+                CAST ('01-OCT-2015' AS DATE); -- convert to October 1st 2015```
+                ````
+
+        -   Cast A String To A Double Example
+
+            -   ````sql
+                SELECT
+                CAST ('10.2' AS DOUBLE);```
+                ````
+
+        -   Cast A String To A Boolean Example
+
+            -   ````sql
+                SELECT
+                CAST('true' AS BOOLEAN),
+                CAST('false' as BOOLEAN),
+                CAST('T' as BOOLEAN),
+                CAST('F' as BOOLEAN);```
+                ````
+
+        -   Convert A String To A Timestamp Example
+
+            -   ````sql
+                SELECT '2019-06-15 14:30:20'::timestamp;```
+                ````
+
+        -   Convert A String To A Interval Example
+
+            -   ````sql
+                SELECT '15 minute'::interval,
+                '2 hour'::interval,
+                '1 day'::interval,
+                '2 week'::interval,
+                '3 month'::interval;```
+                ````
 
 16. # PSQL COMMANDS
 
-    1- Connect To PostgreSQL Database
+    1. **_Connect To PostgreSQL Database_**
 
-        # psql -d database -U  user -W
+        - psql -d database -U user -W
 
-        # If you want to connect to a database that resides on another host,
-        you add the -h option as follows:
-            -> psql -h host -d database -U user -W
+        - If you want to connect to a database that resides on another host,
+          you add the -h option as follows: - psql -h host -d database -U user -W
 
-        # In case you want to use SSL mode for the connection, just specify it as
-        shown in the following command:
-            -> psql -U user -h host "dbname=db sslmode=require"
+        - In case you want to use SSL mode for the connection, just specify it as
+          shown in the following command: - psql -U user -h host "dbname=db sslmode=require"
 
-    2- Switch Connection To A New Database
+    2. **_Switch Connection To A New Database_**
 
-        # \c dbname username
+        - \c dbname username
 
-    3- List Available Databases
+    3. **_List Available Databases_**
 
-        # \l
+        - \l
 
-    4- List Available Tables
+    4. **_List Available Tables_**
 
-        # \dt
+        - \dt
 
-    5- Describe A Table
+    5. **_Describe A Table_**
 
-        # \d table_name
+        - \d table_name
 
-    6- List Available Schema
+    6. **_List Available Schema_**
 
-        # \dn
+        - \dn
 
-    7- List Available Functions
+    7. **_List Available Functions_**
 
-        # \df
+        - \df
 
-    8- List Available Views
+    8. **_List Available Views_**
 
-        # \dv
+        - \dv
 
-    9- List Users And Their Roles
+    9. **_List Users And Their Roles_**
 
-        # \du
+        - \du
 
-    10- Execute The Previous Command
+    10. **_Execute The Previous Command_**
 
-        # \g
+        - \g
 
-    11- Command History
+    11. **_Command History_**
 
-        # \s
+        - \s
 
-        # To save command history to a file.
-            -> \s file_name
+        - To save command history to a file.
+            - \s file_name
 
-    12- Executes Psql Commands From A File
+    12. **_Executes Psql Commands From A File_**
 
-        # \i file_name
+        - \i file_name
 
-    13- Get Help On Psql Commands
+    13. **_Get Help On Psql Commands_**
 
-        # \?
+        - \?
 
-        # To get help on specific PostgreSQL statement:
-            -> \h statement
+        - To get help on specific PostgreSQL statement:
+            - \h statement
 
-    14- Turn On Query Execution Time
+    14. **_Turn On Query Execution Time_**
 
-        # \timing
+        - \timing
 
-    15- Edit Command In Your Own Editor
+    15. **_Edit Command In Your Own Editor_**
 
-        # \e
+        - \e
 
-        # To editing a function
-            -> \ef [function name]
+        - To editing a function
+            - \ef [function name]
 
-    16- Switch Output Options
+    16. **_Switch Output Options_**
 
-        # \a command switches from aligned to non-aligned column output.
+        - \a command switches from aligned to non-aligned column output.
 
-        # \H command formats the output to HTML format.
+        - \H command formats the output to HTML format.
 
-    17- Quit Psql
+    17. **_Quit Psql_**
 
-        # \q
+        - \q
 
 17. # POSTGRESQL RECIPES
 
-    1- Compare Two Tables In PostgreSQL
+    -   **_Compare Two Tables In PostgreSQL_**
 
-        # Compare two tables using EXCEPT and UNION operators
-            -> SELECT
-            ID,
-            NAME,
-            'not in bar' AS note
-            FROM
-            foo
-            EXCEPT
-            SELECT
-            ID,
-            NAME,
-            'not int bar' AS note
-            FROM
-            bar
-            dvdrental-# UNION
-            dvdrental-# SELECT
-            ID,
-            NAME,
-            'not in foo' AS note
-            FROM
-            bar
-            EXCEPT
-            SELECT
+        -   Compare two tables using EXCEPT and UNION operators
+
+            -   ```sql
+                SELECT
+                ID,
+                NAME,
+                'not in bar' AS note
+                FROM
+                foo
+                EXCEPT
+                SELECT
+                ID,
+                NAME,
+                'not int bar' AS note
+                FROM
+                bar
+                dvdrental-- UNION
+                dvdrental-- SELECT
                 ID,
                 NAME,
                 'not in foo' AS note
-            FROM
+                FROM
+                bar
+                EXCEPT
+                SELECT
+                ID,
+                NAME,
+                'not in foo' AS note
+                FROM
                 foo;
+                ```
 
-        # Compare two tables using OUTER JOIN
-            -> SELECT
-            id,
-            name
-            FROM
-            foo
-            FULL OUTER JOIN bar USING (id, name)
-            WHERE
-            foo.id IS NULL
-            OR bar.id IS NULL;
+        -   Compare two tables using OUTER JOIN
 
-    2- How To Delete Duplicate Rows In PostgreSQL
+            -   ```sql
+                SELECT
+                id,
+                name
+                FROM
+                foo
+                FULL OUTER JOIN bar USING (id, name)
+                WHERE
+                foo.id IS NULL
+                OR bar.id IS NULL;
+                ```
 
-        # Preparing Sample Data
-            -> CREATE TABLE basket (
+    -   **_How To Delete Duplicate Rows In PostgreSQL_**
+
+        -   Preparing Sample Data
+
+            -   ```sql
+                CREATE TABLE basket (
                 id SERIAL PRIMARY KEY,
                 fruit VARCHAR(50) NOT NULL
-            );
-            -> INSERT INTO basket(fruit) values('apple');
-            INSERT INTO basket(fruit) values('apple');
-            INSERT INTO basket(fruit) values('orange');
-            INSERT INTO basket(fruit) values('orange');
-            INSERT INTO basket(fruit) values('orange');
-            INSERT INTO basket(fruit) values('banana');
+                );
+                ```
+            -   ```sql
+                INSERT INTO basket(fruit) values('apple');
+                INSERT INTO basket(fruit) values('apple');
+                INSERT INTO basket(fruit) values('orange');
+                INSERT INTO basket(fruit) values('orange');
+                INSERT INTO basket(fruit) values('orange');
+                INSERT INTO basket(fruit) values('banana');
+                ```
 
-        # Finding duplicate rows
-            -> SELECT
-            fruit,
-            COUNT( fruit )
-            FROM
-            basket
-            GROUP BY
-            fruit
-            HAVING
-            COUNT( fruit )> 1
-            ORDER BY
-            fruit;
+        -   Finding duplicate rows
 
-        # Deleting duplicate rows using DELETE USING statement
-            -> DELETE FROM
-            basket a
+            -   ```sql
+                SELECT
+                fruit,
+                COUNT( fruit )
+                FROM
+                basket
+                GROUP BY
+                fruit
+                HAVING
+                COUNT( fruit )> 1
+                ORDER BY
+                fruit;
+                ```
+
+        -   Deleting duplicate rows using DELETE USING statement
+
+            -   ```sql
+                DELETE FROM
+                basket a
                 USING basket b
-            WHERE
-            a.id < b.id
-            AND a.fruit = b.fruit;
+                WHERE
+                a.id < b.id
+                AND a.fruit = b.fruit;
+                ```
 
-        # Deleting duplicate rows using subquery
-            -> DELETE FROM basket
-            WHERE id IN
-            (SELECT id
-            FROM
-                (SELECT id,
-                 ROW_NUMBER() OVER( PARTITION BY fruit
-                ORDER BY  id ) AS row_num
-                FROM basket ) t
-                WHERE t.row_num > 1 );
+        -   Deleting duplicate rows using subquery
 
-            -> In case you want to delete duplicate based on values of multiple
-            columns, here is the query template:
-                * DELETE FROM table_name
+            -   ```sql
+                DELETE FROM basket
                 WHERE id IN
                 (SELECT id
                 FROM
+                (SELECT id,
+                ROW_NUMBER() OVER( PARTITION BY fruit
+                ORDER BY id ) AS row_num
+                FROM basket ) t
+                WHERE t.row_num > 1 );
+                ```
+
+            -   In case you want to delete duplicate based on values of multiple
+                columns, here is the query template:
+
+                -   ```sql
+                    DELETE FROM table_name
+                    WHERE id IN
+                    (SELECT id
+                    FROM
                     (SELECT id,
-                     ROW_NUMBER() OVER( PARTITION BY column_1,
-                     column_2
-                    ORDER BY  id ) AS row_num
+                    ROW_NUMBER() OVER( PARTITION BY column_1,
+                    column_2
+                    ORDER BY id ) AS row_num
                     FROM table_name ) t
                     WHERE t.row_num > 1 );
+                    ```
 
-        # Deleting duplicate rows using an immediate table
-            -> To delete rows using an immediate table, you use the following steps:
-                * Create a new table with the same structure as the one whose duplicate rows should be removed.
-                * Insert distinct rows from the source table to the immediate table.
-                * Drop the source table.
-                * Rename the immediate table to the name of the source table.
-            -> -- step 1
-            CREATE TABLE basket_temp (LIKE basket);
+        -   Deleting duplicate rows using an immediate table
 
-            -- step 2
-            INSERT INTO basket_temp(fruit, id)
-            SELECT
-            DISTINCT ON (fruit) fruit,
-            id
-            FROM basket;
+            -   To delete rows using an immediate table, you use the following steps:
 
-            -- step 3
-            DROP TABLE basket;
+                -   Create a new table with the same structure as the one whose duplicate rows should be removed.
+                -   Insert distinct rows from the source table to the immediate table.
+                -   Drop the source table.
+                -   Rename the immediate table to the name of the source table.
 
-            -- step 4
-            ALTER TABLE basket_temp
-            RENAME TO basket;
+                -   ```sql
+                    -- step 1
+                    CREATE TABLE basket_temp (LIKE basket);
 
-    3- How To Generate A Random Number In A range
+                    -- step 2
+                    INSERT INTO basket_temp(fruit, id)
+                    SELECT
+                    DISTINCT ON (fruit) fruit,
+                    id
+                    FROM basket;
 
-        # PostgreSQL provides the random() function that returns a random number
-        between 0 and 1.
-            -> SELECT random();
+                    -- step 3
+                    DROP TABLE basket;
 
-        # To generate a random number between 1 and 11, you use the following
-        statement:
-            -> SELECT random() * 10 + 1 AS RAND_1_11;
+                    -- step 4
+                    ALTER TABLE basket_temp
+                    RENAME TO basket;
+                    ```
 
-        # If you want to generate the random number as an integer, you apply the
-        floor() function to the expression as follows:
-            -> SELECT floor( random() * 10 + 1 ) :: int;
+    -   **_How To Generate A Random Number In A range_**
 
-         # You can develop a user-defined function that returns a random number
-         between two numbers l and h:
-            -> CREATE OR REPLACE FUNCTION random_between(low INT ,high INT)
-            RETURNS INT AS
-            $$
-            BEGIN
-            RETURN floor(random()* (high-low + 1) + low);
-            END;
-            $$ language 'plpgsql' STRICT;
+        -   PostgreSQL provides the random() function that returns a random number
+            between 0 and 1.
 
-        # If you want to get multiple random numbers between two integers, you
-        use the following statement:
-            -> SELECT random_between(1,100)
-            FROM generate_series(1,5);
+            -   ```sql
+                SELECT random();
+                ```
 
-    4- EXPLAIN => to display the execution plan of a statement.
+        -   To generate a random number between 1 and 11, you use the following
+            statement:
 
-        # The EXPLAIN statement returns the execution plan which PostgreSQL planner
-        generates for a given statement.
+            -   ```sql
+                  SELECT random() * 10 + 1 AS RAND_1_11;
+                ```
 
-        # The EXPLAIN shows how tables involved in a statement will be scanned
-        by index scan or sequential scan, etc., and if multiple tables are used,
-        what kind of join algorithm will be used.
+        -   If you want to generate the random number as an integer, you apply the
+            floor() function to the expression as follows:
 
-        # The most important and useful information that the EXPLAIN statement
-        returns are start-cost before the first row can be returned and the total
-        cost to return the complete result set.
+            -   ```sql
+                  SELECT floor( random() \* 10 + 1 ) :: int;
+                ```
 
-        # Syntax
-            -> EXPLAIN [ ( option [, ...] ) ] sql_statement;
+        -   You can develop a user-defined function that returns a random number
+            between two numbers l and h:
 
-        # where option can be one of the following:
-            -> ANALYZE [ boolean ]
-            -> VERBOSE [ boolean ]
-            -> COSTS [ boolean ]
-            -> BUFFERS [ boolean ]
-            -> TIMING [ boolean ]
-            -> SUMMARY [ boolean ]
-            -> FORMAT { TEXT | XML | JSON | YAML }
+            -   ```sql
+                CREATE OR REPLACE FUNCTION random_between(low INT ,high INT)
+                RETURNS INT AS
+                $$
+                BEGIN
+                RETURN floor(random()* (high-low + 1) + low);
+                END;
+                $$ language 'plpgsql' STRICT;
+                $$
+                ```
 
-        # ANALYZE
-            -> The ANALYZE option causes the sql_statement to be executed first
-            and then actual run-time statistics in the returned information
-            including total elapsed time expended within each plan node and the
-            number of rows it actually returned.
-            -> The ANALYZE statement actually executes the SQL statement and
-            discards the output information, therefore, if you want to analyze
-            any statement such as INSERT, UPDATE, or DELETE without affecting
-            the data, you should wrap the EXPLAIN ANALYZE in a transaction, as
-            follows:
-                * BEGIN;
-                EXPLAIN ANALYZE sql_statement;
-                ROLLBACK;
+        -   If you want to get multiple random numbers between two integers, you
+            use the following statement:
 
-        # VERBOSE
-            -> The VERBOSE parameter allows you to show additional information
-            regarding the plan. This parameter sets to FALSE by default.
+            -   ```sql
+                SELECT random_between(1,100)
+                FROM generate_series(1,5);
+                ```
 
-        # COSTS
-            -> The COSTS option includes the estimated startup and total costs
-            of each plan node, as well as the estimated number of rows and the
-            estimated width of each row in the query plan. The COSTS defaults
-            to TRUE.
+    -   **_EXPLAIN => to display the execution plan of a statement._**
 
-        # BUFFERS
-            -> This parameter adds information to the buffer usage. BUFFERS only
-            can be used when ANALYZE is enabled. By default, the BUFFERS
-            parameter set to FALSE.
+        -   The EXPLAIN statement returns the execution plan which PostgreSQL planner
+            generates for a given statement.
 
-        # TIMING
-            -> This parameter includes the actual startup time and time spent in
-            each node in the output. The TIMING defaults to TRUE and it may only
-            be used when ANALYZE is enabled.
+        -   The EXPLAIN shows how tables involved in a statement will be scanned
+            by index scan or sequential scan, etc., and if multiple tables are used,
+            what kind of join algorithm will be used.
 
-        # SUMMARY
-            -> The SUMMARY parameter adds summary information such as total
-            timing after the query plan. Note that when ANALYZE option is used,
-            the summary information is included by default.
+        -   The most important and useful information that the EXPLAIN statement
+            returns are start-cost before the first row can be returned and the total
+            cost to return the complete result set.
 
-        # FORMAT
-            -> Specify the output format of the query plan such as TEXT, XML,
-            JSON, and YAML. This parameter is set to TEXT by default.
+        -   Syntax
+
+            -   ```sql
+                EXPLAIN [ ( option [, ...] ) ] sql_statement;
+                ```
+
+        -   where option can be one of the following:
+
+            -   ANALYZE [ boolean ]
+            -   VERBOSE [ boolean ]
+            -   COSTS [ boolean ]
+            -   BUFFERS [ boolean ]
+            -   TIMING [ boolean ]
+            -   SUMMARY [ boolean ]
+            -   FORMAT { TEXT | XML | JSON | YAML }
+
+        -   ANALYZE
+
+            -   The ANALYZE option causes the sql_statement to be executed first
+                and then actual run-time statistics in the returned information
+                including total elapsed time expended within each plan node and the
+                number of rows it actually returned.
+            -   The ANALYZE statement actually executes the SQL statement and
+                discards the output information, therefore, if you want to analyze
+                any statement such as INSERT, UPDATE, or DELETE without affecting
+                the data, you should wrap the EXPLAIN ANALYZE in a transaction, as
+                follows:
+
+                -   ```sql
+                    BEGIN; EXPLAIN ANALYZE sql_statement; ROLLBACK;
+                    ```
+
+        -   VERBOSE
+
+            -   The VERBOSE parameter allows you to show additional information
+                regarding the plan. This parameter sets to FALSE by default.
+
+        -   COSTS
+
+            -   The COSTS option includes the estimated startup and total costs
+                of each plan node, as well as the estimated number of rows and the
+                estimated width of each row in the query plan. The COSTS defaults
+                to TRUE.
+
+        -   BUFFERS
+
+            -   This parameter adds information to the buffer usage. BUFFERS only
+                can be used when ANALYZE is enabled. By default, the BUFFERS
+                parameter set to FALSE.
+
+        -   TIMING
+
+            -   This parameter includes the actual startup time and time spent in
+                each node in the output. The TIMING defaults to TRUE and it may only
+                be used when ANALYZE is enabled.
+
+        -   SUMMARY
+
+            -   The SUMMARY parameter adds summary information such as total
+                timing after the query plan. Note that when ANALYZE option is used,
+                the summary information is included by default.
+
+        -   FORMAT
+            -   Specify the output format of the query plan such as TEXT, XML,
+                JSON, and YAML. This parameter is set to TEXT by default.
