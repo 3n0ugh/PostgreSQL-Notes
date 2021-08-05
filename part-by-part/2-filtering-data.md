@@ -6,11 +6,11 @@
 
             -   `SELECT username, password FROM accounts WHERE username = 'serhat';`
 
-        -   > -> Greater than
+        -   \> -> Greater than
 
         -   < -> Less than
 
-        -   > = -> Greater than or equal
+        -   \>= -> Greater than or equal
 
         -   <= -> Less than or equal
 
