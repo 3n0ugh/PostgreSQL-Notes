@@ -80,19 +80,19 @@
 
     -   **_ WHERE => to filter rows returned by a SELECT statement._**
 
-        -   = -> Equal
+        -   "=" -> Equal
 
             -   `SELECT username, password FROM accounts WHERE username = 'serhat';`
 
-        -   \> -> Greater than
+        -   "\>" -> Greater than
 
-        -   < -> Less than
+        -   "<" -> Less than
 
-        -   \>= -> Greater than or equal
+        -   "\>=" -> Greater than or equal
 
-        -   <= -> Less than or equal
+        -   "<=" -> Less than or equal
 
-        -   <> or != -> Not equal
+        -   "<>" or "!=" -> Not equal
 
             -   `SELECT username, password FROM accounts WHERE username <> 'melek';`
 
