@@ -4,20 +4,36 @@
 
         -   Example
 
-            -   `SELECT _ FROM most_popular_films UNION SELECT _ FROM top_rated_films;`
+            -   ```sql
+                SELECT * FROM most_popular_films
+                UNION
+                SELECT * FROM top_rated_films;
+                ```
 
         -   UNION ALL
 
             -   the duplicate row is retained in the result set.
-            -   `SELECT _ FROM most_popular_films UNION ALL SELECT _ FROM top_rated_films;`
+            -   ```sql
+                SELECT * FROM most_popular_films
+                UNION ALL
+                SELECT * FROM top_rated_films;
+                ```
 
     -   **_ INTERSECT => to combine result sets of two or more queries._**
 
-        -   `SELECT _ FROM most_popular_films INTERSECT SELECT _ FROM top_rated_films;`
+        -   ```sql
+            SELECT * FROM most_popular_films
+            INTERSECT
+            SELECT * FROM top_rated_films;
+            ```
 
     -   **_ EXCEPT => to return the rows in the first query that do not appear in the_**
         output of the second query.
 
         -   Example
 
-            -   `SELECT * FROM most_popular_films EXCEPT SELECT * FROM top_rated_films;`
+            -   ```sql
+                SELECT * FROM most_popular_films
+                EXCEPT
+                SELECT * FROM top_rated_films;
+                ```

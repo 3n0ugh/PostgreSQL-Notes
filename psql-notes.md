@@ -16,65 +16,93 @@
 
         -   Single Columns
 
-            -   `SELECT user_id FROM accounts;`
+            -   ```sql
+                SELECT user_id FROM accounts;
+                ```
 
         -   Multiple Columns
 
-            -   `SELECT uname, pass FROM accounts;`
+            -   ```sql
+                SELECT uname, pass FROM accounts;
+                ```
 
         -   All Columns
 
-            -   `SELECT * FROM accounts;`
+            -   ```sql
+                SELECT * FROM accounts;
+                ```
 
     -   **_ Column Alias => A column alias allows you to assign a column or an expression in the select list of a SELECT statement a temporary name. _**
 
         -   EXAMPLE
 
-            -   `SELECT username AS isim FROM accounts;`
+            -   ```sql
+                SELECT username AS isim FROM accounts;
+                ```
 
         -   || ( concatenation operator )
 
-            -   `SELECT username || ' ' || lastname FROM accounts;`
-            -   `SELECT username || ' ' || lastname AS fullname FROM accounts;`
+            -   ```sql
+                SELECT username || ' ' || lastname FROM accounts;
+                ```
+            -   ```sql
+                SELECT username || ' ' || lastname AS fullname FROM accounts;
+                ```
 
         -   Contain Space
 
-            -   `SELECT fullname AS "uname lname" FROM accounts;`
+            -   ```sql
+                SELECT fullname AS "uname lname" FROM accounts;
+                ```
 
     -   **_ ORDER BY => To sort the rows of the result set, you use the ORDER BY clause in the SELECT statement. ( two options as ASC and DESC (default ASC) )_**
 
         -   Sort Rows By One Column
 
-            -   `SELECT username, lastname FROM accounts ORDER BY username ASC;`
+            -   ```sql
+                SELECT username, lastname FROM accounts ORDER BY username ASC;
+                ```
 
         -   Sort Rows By Multiple Columns
 
-            -   `SELECT username, lastname FROM accounts ORDER BY username ASC, lastname DESC;`
+            -   ```sql
+                SELECT username, lastname FROM accounts ORDER BY username ASC, lastname DESC;
+                ```
 
         -   Sort Rows By Expressions
 
-            -   `SELECT username, LENGTH(username) AS len FROM accounts ORDER BY len DESC;`
+            -   ```sql
+                SELECT username, LENGTH(username) AS len FROM accounts ORDER BY len DESC;
+                ```
 
         -   NULLS FIRST/LAST
 
-            -   `SELECT username FROM accounts ORDER BY DESC NULLS LAST;`
+            -   ```sql
+                SELECT username FROM accounts ORDER BY DESC NULLS LAST;
+                ```
 
     -   **_ SELECT DISTINCT => The DISTINCT clause is used in the SELECT statement to remove duplicate rows from a result set. The DISTINCT clause keeps one row for each group of duplicates. The can be to one or more columns in the select list of the SELECT statement._**
 
         -   One Column
 
-            -   `SELECT DISTINCT bcolor FROM distinct_demo ORDER BY bcolor;`
+            -   ```sql
+                SELECT DISTINCT bcolor FROM distinct_demo ORDER BY bcolor;
+                ```
 
         -   Multiple Column
 
-            -   `SELECT DISTINCT bcolor, fcolor FROM distinct_demo ORDER BY bcolor, fcolor;`
+            -   ```sql
+                SELECT DISTINCT bcolor, fcolor FROM distinct_demo ORDER BY bcolor, fcolor;
+                ```
 
         -   DISTINCT ON
 
             -   The following statement sorts the result set by the bcolor and fcolor,
                 and then for each group of duplicates, it keeps the first row in the
                 returned result set.
-            -   `SELECT DISTINCT ON(bcolor) bcolor, fcolor FROM distinct_demo ORDER BY bcolor, fcolor;`
+            -   ```sql
+                SELECT DISTINCT ON(bcolor) bcolor, fcolor FROM distinct_demo ORDER BY bcolor, fcolor;
+                ```
 
 2.  # FILTERING DATA
 
@@ -82,7 +110,9 @@
 
         -   "=" -> Equal
 
-            -   `SELECT username, password FROM accounts WHERE username = 'serhat';`
+            -   ```sql
+                SELECT username, password FROM accounts WHERE username = 'serhat';
+                ```
 
         -   "\>" -> Greater than
 
@@ -94,27 +124,37 @@
 
         -   "<>" or "!=" -> Not equal
 
-            -   `SELECT username, password FROM accounts WHERE username <> 'melek';`
+            -   ```sql
+                SELECT username, password FROM accounts WHERE username <> 'melek';
+                ```
 
         -   AND
 
             -   Logical operator AND
-            -   `SELECT username, password FROM accounts WHERE username = 'serhat' AND username = 'melek';`
+            -   ```sql
+                SELECT username, password FROM accounts WHERE username = 'serhat' AND username = 'melek';
+                ```
 
         -   OR
 
             -   Logical operator OR
-            -   `SELECT username, password FROM accounts WHERE username = 'serhat' OR password = 'qwer1234!';`
+            -   ```sql
+                SELECT username, password FROM accounts WHERE username = 'serhat' OR password = 'qwer1234!';
+                ```
 
         -   IN
 
             -   Return true if a value matches any value in a list
-            -   `SELECT username, password FROM accounts WHERE username IN ('serhat', 'melek');`
+            -   ```sql
+                SELECT username, password FROM accounts WHERE username IN ('serhat', 'melek');
+                ```
 
         -   LIKE
 
             -   Return true if a value matches a pattern
-            -   `SELECT username, password FROM accounts WHERE username LIKE 'me%';`
+            -   ```sql
+                SELECT username, password FROM accounts WHERE username LIKE 'me%';
+                ```
 
         -   IS
 
@@ -127,84 +167,124 @@
         -   BETWEEN
 
             -   Return true if a value is between a range of values
-            -   `SELECT username, password FROM accounts WHERE LENGTH(username) BETWEEN 5 AND 6;`
+            -   ```sql
+                SELECT username, password FROM accounts WHERE LENGTH(username) BETWEEN 5 AND 6;
+                ```
 
     -   **_ LIMIT => to get a subset of rows generated by a query. - To Constrain The Number Of Returned Rows_**
 
-        -   `SELECT identity, username, password FROM accounts ORDER BY identity LIMIT 4;`
+        -   ```sql
+            SELECT identity, username, password FROM accounts ORDER BY identity LIMIT 4;
+            ```
 
         -   With OFFSET Example
 
-            -   `SELECT identity, username, password FROM accounts ORDER BY identity LIMIT 4 OFFSET 3;`
+            -   ```sql
+                SELECT identity, username, password FROM accounts ORDER BY identity LIMIT 4 OFFSET 3;
+                ```
                 -- Starting from fourth row to seventh row.
 
         -   OFFSET To Get Top/Bottom N Rows
 
-            -   `SELECT identity, username, password FROM accounts ORDER BY identity DESC LIMIT 4;`
+            -   ```sql
+                SELECT identity, username, password FROM accounts ORDER BY identity DESC LIMIT 4;
+                ```
 
     -   **_ FETCH => to retrieve a portion of rows returned by query._**
 
-        -   `SELECT identity, username, password FROM accounts ORDER BY identity FETCH NEXT 5 ROWS ONLY;`
+        -   ```sql
+            SELECT identity, username, password FROM accounts ORDER BY identity FETCH NEXT 5 ROWS ONLY;
+            ```
 
     -   **_ IN => to check if a value matches any value in list._**
 
         -   Syntax
 
-            -   `SELECT identity, username, password FROM accounts WHERE id IN (3, 7) ORDER BY identity DESC;`
+            -   ```sql
+                SELECT identity, username, password FROM accounts WHERE id IN (3, 7) ORDER BY identity DESC;
+                ```
                 -- returns rows that match the given id numbers.
 
         -   NOT IN
 
-            -   `SELECT identity, username, password FROM accounts WHERE id NOT IN (3, 7) ORDER BY identity DESC;`
+            -   ```sql
+                SELECT identity, username, password FROM accounts WHERE id NOT IN (3, 7) ORDER BY identity DESC;
+                ```
                 -- returns all rows except id numbers 3 and 7.
 
         -   Example
 
-            -   `SELECT identity, username, password FROM accounts WHERE username IN (SELECT identity FROM rental WHERE CAST (creating_date AS DATE) <> '2001-01-08') ORDER BY identity;`
+            -   ```sql
+                SELECT identity, username, password FROM accounts WHERE username IN (SELECT identity FROM rental WHERE CAST (creating_date AS DATE) <> '2001-01-08') ORDER BY identity;
+                ```
 
     -   **_ BETWEEN => to match a value againts a range of values._**
 
         -   Syntax
 
-            -   `SELECT identity, username, password FROM accounts WHERE identity BETWEEN 3 and 5;`
+            -   ```sql
+                SELECT identity, username, password FROM accounts WHERE identity BETWEEN 3 and 5;
                 -- returns rows that match id numbers 3, 4 and 5.
+                ```
 
         -   NOT BETWEEN
 
-            -   `SELECT identity, username, password FROM accounts WHERE identity NOT BETWEEN 3 and 5;`
+            -   ```sql
+                SELECT identity, username, password FROM accounts WHERE identity NOT BETWEEN 3 and 5;
                 -- returns all rows except id numbers 3, 4 and 5.
+                ```
 
         -   Example
 
-            -   `SELECT identity, username, password FROM accounts WHERE creating_date BETWEEN '2007-02-07' AND '2007-02-15';`
+            -   ```sql
+                SELECT identity, username, password FROM accounts WHERE creating_date BETWEEN '2007-02-07' AND '2007-02-15';
+                ```
 
     -   **_ LIKE => to query data using pattern matchings. (case sensitive)_**
 
         -   Example
 
-            -   `SELECT username, password FROM accounts WHERE username LIKE 'mel%';`
-            -   `SELECT username, password FROM accounts WHERE username LIKE '_ele_';`
-            -   `SELECT username, password FROM accounts WHERE username LIKE 'mele\_';`
-            -   `SELECT username, password FROM accounts WHERE username LIKE '\_el%';`
-            -   `SELECT username, password FROM accounts WHERE username LIKE '%le\_';`
+            -   ```sql
+                SELECT username, password FROM accounts WHERE username LIKE 'mel%';
+                ```
+            -   ```sql
+                SELECT username, password FROM accounts WHERE username LIKE '_ele_';
+                ```
+            -   ```sql
+                SELECT username, password FROM accounts WHERE username LIKE 'mele\_';
+                ```
+            -   ```sql
+                SELECT username, password FROM accounts WHERE username LIKE '\_el%';
+                ```
+            -   ```sql
+                SELECT username, password FROM accounts WHERE username LIKE '%le\_';
+                ```
 
         -   NOT LIKE
 
-            -   `SELECT username, password FROM accounts WHERE username NOT LIKE 'mel%';`
+            -   ```sql
+                SELECT username, password FROM accounts WHERE username NOT LIKE 'mel%';
+                ```
 
         -   ILIKE (non case sensitive)
 
-            -   `SELECT username, password FROM accounts WHERE username ILIKE 'mel%';`
+            -   ```sql
+                SELECT username, password FROM accounts WHERE username ILIKE 'mel%';
+                ```
 
     -   **_ IS NULL => to check if a value is null or not._**
 
         -   Example
 
-            -   `SELECT username, password, phone FROM accounts WHERE phone IS NULL;`
+            -   ```sql
+                SELECT username, password, phone FROM accounts WHERE phone IS NULL;
+                ```
 
         -   IS NOT NULL
 
-            -   `SELECT username, password, phone FROM accounts WHERE phone IS NOT NULL;`
+            -   ```sql
+                SELECT username, password, phone FROM accounts WHERE phone IS NOT NULL;
+                ```
 
 3.  # JOINING MULTIPLE TABLES
 
@@ -216,7 +296,9 @@
                 fruit_b column of each row in the second table (basket_b). If these
                 values are equal, the inner join creates a new row that contains
                 columns from both tables and adds this new row the result set.
-            -   `SELECT a, fruit_a, b, fruit_b FROM basket_a INNER JOIN basket_b ON fruit_a = fruit_b;`
+            -   ```sql
+                SELECT a, fruit_a, b, fruit_b FROM basket_a INNER JOIN basket_b ON fruit_a = fruit_b;
+                ```
 
         -   LEFT JOIN
 
@@ -228,12 +310,16 @@
                 set). In case the values do not equal, the left join also creates a
                 new row that contains columns from both tables and adds it to the
                 result set.
-            -   `SELECT a, fruit_a, b, fruit_b FROM basket_a LEFT JOIN basket_b ON fruit_a = fruit_b;`
+            -   ```sql
+                SELECT a, fruit_a, b, fruit_b FROM basket_a LEFT JOIN basket_b ON fruit_a = fruit_b;
+                ```
 
         -   RIGHT JOIN
 
             -   Reversed version of LEFT JOIN.
-            -   `SELECT a, fruit_a, b, fruit_b FROM basket_a RIGHT JOIN basket_b ON fruit_a = fruit_b;`
+            -   ```sql
+                SELECT a, fruit_a, b, fruit_b FROM basket_a RIGHT JOIN basket_b ON fruit_a = fruit_b;
+                ```
 
         -   FULL OUTER JOIN
 
@@ -241,17 +327,25 @@
                 contains all rows from both left and right tables, with the matching
                 rows from both sides if available. In case there is no match, the
                 columns of the table will be filled with NULL.
-            -   `SELECT a, fruit_a, b, fruit_b FROM basket_a FULL OUTER JOIN basket_b ON fruit_a = fruit_b;`
+            -   ```sql
+                SELECT a, fruit_a, b, fruit_b FROM basket_a FULL OUTER JOIN basket_b ON fruit_a = fruit_b;
+                ```
 
     -   **_TABLE ALIASES_**
 
         -   Using Table Aliases For The Long Table Name To Make Queries More Readable
 
-            -   `a_very_long_table_name AS alias`
+            -   ```sql
+                a_very_long_table_name AS alias
+                ```
 
         -   Using Table Aliases In Join Clauses
 
-            -   ` SELECT user_identity AS id, username, password, log_date FROM accounts AS a INNER JOIN log ON a.id = log.id ORDER BY log_date DESC;`
+            -   ```sql
+                SELECT user_identity AS id, username, password, log_date
+                FROM accounts AS a INNER JOIN log ON a.id = log.id
+                ORDER BY log_date DESC;
+                ```
 
         -   Using Table Aliases In Self-Join
 
@@ -261,12 +355,25 @@
 
         -   Using PostgreSQL INNER JOIN to join two tables
 
-            -   `SELECT customer.customer_id, first_name, last_name, amount, payment_date FROM customer INNER JOIN payment ON payment.customer_id = customer.customer_id ORDER BY payment_date;`
+            -   ```sql
+                SELECT customer.customer_id, first_name, last_name, amount, payment_date
+                FROM customer
+                INNER JOIN payment ON payment.customer_id = customer.customer_id
+                ORDER BY payment_date;
+                ```
 
         -   Using PostgreSQL INNER JOIN to join three tables
 
-            -   `SELECT c.customer_id, c.first_name customer_first_name, c.last_name customer_last_name, s.first_name staff_first_name, s.last_name staff_last_name, amount, payment_date FROM customer c INNER JOIN payment p ON p.customer_id = c.customer_id INNER JOIN staff s ON p.staff_id = s.staff_id ORDER BY payment_date;`
+            -   ```sql
+                SELECT c.customer_id, c.first_name customer_first_name,
+                c.last_name customer_last_name, s.first_name staff_first_name,
+                s.last_name staff_last_name, amount, payment_date
+                FROM customer c
+                INNER JOIN payment p ON p.customer_id = c.customer_id
+                INNER JOIN staff s ON p.staff_id = s.staff_id
+                ORDER BY payment_date;
                 -- Returns the names of the selling staff and customer
+                ```
 
     -   **_LEFT JOIN_**
 
@@ -276,11 +383,21 @@
 
         -   Query Hierarchical data
 
-            -   `SELECT e.first_name || ' ' || e.last_name employee, m .first_name || ' ' || m .last_name manager FROM employee e LEFT JOIN employee m ON m .employee_id = e.manager_id ORDER BY manager DESC;`
+            -   ```sql
+                SELECT e.first_name || ' ' || e.last_name employee,
+                m .first_name || ' ' || m .last_name manager
+                FROM employee e
+                LEFT JOIN employee m ON m .employee_id = e.manager_id
+                ORDER BY manager DESC;
+                ```
 
         -   Comparing The Rows With The Same Table
 
-            -   `SELECT f1.title, f2.title, f1.length FROM film f1 INNER JOIN film f2 ON f1.film_id <> f2.film_id AND f1.length = f2.length;`
+            -   ```sql
+                SELECT f1.title, f2.title, f1.length
+                FROM film f1
+                INNER JOIN film f2 ON f1.film_id <> f2.film_id AND f1.length = f2.length;
+                ```
             -   The join predicate matches two different films
                 (f1.film_id <> f2.film_id) that have the same length (f1.length = f2.length)
 
@@ -288,7 +405,11 @@
 
         -   Example
 
-            -   `SELECT employee_name, department_name FROM employees e FULL OUTER JOIN departments d ON d.department_id = e.department_id;`
+            -   ```sql
+                SELECT employee_name, department_name
+                FROM employees e
+                FULL OUTER JOIN departments d ON d.department_id = e.department_id;
+                ```
 
     -   **_CROSS JOIN => to produce a cartesian product of rows from the joined tables._**
 
@@ -297,18 +418,24 @@
             For example, the T1 has 1,000 rows and T2 has 1,000 rows, the result
             set will have 1,000 x 1,000 = 1,000,000 rows.
 
-            -   `SELECT * FROM T1 CROSS JOIN T2;`
+            -   ```sql
+                SELECT * FROM T1 CROSS JOIN T2;
+                ```
 
     -   **_NATURAL JOIN => to query data from two or more tables._**
 
         -   Example
 
-            -   `SELECT * FROM products NATURAL JOIN categories;`
+            -   ```sql
+                SELECT * FROM products NATURAL JOIN categories;
+                ```
 
         -   The above statement is equivalent to the following statement that
             uses the INNER JOIN clause.
 
-            -   `SELECT * FROM products INNER JOIN categories USING (category_id);`
+            -   ```sql
+                SELECT * FROM products INNER JOIN categories USING (category_id);
+                ```
 
 4.  # GROUPING DATA
 
@@ -316,28 +443,56 @@
 
         -   Without An Aggregate Function Example (similar to SELECT DISTINCT)
 
-            -   `SELECT customer_id FROM payment GROUP BY customer_id;`
-            -   `SELECT DISTINCT customer_id FROM payment;`
+            -   ```sql
+                SELECT customer_id FROM payment GROUP BY customer_id;
+                ```
+            -   ```sql
+                SELECT DISTINCT customer_id FROM payment;
+                ```
 
         -   With SUM () Function Example
 
-            -   `SELECT customer_id, SUM (amounts) AS amount FROM payment GROUP BY customer_id ORDER BY amount DESC;`
+            -   ```sql
+                SELECT customer_id, SUM (amounts) AS amount
+                FROM payment
+                GROUP BY customer_id
+                ORDER BY amount DESC;
+                ```
 
         -   Clause With The JOIN Clause
 
-            -   `SELECT first_name || '*' || last_name full_name, SUM (amounts) amount FROM payment INNER JOIN customer USING (customer_id) GROUP BY full_name ORDER BY customer_id DESC;`
+            -   ```sql
+                SELECT first_name || '*' || last_name full_name, SUM (amounts) amount
+                FROM payment
+                INNER JOIN customer USING (customer_id)
+                GROUP BY full_name
+                ORDER BY customer_id DESC;
+                ```
 
         -   With COUNT () Function Example
 
-            -   ` SELECT staff_id, COUNT (payment_id) FROM payment GROUP BY staff_id;`
+            -   ```sql
+                 SELECT staff_id, COUNT (payment_id)
+                 FROM payment
+                 GROUP BY staff_id;
+                ```
 
         -   With Multiple Columns
 
-            -   `SELECT customer_id, staff_id, SUM(amount) FROM payment GROUP BY staff_id, customer_id ORDER BY customer_id;`
+            -   ```sql
+                SELECT customer_id, staff_id, SUM(amount)
+                FROM payment
+                GROUP BY staff_id, customer_id
+                ORDER BY customer_id;
+                ```
 
         -   With Date Column
 
-            -   `SELECT DATE(payment_date) paid_date, SUM(amount) sum FROM payment GROUP BY DATE(payment_date);`
+            -   ```sql
+                SELECT DATE(payment_date) paid_date, SUM(amount) sum
+                FROM payment
+                GROUP BY DATE(payment_date);
+                ```
 
     -   **_HAVING => to specify a search condition for a group or an aggregate._**
 
@@ -349,11 +504,21 @@
 
         -   Clause With SUM () Function Example
 
-            -   `SELECT customer_id, SUM (amount) FROM payment GROUP BY customer_id HAVING SUM (amount) > 200;`
+            -   ```sql
+                SELECT customer_id, SUM (amount)
+                FROM payment
+                GROUP BY customer_id
+                HAVING SUM (amount) > 200;
+                ```
 
         -   Clause With COUNT () Function Example
 
-            -   `SELECT store_id, COUNT (customer_id) FROM customer GROUP BY store_id HAVING COUNT (customer_id) > 300;`
+            -   ```sql
+                SELECT store_id, COUNT (customer_id)
+                FROM customer
+                GROUP BY store_id
+                HAVING COUNT (customer_id) > 300;
+                ```
 
 5.  # SET OPERATIONS
 
@@ -361,23 +526,39 @@
 
         -   Example
 
-            -   `SELECT _ FROM most_popular_films UNION SELECT _ FROM top_rated_films;`
+            -   ```sql
+                SELECT * FROM most_popular_films
+                UNION
+                SELECT * FROM top_rated_films;
+                ```
 
         -   UNION ALL
 
             -   the duplicate row is retained in the result set.
-            -   `SELECT _ FROM most_popular_films UNION ALL SELECT _ FROM top_rated_films;`
+            -   ```sql
+                SELECT * FROM most_popular_films
+                UNION ALL
+                SELECT * FROM top_rated_films;
+                ```
 
     -   **_ INTERSECT => to combine result sets of two or more queries._**
 
-        -   `SELECT _ FROM most_popular_films INTERSECT SELECT _ FROM top_rated_films;`
+        -   ```sql
+            SELECT * FROM most_popular_films
+            INTERSECT
+            SELECT * FROM top_rated_films;
+            ```
 
     -   **_ EXCEPT => to return the rows in the first query that do not appear in the_**
         output of the second query.
 
         -   Example
 
-            -   `SELECT * FROM most_popular_films EXCEPT SELECT * FROM top_rated_films;`
+            -   ```sql
+                SELECT * FROM most_popular_films
+                EXCEPT
+                SELECT * FROM top_rated_films;
+                ```
 
 6.  # GROUPING SETS, CUBE AND ROLLUP
 
@@ -385,20 +566,46 @@
 
         -   The Outputs Of The Following Two Clauses Are The Same.
 
-            -   `SELECT brand, segment, SUM (quantity) FROM sales GROUP BY GROUPING SETS ( (brand, segment), (brand), (segment), () );`
-            -   `SELECT brand, segment, SUM (quantity) FROM sales GROUP BY brand, segment UNION ALL SELECT brand, NULL, SUM (quantity) FROM sales GROUP BY brand UNION ALL SELECT NULL, segment, SUM (quantity) FROM sales GROUP BY segment UNION ALL SELECT NULL, NULL, SUM (quantity) FROM sales;`
+            -   ```sql
+                SELECT brand, segment, SUM (quantity)
+                FROM sales
+                GROUP BY GROUPING SETS ( (brand, segment), (brand), (segment), () );
+                ```
+            -   ```sql
+                SELECT brand, segment, SUM (quantity)
+                FROM sales
+                GROUP BY brand, segment
+                UNION ALL
+                SELECT brand, NULL, SUM (quantity)
+                FROM sales GROUP BY brand
+                UNION ALL
+                SELECT NULL, segment, SUM (quantity)
+                FROM sales GROUP BY segment
+                UNION ALL
+                SELECT NULL, NULL, SUM (quantity)
+                FROM sales;
+                ```
 
     -   **_CUBE => to generate multiple grouping sets. (with all combinations)_**
 
         -   Given Same Output as GROUPING SETS's Examples.
 
-            -   `SELECT brand, segment, SUM (quantity) quantity FROM sales GROUP BY CUBE (brand, segment);`
+            -   ```sql
+                SELECT brand, segment, SUM (quantity) quantity
+                FROM sales
+                GROUP BY CUBE (brand, segment);
+                ```
 
     -   **_ROLLUP => to generate multiple grouping sets. (it just makes subset of those.)_**
 
         -   Example
 
-            -   `SELECT brand, segment, SUM (quantity) FROM sales GROUP BY ROLLUP (brand, segment) ORDER BY segment, brand;`
+            -   ```sql
+                SELECT brand, segment, SUM (quantity)
+                FROM sales
+                GROUP BY ROLLUP (brand, segment)
+                ORDER BY segment, brand;
+                ```
 
 7.  # SUBQUERY
 
@@ -406,11 +613,27 @@
 
         -   With IN EXAMPLE
 
-            -   `SELECT film_id, title FROM film WHERE film_id IN ( SELECT inventory.inventory_id FROM rental INNER JOIN inventory ON inventory.inventory_id = rental.inventory_id WHERE return_date BETWEEN '2005-05-29' AND '2005-05-30');`
+            -   ```sql
+                SELECT film_id, title FROM film
+                WHERE film_id IN (
+                    SELECT inventory.inventory_id
+                    FROM rental
+                    INNER JOIN inventory ON inventory.inventory_id = rental.inventory_id
+                    WHERE return_date
+                    BETWEEN '2005-05-29' AND '2005-05-30'
+                    );
+                ```
 
         -   With EXISTS Operator
 
-            -   `SELECT first_name, last_name FROM customer WHERE EXISTS ( SELECT 1 FROM payment WHERE payment.customer_id = customer.customer_id );`
+            -   ```sql
+                SELECT first_name, last_name
+                FROM customer
+                WHERE EXISTS (
+                    SELECT 1 FROM payment
+                    WHERE payment.customer_id = customer.customer_id
+                    );
+                ```
 
     -   **_ANY OPERATOR => to compare a scalar value with a set of values returned by a subquery._**
 
@@ -426,13 +649,33 @@
 
         -   The = ANY is equivalent to IN operator.
 
-            -   `SELECT title, category_id FROM film INNER JOIN film_category USING (film_id) WHERE category_id = ANY ( SELECT category_id FROM category WHERE NAME = 'Action' OR NAME = 'Drama' );`
-            -   `SELECT title, category_id FROM film INNER JOIN film_category USING (film_id) WHERE category_id IN ( SELECT category_id FROM category WHERE NAME = 'Action' OR NAME = 'Drama' );`
+            -   ```sql
+                SELECT title, category_id FROM film
+                INNER JOIN film_category
+                USING (film_id)
+                WHERE category_id = ANY (
+                    SELECT category_id FROM category
+                    WHERE NAME = 'Action' OR NAME = 'Drama'
+                    );
+                ```
+            -   ```sql
+                SELECT title, category_id FROM film
+                INNER JOIN film_category
+                USING (film_id)
+                WHERE category_id IN (
+                    SELECT category_id FROM category
+                    WHERE NAME = 'Action' OR NAME = 'Drama'
+                    );
+                ```
 
         -   The <> ANY operator is different from NOT IN.
 
-            -   `x <> ANY (a, b, c)`
-            -   `x <> a OR x <> b OR x <> c`
+            -   ```sql
+                x <> ANY (a, b, c)
+                ```
+            -   ```sql
+                x <> a OR x <> b OR x <> c
+                ```
 
     -   **_ALL OPERATOR => to compare a value with a list of values returned by a subquery._**
 
@@ -461,21 +704,48 @@
         -   The ALL operator must be followed by a subquery which also must be
             surrounded by the parentheses.
 
-                - `SELECT film_id, title, length FROM film WHERE length > ALL ( SELECT ROUND (AVG (length),2) FROM film GROUP BY rating ) ORDER BY length;`
+            -   ```sql
+                 SELECT film_id, title, length
+                 FROM film
+                 WHERE length > ALL (
+                     SELECT ROUND (AVG (length),2)
+                     FROM film
+                     GROUP BY rating
+                     ) ORDER BY length;
+                ```
 
     -   **_EXISTS => to test for existence of rows in a subquery._**
 
         -   Example
 
-            -   `SELECT first_name, last_name FROM customer c WHERE EXISTS (SELECT 1 FROM payment p WHERE p.customer_id = c.customer_id AND amount > 11 ) ORDER BY first_name, last_name;`
+            -   ```sql
+                SELECT first_name, last_name
+                FROM customer c
+                WHERE EXISTS (
+                    SELECT 1 FROM payment p
+                    WHERE p.customer_id = c.customer_id AND amount > 11
+                    ) ORDER BY first_name, last_name;
+                ```
 
         -   NOT EXISTS
 
-            -   `SELECT first_name, last_name FROM customer c WHERE NOT EXISTS (SELECT 1 FROM payment p WHERE p.customer_id = c.customer_id AND amount > 11 ) ORDER BY first_name, last_name;`
+            -   ```sql
+                SELECT first_name, last_name
+                FROM customer c
+                WHERE NOT EXISTS (
+                    SELECT 1 FROM payment p
+                    WHERE p.customer_id = c.customer_id AND amount > 11
+                    ) ORDER BY first_name, last_name;
+                ```
 
         -   NULL
 
-            -   `SELECT first_name, last_name FROM customer WHERE EXISTS( SELECT NULL ) ORDER BY first_name, last_name;`
+            -   ```sql
+                SELECT first_name, last_name
+                FROM customer
+                WHERE EXISTS( SELECT NULL
+                ) ORDER BY first_name, last_name;
+                ```
 
 8.  # COMMON TABLE EXPRESSIONS
 
@@ -483,21 +753,58 @@
 
         -   Simple Example
 
-            -   `WITH cte_film AS ( SELECT film_id, title, ( CASE WHEN length < 30 THEN 'Short' WHEN length < 90 THEN 'medium' ELSE 'Long' END ) length FROM film )SELECT film_id, title, length FROM cte_film WHERE length = 'Long' ORDER BY title;`
+            -   ```sql
+                WITH cte_film AS (
+                    SELECT film_id, title, (
+                        CASE WHEN length < 30 THEN 'Short'
+                        WHEN length < 90 THEN 'medium' ELSE 'Long' END
+                        ) length FROM film
+                    )SELECT film_id, title, length
+                    FROM cte_film
+                    WHERE length = 'Long'
+                    ORDER BY title;
+                ```
 
         -   Window Function Example
 
-            -   `WITH cte_film AS ( SELECT film_id, title, rating, length, RANK() OVER ( PARTITION BY rating ORDER BY length DESC) length_rank FROM film ) SELECT * FROM cte_film WHERE length_rank = 1;`
+            -   ```sql
+                WITH cte_film AS (
+                    SELECT film_id, title, rating, length, RANK()
+                    OVER (
+                        PARTITION BY rating
+                        ORDER BY length DESC
+                        ) length_rank FROM film
+                    ) SELECT * FROM cte_film
+                    WHERE length_rank = 1;`
+                ``
+                ```
 
         -   Joining CTE With Table Example
 
-            -   `WITH cte_rental AS ( SELECT staff_id, COUNT(rental_id) rental_count FROM rental GROUP BY staff_id ) SELECT s.staff_id, first_name, last_name, rental_count FROM staff s INNER JOIN cte_rental USING (staff_id);`
+            -   ```sql
+                WITH cte_rental AS (
+                    SELECT staff_id, COUNT(rental_id) rental_count
+                    FROM rental
+                    GROUP BY staff_id
+                    ) SELECT s.staff_id, first_name, last_name, rental_count
+                    FROM staff s
+                    INNER JOIN cte_rental USING (staff_id);
+                ```
 
     -   **_RECURSIVE QUERY_**
 
         -   Example
 
-            -   ` WITH RECURSIVE subordinates AS ( SELECT employee_id, manager_id, full_name FROM employees WHERE employee_id = 2 UNION SELECT e.employee_id, e.manager_id, e.full_name FROM employees e INNER JOIN subordinates s ON s.employee_id = e.manager_id ) SELECT * FROM subordinates;`
+            -   ```sql
+                 WITH RECURSIVE subordinates AS (
+                     SELECT employee_id, manager_id, full_name
+                     FROM employees
+                     WHERE employee_id = 2
+                     UNION SELECT e.employee_id, e.manager_id, e.full_name
+                     FROM employees e
+                     INNER JOIN subordinates s ON s.employee_id = e.manager_id
+                     ) SELECT * FROM subordinates;
+                ```
 
         -   Non-recursive term: the non-recursive term is a CTE query definition that forms the base result set of the CTE structure.
 
@@ -512,73 +819,129 @@
         -   RETURNING Clause
 
             -   RETURNING clause that returns the information of the inserted row.
-            -   `INSERT INTO accounts (name, lastname, password) VALUES ('melek', 'yildiz', 'qwEr123!') RETURNING *;`
+            -   ```sql
+                INSERT INTO accounts (name, lastname, password)
+                VALUES ('melek', 'yildiz', 'qwEr123!')
+                RETURNING *;
+                ```
 
         -   Inserting A Single Row Into A Table
 
-            -   `INSERT INTO accounts (name, lastname, password) VALUES ('melek', 'yildiz', 'qwEr123!');`
+            -   ```sql
+                INSERT INTO accounts (name, lastname, password)
+                VALUES ('melek', 'yildiz', 'qwEr123!');
+                ```
 
         -   Inserting Character String That Contains A Single Quote
 
-            -   `INSERT INTO links (url, name) VALUES('http://www.oreilly.com','O''Reilly Media');`
+            -   ```sql
+                INSERT INTO links (url, name)
+                VALUES('http://www.oreilly.com','O''Reilly Media');
+                ```
 
         -   Inserting A Date value
 
-            -   `INSERT INTO links (url, name, last_update) VALUES('https://www.google.com', 'Google', '2013-06-01'); -- YYYY-MM-DD`
+            -   ```sql
+                INSERT INTO links (url, name, last_update)
+                VALUES('https://www.google.com', 'Google', '2013-06-01');
+                -- YYYY-MM-DD
+                ```
 
         -   Getting The Last Insert Id
 
-            -   `INSERT INTO links (url, name) VALUES('http://www.postgresql.org','PostgreSQL') RETURNING id;`
+            -   ```sql
+                INSERT INTO links (url, name)
+                VALUES('http://www.postgresql.org','PostgreSQL')
+                RETURNING id;
+                ```
 
     -   **_INSERT MULTIPLE ROWS => to insert multiple rows into a table._**
 
         -   Example
 
-            -   `INSERT INTO links (url, name) VALUES ('https://www.google.com', 'google'), ('https://www.github.com', 'github');`
+            -   ```sql
+                INSERT INTO links (url, name)
+                VALUES ('https://www.google.com', 'google'), ('https://www.github.com', 'github');
+                ```
 
         -   Inserting Multiple Rows And Returning Inserted Rows
 
-            -   `INSERT INTO links (url, name) VALUES ('https://www.google.com', 'google'), ('https://www.github.com', 'github') RETURNING *;`
+            -   ```sql
+                INSERT INTO links (url, name)
+                VALUES ('https://www.google.com', 'google'), ('https://www.github.com', 'github')
+                RETURNING *;
+                ```
 
     -   **_UPDATE => to update existing data in a table._**
 
         -   Updating One Row
 
-            -   `UPDATE courses SET published_date = '2020-08-01' WHERE course_id = 3;`
+            -   ```sql
+                UPDATE courses
+                SET published_date = '2020-08-01'
+                WHERE course_id = 3;
+                ```
 
         -   Updating A Row And Returning The Updated Row
 
-            -   `UPDATE courses SET published_date = '2020-08-01' WHERE course_id = 3 RETURNING *;`
+            -   ```sql
+                UPDATE courses
+                SET published_date = '2020-08-01'
+                WHERE course_id = 3
+                RETURNING *;
+                ```
 
     -   **_UPDATE JOIN => to update data in a table based on values in another table._**
 
         -   Example
 
-            -   `UPDATE product SET net_price = price - price \* discount FROM product_segment WHERE product.segment_id = product_segment.id;`
+            -   ```sql
+                UPDATE product
+                SET net_price = price - price \* discount
+                FROM product_segment
+                WHERE product.segment_id = product_segment.id;
+                ```
 
     -   **_DELETE => to delete data from a table._**
 
         -   To Delete One Row From The Table
 
-            -   `DELETE FROM links WHERE id = 8;`
+            -   ```sql
+                DELETE FROM links WHERE id = 8;
+                ```
 
         -   Delete A Row And Return The Deleted Row
 
-            -   `DELETE FROM links WHERE id = 8 RETURNING *;`
+            -   ```sql
+                DELETE FROM links WHERE id = 8 RETURNING *;
+                ```
 
         -   Delete Multiple Rows From The Table
 
-            -   `DELETE FROM links WHERE id IN (5,7) RETURNING *;`
+            -   ```sql
+                DELETE FROM links WHERE id IN (5,7) RETURNING *;
+                ```
 
         -   Delete All Rows From The Table
-            -   `DELETE FROM links;`
+            -   ```sql
+                DELETE FROM links;
+                ```
 
     -   **_UPSERT => to insert or update data if the row that is being inserted already exists in the table._**
 
         -   ON CONFLICT
 
-            -   `INSERT INTO customers (name, email) VALUES('Microsoft','hotline@microsoft.com') ON CONFLICT (name) DO NOTHING;`
-            -   `INSERT INTO customers (name, email) VALUES('Microsoft','hotline@microsoft.com') ON CONFLICT (name) DO UPDATE SET email = EXCLUDED.email || ';' || customers.email;`
+            -   ```sql
+                INSERT INTO customers (name, email)
+                VALUES('Microsoft','hotline@microsoft.com')
+                ON CONFLICT (name) DO NOTHING;
+                ```
+            -   ```sql
+                INSERT INTO customers (name, email)
+                VALUES('Microsoft','hotline@microsoft.com')
+                ON CONFLICT (name)
+                DO UPDATE SET email = EXCLUDED.email || ';' || customers.email;
+                ```
 
 10. # TRANSACTIONS
 
@@ -600,27 +963,48 @@
 
         -   To Start A Transaction
 
-            -   `BEGIN;`
+            -   ```sql
+                BEGIN;
+                ```
 
         -   Commit A Transaction
 
-            -   `COMMIT;`
+            -   ```sql
+                COMMIT;
+                ```
 
         -   Rolling Back A Transaction
 
-            -   `ROLLBACK;`
+            -   ```sql
+                ROLLBACK;
+                ```
 
         -   Bank Account Example
 
-            -   `-- start a transaction BEGIN;`
+            -   ```sql
+                    -- start a transaction
+                    BEGIN;
+                ```
 
-                `-- deduct 1000 from account 1 UPDATE accounts SET balance = balance - 1000 WHERE id = 1;`
+                ```sql
+                    -- deduct 1000 from account 1
+                    UPDATE accounts SET balance = balance - 1000 WHERE id = 1;
+                ```
 
-                `-- add 1000 to account 2 UPDATE accounts SET balance = balance + 1000 WHERE id = 2;`
+                ```sql
+                    -- add 1000 to account 2
+                    UPDATE accounts SET balance = balance + 1000 WHERE id = 2;
+                ```
 
-                ` -- select the data from accounts SELECT id, name, balance FROM accounts;`
+                ```sql
+                    -- select the data from accounts
+                    SELECT id, name, balance FROM accounts;
+                ```
 
-                `-- commit the transaction / -- or roll back the transaction COMMIT; / ROLLBACK;`
+                ```sql
+                    -- commit the transaction / -- or roll back the transaction
+                    COMMIT; / ROLLBACK;
+                ```
 
 11. # IMPORT & EXPORT DATA (FROM/TO CSV)
 
@@ -628,19 +1012,26 @@
 
         -   Example
 
-            -   `COPY persons(first_name, last_name, dob, email) FROM 'C:\sampledb\persons.csv' DELIMITER ',' CSV HEADER;`
+            -   ```sql
+                COPY persons(first_name, last_name, dob, email)
+                FROM 'C:\sampledb\persons.csv' DELIMITER ',' CSV HEADER;
+                ```
             -   If u haven't permission to read that csv file, use \copy instead of COPY.
 
     -   **_EXPORT PostgreSQL TABLE TO CSV FILE_**
 
         -   Example
 
-            -   `COPY film TO '~/sampleDB/film_db.csv' DELIMITER ',' CSV HEADER;`
+            -   ```sql
+                COPY film TO '~/sampleDB/film_db.csv' DELIMITER ',' CSV HEADER;
+                ```
             -   If u haven't permission to read that csv file, use \copy instead of COPY.
 
         -   Another Example Of Usage \copy Command
 
-            -   `\copy (SELECT * FROM film) to '~/sampleDB/film_db.csv' with csv`
+            -   ```sql
+                \copy (SELECT * FROM film) to '~/sampleDB/film_db.csv' with csv
+                ```
 
 12. # MANAGING TABLES
 
@@ -738,7 +1129,14 @@
 
         -   Example
 
-            -   `CREATE TABLE [IF NOT EXISTS] table_name ( column1 datatype(length) column_constraint, column2 datatype(length) column_constraint, column3 datatype(length) column_constraint, table_constraints );`
+            -   ```sql
+                CREATE TABLE [IF NOT EXISTS] table_name (
+                    column1 datatype(length) column_constraint,
+                    column2 datatype(length) column_constraint,
+                    column3 datatype(length) column_constraint,
+                    table_constraints );
+                ```
+
                 Code language: SQL (Structured Query Language) (sql)
 
         -   Constraints
@@ -757,53 +1155,106 @@
 
         -   Example
 
-            -   `CREATE TABLE accounts ( user_id serial PRIMARY KEY, username VARCHAR ( 50 ) UNIQUE NOT NULL, password VARCHAR ( 50 ) NOT NULL, email VARCHAR ( 255 ) UNIQUE NOT NULL, created_on TIMESTAMP NOT NULL, last_login TIMESTAMP );`
+            -   ```sql
+                CREATE TABLE accounts (
+                    user_id serial PRIMARY KEY,
+                    username VARCHAR ( 50 ) UNIQUE NOT NULL,
+                    password VARCHAR ( 50 ) NOT NULL,
+                    email VARCHAR ( 255 ) UNIQUE NOT NULL,
+                    created_on TIMESTAMP NOT NULL,
+                    last_login TIMESTAMP );
+                ```
 
-            -   `CREATE TABLE account_roles ( user_id INT NOT NULL, role_id INT NOT NULL, grant_date TIMESTAMP, PRIMARY KEY (user_id, role_id), FOREIGN KEY (role_id) REFERENCES roles (role_id), FOREIGN KEY (user_id) REFERENCES accounts (user_id) );`
+            -   ```sql
+                CREATE TABLE account_roles (
+                    user_id INT NOT NULL,
+                    role_id INT NOT NULL,
+                    grant_date TIMESTAMP,
+                    PRIMARY KEY (user_id, role_id),
+                    FOREIGN KEY (role_id)
+                    REFERENCES roles (role_id),
+                    FOREIGN KEY (user_id)
+                     REFERENCES accounts (user_id) );
+                ```
 
     -   **_SELECT INTO => to create a new table from the result set of a query._**
 
         -   Example
 
-            -   `SELECT select_list INTO [ TEMPORARY | TEMP | UNLOGGED ] [ TABLE ] new_table_name FROM table_name WHERE search_condition;`
+            -   ```sql
+                SELECT select_list
+                INTO [ TEMPORARY | TEMP | UNLOGGED ] [ TABLE ] new_table_name
+                FROM table_name
+                WHERE search_condition;
+                ```
 
-            -   `SELECT film_id, title, rental_rate INTO TABLE film_r FROM film WHERE rating = 'R' AND rental_duration = 5 ORDER BY title;`
+            -   ```sql
+                SELECT film_id, title, rental_rate
+                INTO TABLE film_r
+                FROM film
+                WHERE rating = 'R' AND rental_duration = 5
+                ORDER BY title;
+                ```
 
         -   Temporary Table => TEMP
 
-            -   `SELECT film_id, title, length INTO TEMP TABLE short_film FROM film WHERE length < 60 ORDER BY title;`
+            -   ```sql
+                SELECT film_id, title, length
+                INTO TEMP TABLE short_film
+                FROM film
+                WHERE length < 60
+                ORDER BY title;
+                ```
 
     -   **_CREATE TABLE AS => to create a new table from the result set of a query._**
 
         -   Syntax
 
-            -   `CREATE TABLE new_table_name AS query;`
+            -   ```sql
+                CREATE TABLE new_table_name AS query;
+                ```
 
         -   To Create Temporary Table
 
-            -   `CREATE TEMP TABLE new_table_name AS query;`
+            -   ```sql
+                CREATE TEMP TABLE new_table_name AS query;
+                ```
 
         -   To Create Unlogged Table
 
-            -   `CREATE UNLOGGED TABLE new_table_name AS query;`
+            -   ```sql
+                CREATE UNLOGGED TABLE new_table_name AS query;
+                ```
 
         -   To Rename Columns
 
-            -   `CREATE TABLE new_table_name ( column_name_list ) AS query;`
+            -   ```sql
+                CREATE TABLE new_table_name ( column_name_list ) AS query;
+                ```
 
         -   To Check Table Exists Or Not
 
-            -   `CREATE TABLE IF NOT EXISTS new_table_name AS query;`
+            -   ```sql
+                CREATE TABLE IF NOT EXISTS new_table_name AS query;
+                ```
 
         -   Example
 
-            -   `CREATE TABLE IF NOT EXISTS film_rating (rating, film_count) AS SELECT rating, COUNT (film_id) FROM film GROUP BY rating;`
+            -   ```sql
+                CREATE TABLE IF NOT EXISTS film_rating (
+                    rating, film_count
+                    ) AS SELECT rating, COUNT (film_id)
+                    FROM film
+                    GROUP BY rating;
+                ```
 
     -   **_AUTO-INCREMENT => SERIAL pseudo-type to define auto-incremenet columns in table._**
 
         -   Example
 
-            -   `CREATE TABLE table_name ( id SERIAL );`
+            -   ```sql
+                CREATE TABLE table_name ( id SERIAL );
+                ```
 
         -   Three SERIAL pseudo-types
 
@@ -813,16 +1264,30 @@
 
         -   To Get The Sequence Name Of A SERIAL Column In A Table
 
-            -   `pg_get_serial_sequence('table_name', 'column_name')`
+            -   ```sql
+                pg_get_serial_sequence('table_name', 'column_name')
+                ```
 
         -   You can pass a sequence name to the currval() function to get the
             recent value generated by the sequence.
 
-            -   `SELECT currval(pg_get_serial_sequence('fruits', 'id'));`
+            -   ```sql
+                SELECT currval(pg_get_serial_sequence('fruits', 'id'));
+                ```
 
     -   **_SEQUENCES => sequence object to generate a sequence of numbers._**
 
-        -   `CREATE SEQUENCE [ IF NOT EXISTS ] sequence_name [ AS { SMALLINT | INT | BIGINT } ] [ INCREMENT [ BY ] increment ] [ MINVALUE minvalue | NO MINVALUE ] [ MAXVALUE maxvalue | NO MAXVALUE ] [ START [ WITH ] start ] [ CACHE cache ] [ [ NO ] CYCLE ] [ OWNED BY { table_name.column_name | NONE } ];`
+        -   ```sql
+            CREATE SEQUENCE [ IF NOT EXISTS ] sequence_name
+            [ AS { SMALLINT | INT | BIGINT } ]
+            [ INCREMENT [ BY ] increment ]
+            [ MINVALUE minvalue | NO MINVALUE ]
+            [ MAXVALUE maxvalue | NO MAXVALUE ]
+             [ START [WITH ] start ]
+             [ CACHE cache ]
+             [ [ NO ] CYCLE ]
+             [ OWNED BY { table_name.column_name | NONE } ];
+            ```
 
             -   [ AS { SMALLINT | INT | BIGINT } ]
 
@@ -876,29 +1341,47 @@
 
         -   Creating An Ascending Sequence Example
 
-            -   `CREATE SEQUENCE mysequence INCREMENT 5 START 100;`
+            -   ```sql
+                CREATE SEQUENCE mysequence INCREMENT 5
+                START 100;
+                ```
             -   to get next value
 
-                -   `SELECT nextval(mysequence);`
+                -   ```sql
+                    SELECT nextval(mysequence);
+                    ```
 
         -   Creating An Descending Sequence Example
 
-            -   `CREATE SEQUENCE three INCREMENT -1 MINVALUE 1 MAXVALUE 3 START 3 CYCLE;`
+            -   ```sql
+                CREATE SEQUENCE three INCREMENT -1 MINVALUE 1 MAXVALUE 3
+                START 3 CYCLE;
+                ```
 
         -   Creating A Sequence Associated With A Table Column
 
-            -   `CREATE SEQUENCE order_item_id START 10 INCREMENT 10 MINVALUE 10 OWNED BY order_details.item_id;`
+            -   ```sql
+                CREATE SEQUENCE order_item_id
+                START 10 INCREMENT 10 MINVALUE 10
+                OWNED BY order_details.item_id;
+                ```
 
         -   Listing All Sequences In A Database
 
-            -   `SELECT relname sequence_name FROM pg_class WHERE relkind = 'S';`
+            -   ```sql
+                SELECT relname sequence_name
+                FROM pg_class
+                WHERE relkind = 'S';
+                ```
 
         -   Deleting Sequences
 
             -   If a sequence is associated with a table column, it will be
                 automatically dropped once the table column is removed or the table
                 is dropped.
-            -   `DROP SEQUENCE [ IF EXISTS ] sequence_name [, ...] [ CASCADE | RESTRICT ];`
+            -   ```sql
+                DROP SEQUENCE [ IF EXISTS ] sequence_name [, ...] [ CASCADE | RESTRICT ];
+                ```
 
     -   **_IDENTITY COLUMN => to automatically assign a unique number to a column._**
 
@@ -916,85 +1399,157 @@
 
         -   GENERATED ALWAYS EXAMPLE
 
-            -   `CREATE TABLE colors ( color_id INT GENERATED ALWAYS AS IDENTITY, color_name VARCHAR NOT NULL );`
+            -   ```sql
+                CREATE TABLE colors (
+                    color_id INT GENERATED ALWAYS AS IDENTITY,
+                    color_name VARCHAR NOT NULL );
+                ```
 
         -   GENERATED BY DEFAULT AS IDENTITY
 
-            -   `CREATE TABLE colors ( color_id INT GENERATED BY DEFAULT AS IDENTITY, color_name VARCHAR NOT NULL );`
+            -   ```sql
+                CREATE TABLE colors (
+                    color_id INT GENERATED BY DEFAULT AS IDENTITY,
+                    color_name VARCHAR NOT NULL );
+                ```
 
         -   SEQUENCE OPTIONS EXAMPLE
 
-            -   `CREATE TABLE colors ( color_id INT GENERATED ALWAYS AS IDENTITY (STARTS WITH 10 INCREMENT BY 10), color_name VARCHAR NOT NULL, );`
+            -   ```sql
+                CREATE TABLE colors (
+                    color_id INT GENERATED ALWAYS AS IDENTITY (STARTS WITH 10 INCREMENT BY 10),
+                    color_name VARCHAR NOT NULL, );
+                ```
 
         -   Adding An Identity Column To An Existing Table
 
-            -   `ALTER TABLE table_name ALTER COLUMN column_name ADD GENERATED { ALWAYS | BY DEFAULT } AS IDENTITY { ( sequence_option ) }`
+            -   ```sql
+                ALTER TABLE table_name
+                ALTER COLUMN column_name
+                ADD GENERATED { ALWAYS | BY DEFAULT }
+                AS IDENTITY { ( sequence_option ) }
+                ```
 
             -   Creating a table, Then adding an identity column
 
-                -   `CREATE TABLE shape ( shape_id INT NOT NULL, shape_name VARCHAR NOT NULL );`
-                -   `ALTER TABLE shape ALTER COLUMN shape_id ADD GENERATED ALWAYS AS IDENTITY;`
+                -   ```sql
+                    CREATE TABLE shape (
+                        shape_id INT NOT NULL,
+                        shape_name VARCHAR NOT NULL );
+                    ```
+                -   ```sql
+                    ALTER TABLE shape
+                    ALTER COLUMN shape_id
+                    ADD GENERATED ALWAYS AS IDENTITY;
+                    ```
 
         -   Changing An Identity Column
 
-            -   `ALTER TABLE table_name ALTER COLUMN column_name { SET GENERATED { ALWAYS| BY DEFAULT } | SET sequence_option | RESTART [ [ WITH ] restart ] }`
-            -   `ALTER TABLE shape ALTER COLUMN shape_id SET GENERATED BY DEFAULT;`
+            -   ```sql
+                ALTER TABLE table_name
+                ALTER COLUMN column_name
+                { SET GENERATED { ALWAYS| BY DEFAULT }
+                | SET sequence_option |
+                RESTART [ [ WITH ] restart ] }
+                ```
+            -   ```sql
+                ALTER TABLE shape
+                ALTER COLUMN shape_id
+                SET GENERATED BY DEFAULT;
+                ```
 
         -   Removing The GENERATED AS IDENTITY Constraint
 
-            -   ` ALTER TABLE table_name ALTER COLUMN column_name DROP IDENTITY [ IF EXISTS ]`
+            -   ```sql
+                 ALTER TABLE table_name
+                 ALTER COLUMN column_name
+                 DROP IDENTITY [ IF EXISTS ]
+                ```
 
     -   **_ALTER TABLE => to modify the structure of table._**
 
         -   Syntax
 
-            -   `ALTER TABLE table_name action;`
+            -   ```sql
+                ALTER TABLE table_name action;
+                ```
 
         -   To Add A New Column
 
-            -   `ALTER TABLE table_name ADD COLUMN column_name data_type column_constraint;`
+            -   ```sql
+                ALTER TABLE table_name
+                ADD COLUMN column_name data_type column_constraint;
+                ```
 
         -   To Drop A Column
 
-            -   `ALTER TABLE table_name DROP COLUMN column_name;`
+            -   ```sql
+                ALTER TABLE table_name
+                DROP COLUMN column_name;
+                ```
 
         -   To Rename A Column
 
-            -   `ALTER TABLE table_name ALTER COLUMN column_name To new_column_name;`
+            -   ```sql
+                ALTER TABLE table_name
+                ALTER COLUMN column_name To new_column_name;
+                ```
 
         -   To Change A Default Value Of The Column
 
-            -   `ALTER TABLE table_name ALTER COLUMN column_name [SET DEFAULT value | DROP DEFAULT];`
+            -   ```sql
+                ALTER TABLE table_name
+                ALTER COLUMN column_name
+                [SET DEFAULT value | DROP DEFAULT];
+                ```
 
         -   To Change the NOT NULL Constraint
 
-            -   `ALTER TABLE table_name ALTER COLUMN column_name [SET NOT NULL value | DROP NOT NULL];`
+            -   ```sql
+                ALTER TABLE table_name
+                ALTER COLUMN column_name
+                [SET NOT NULL value | DROP NOT NULL];
+                ```
 
         -   To Add A Check Constraint
 
-            -   `ALTER TABLE table_name ADD CHECK expression;`
+            -   ```sql
+                ALTER TABLE table_name
+                ADD CHECK expression;
+                ```
 
         -   To Add A Constraint To A Table
 
-            -   `ALTER TABLE table_name ADD CONSTRAINT constraint_name constraint_definition;`
+            -   ```sql
+                ALTER TABLE table_name
+                ADD CONSTRAINT constraint_name constraint_definition;
+                ```
 
         -   To Rename A Table
 
-            -   `ALTER TABLE RENAME TO new_table_name;`
+            -   ```sql
+                ALTER TABLE RENAME TO new_table_name;
+                ```
 
     -   **_TRUNCATE TABLE => to quickly delete all data from large tables._**
 
         -   Remove All Data From One Table
 
-            -   `TRUNCATE TABLE table_name;`
+            -   ```sql
+                TRUNCATE TABLE table_name;
+                ```
 
         -   To Reset The Values In The Identity Column
 
-            -   `TRUNCATE TABLE table_name RESTART IDENTITY;`
+            -   ```sql
+                TRUNCATE TABLE table_name RESTART IDENTITY;
+                ```
 
         -   Remove All Data From A Table That Has Foreign Key References
 
-            -   `TRUNCATE TABLE table_name CASCADE;`
+            -   ```sql
+                TRUNCATE TABLE table_name CASCADE;
+                ```
 
 13. # UNDERSTANDING POSTGRESQL CONSTRAINTS
 
@@ -1002,29 +1557,53 @@
 
         -   Define Primary Key While Creating A Table
 
-            -   ` CREATE TABLE TABLE ( column_1 data_type PRIMARY KEY, column_2 data_type, … );`
+            -   ```sql
+                 CREATE TABLE TABLE (
+                     column_1 data_type PRIMARY KEY,
+                     column_2 data_type, … );
+                ```
 
         -   To Define Primary Key For Two Or More Column
 
-            -   `CREATE TABLE TABLE ( column_1 data_type, column_2 data_type, … PRIMARY KEY (column_1, column_2) );`
+            -   ```sql
+                CREATE TABLE TABLE (
+                    column_1 data_type,
+                    column_2 data_type, …
+                    PRIMARY KEY (column_1, column_2) );
+                ```
 
         -   Define Primary Key While Changing The Existing Table Structure
 
-            -   `ALTER TABLE table_name ADD PRIMARY KEY (column_1, column_2);`
+            -   ```sql
+                ALTER TABLE table_name
+                ADD PRIMARY KEY (column_1, column_2);
+                ```
 
         -   To Add An Auto-Incremented Primary Key To An Existing Table
 
-            -   `ALTER TABLE existing_table_name ADD COLUMN column_name SERIAL PRIMARY KEY;`
+            -   ```sql
+                ALTER TABLE existing_table_name
+                ADD COLUMN column_name SERIAL PRIMARY KEY;
+                ```
 
         -   Remove Primary Key
 
-            -   ` ALTER TABLE table_name DROP CONSTRAINT primary_key_constraint;`
+            -   ```sql
+                 ALTER TABLE table_name
+                 DROP CONSTRAINT primary_key_constraint;
+                ```
 
     -   **_FOREIGN KEY => A foreign key is a column or a group of columns in a table that reference the primary key of another table._**
 
         -   Syntax
 
-            -   `[CONSTRAINT fk_name] FOREIGN KEY(fk_columns) REFERENCES parent_table(parent_key_columns) [ON DELETE delete_action] [ON UPDATE update_action]`
+            -   ```sql
+                [CONSTRAINT fk_name]
+                FOREIGN KEY(fk_columns)
+                REFERENCES parent_table(parent_key_columns)
+                [ON DELETE delete_action]
+                [ON UPDATE update_action]
+                ```
 
         -   NO ACTION
 
@@ -1035,14 +1614,38 @@
             -   The SET NULL automatically sets NULL to the foreign key columns in
                 the referencing rows of the child table when the referenced rows in
                 the parent table are deleted.
-            -   `CREATE TABLE contacts( contact_id INT GENERATED ALWAYS AS IDENTITY, customer_id INT, contact_name VARCHAR(255) NOT NULL, phone VARCHAR(15), email VARCHAR(100), PRIMARY KEY(contact_id), CONSTRAINT fk_customer FOREIGN KEY(customer_id) REFERENCES customers(customer_id) ON DELETE SET NULL -- Important!!!! );`
+            -   ```sql
+                CREATE TABLE contacts(
+                    contact_id INT GENERATED ALWAYS AS IDENTITY,
+                    customer_id INT,
+                    contact_name VARCHAR(255) NOT NULL,
+                    phone VARCHAR(15),
+                    email VARCHAR(100),
+                    PRIMARY KEY(contact_id),
+                    CONSTRAINT fk_customer
+                    FOREIGN KEY(customer_id)
+                    REFERENCES customers(customer_id)
+                    ON DELETE SET NULL -- Important!!!! );
+                ```
 
         -   CASCADE
 
             -   The ON DELETE CASCADE automatically deletes all the referencing
                 rows in the child table when the referenced rows in the parent
                 table are deleted.
-            -   `CREATE TABLE contacts( contact_id INT GENERATED ALWAYS AS IDENTITY, customer_id INT, contact_name VARCHAR(255) NOT NULL, phone VARCHAR(15), email VARCHAR(100), PRIMARY KEY(contact_id), CONSTRAINT fk_customer FOREIGN KEY(customer_id) REFERENCES customers(customer_id) ON DELETE CASCADE );`
+            -   ```sql
+                CREATE TABLE contacts(
+                    contact_id INT GENERATED ALWAYS AS IDENTITY,
+                    customer_id INT,
+                    contact_name VARCHAR(255) NOT NULL,
+                    phone VARCHAR(15),
+                    email VARCHAR(100),
+                    PRIMARY KEY(contact_id),
+                    CONSTRAINT fk_customer
+                    FOREIGN KEY(customer_id)
+                    REFERENCES customers(customer_id)
+                    ON DELETE CASCADE );
+                ```
 
         -   SET DEFAULT
 
@@ -1052,17 +1655,35 @@
 
         -   Add A Foreign Key Constraint To An Existing Table
 
-            -   `ALTER TABLE child_table ADD CONSTRAINT constraint_name FOREIGN KEY (fk_columns) REFERENCES parent_table (parent_key_columns);`
+            -   ```sql
+                ALTER TABLE child_table
+                ADD CONSTRAINT constraint_name
+                FOREIGN KEY (fk_columns)
+                REFERENCES parent_table (parent_key_columns);
+                ```
 
     -   **_CHECK => A CHECK constraint is a kind of constraint that allows you to specify if values in a column must meet a specific requirement._**
 
         -   Define PostgreSQL CHECK Constraint For New Tables
 
-            -   `DROP TABLE IF EXISTS employees; CREATE TABLE employees ( id SERIAL PRIMARY KEY, first_name VARCHAR (50), last_name VARCHAR (50), birth_date DATE CHECK (birth_date > '1900-01-01'), joined_date DATE CHECK (joined_date > birth_date), salary numeric CHECK(salary > 0) );`
+            -   ```sql
+                DROP TABLE IF EXISTS employees;
+                CREATE TABLE employees (
+                    id SERIAL PRIMARY KEY,
+                    first_name VARCHAR (50),
+                    last_name VARCHAR (50),
+                    birth_date DATE CHECK (birth_date > '1900-01-01'
+                ), joined_date DATE CHECK (joined_date > birth_date),
+                salary numeric CHECK(salary > 0) );
+                ```
 
         -   Define PostgreSQL CHECK Constraint For Existing Tables
 
-            -   `ALTER TABLE prices_list ADD CONSTRAINT price_discount_check CHECK ( price > 0 AND discount >= 0 AND price > discount );`
+            -   ```sql
+                ALTER TABLE prices_list
+                ADD CONSTRAINT price_discount_check
+                CHECK ( price > 0 AND discount >= 0 AND price > discount );
+                ```
 
     -   **_UNIQUE => to constraint the uniqueness of the data correctly._**
 
@@ -1073,16 +1694,39 @@
 
         -   Syntax (two variant)
 
-            -   `email VARCHAR (50) UNIQUE UNIQUE (email) CREATE TABLE person ( id SERIAL PRIMARY KEY, first_name VARCHAR (50), last_name VARCHAR (50), email VARCHAR (50) UNIQUE );`
+            -   ```sql
+                email VARCHAR (50) UNIQUE UNIQUE (email)
+                CREATE TABLE person (
+                    id SERIAL PRIMARY KEY,
+                    first_name VARCHAR (50),
+                    last_name VARCHAR (50),
+                    email VARCHAR (50) UNIQUE );
+                ```
 
         -   Creating A UNIQUE Constraint On Multiple Columns
 
-            -   `CREATE TABLE table ( c1 data_type, c2 data_type, c3 data_type UNIQUE (c2, c3) );`
+            -   ```sql
+                CREATE TABLE table (
+                    c1 data_type,
+                    c2 data_type,
+                    c3 data_type
+                    UNIQUE (c2, c3) );
+                ```
 
         -   Adding UNIQUE Constraint Using A UNIQUE INDEX
 
-            -   `CREATE UNIQUE INDEX CONCURRENTLY equipment_equip_id ON equipment (equip_id);`
-            -   `Add a unique constraint to the equipment table using the equipment_equip_id index. - ALTER TABLE equipment ADD CONSTRAINT unique_equip_id UNIQUE USING INDEX equipment_equip_id;`
+            -   ```sql
+                CREATE UNIQUE INDEX CONCURRENTLY
+                equipment_equip_id ON equipment (equip_id);
+                ```
+            -   Add a unique constraint to the equipment
+                table using the equipment_equip_id index.
+
+            -   ```sql
+                ALTER TABLE equipment
+                ADD CONSTRAINT unique_equip_id
+                UNIQUE USING INDEX equipment_equip_id;
+                ```
 
         -   ALTER TABLE statement acquires an exclusive lock on the table. If you
             have any pending transactions, it will wait for all transactions to
@@ -1092,22 +1736,48 @@
 
         -   NOT NULL CONSTRAINT
 
-            -   `CREATE TABLE table_name ( ... column_name data_type NOT NULL, ... );`
+            -   ```sql
+                CREATE TABLE table_name (
+                    ... column_name data_type NOT NULL,
+                    ... );
+                ```
 
         -   Declaring NOT NULL Columns
 
-            -   `CREATE TABLE invocies ( id SERIAL PRIMARY KEY, product_id INT NOT NULL, qty NUMERIC NOT NULL CHECK (qty > 0), net_price numeric CHECK (net_price > 0) );`
+            -   ```sql
+                CREATE TABLE invocies (
+                    id SERIAL PRIMARY KEY,
+                    product_id INT NOT NULL,
+                    qty NUMERIC NOT NULL CHECK (qty > 0),
+                    net_price numeric CHECK (net_price > 0) );
+                ```
 
         -   Adding NOT NULL Constraint To An Existing Table
 
-            -   `ALTER TABLE table_name ALTER COLUMN column_name SET NOT NULL;`
+            -   ```sql
+                ALTER TABLE table_name
+                ALTER COLUMN column_name SET NOT NULL;
+                ```
 
         -   The Special Case Of NOT NULL Constraint
 
             -   Besides the NOT NULL constraint, you can use a CHECK constraint
                 to force a column to accept not NULL values.
-            -   `CHECK (column IS NOT NULL)`
-            -   `CREATE TABLE users ( id serial PRIMARY KEY, username VARCHAR (50), password VARCHAR (50), email VARCHAR (50), CONSTRAINT username_email_notnull CHECK ( NOT ( ( username IS NULL OR username = '' ) AND ( email IS NULL OR email = '' ) ) ) );`
+            -   ```sql
+                CHECK (column IS NOT NULL)
+                ```
+            -   ```sql
+                CREATE TABLE users (
+                    id serial PRIMARY KEY,
+                    username VARCHAR (50),
+                    password VARCHAR (50),
+                    email VARCHAR (50),
+                    CONSTRAINT username_email_notnull CHECK ( NOT ( (
+                        username IS NULL OR username = ''
+                        ) AND (
+                            email IS NULL OR email = ''
+                            ) ) ) );
+                ```
 
 14. # POSTGRESQL DATA TYPES IN DEPTH
 
@@ -1118,16 +1788,28 @@
 
         -   To Check Boolean Column Are false
 
-            -   `SELECT * FROM table_name WHERE column_name = 'no';`
-            -   `SELECT * FROM table_name WHERE column_name = '0';`
+            -   ```sql
+                SELECT * FROM table_name WHERE column_name = 'no';
+                ```
+            -   ```sql
+                SELECT * FROM table_name WHERE column_name = '0';
+                ```
 
         -   To Check Boolean Column Are true
 
-            -   `SELECT * FROM table_name WHERE column_name = 't';`
-            -   `SELECT * FROM table_name WHERE column_name = '1';`
+            -   ```sql
+                SELECT * FROM table_name WHERE column_name = 't';
+                ```
+            -   ```sql
+                SELECT * FROM table_name WHERE column_name = '1';
+                ```
 
         -   Set A Default Value Of The Boolean Column
-            -   `ALTER TABLE table_name ALTER COLUMN column_name SET DEFAULT FALSE;`
+            -   ```sql
+                ALTER TABLE table_name
+                ALTER COLUMN column_name
+                SET DEFAULT FALSE;
+                ```
 
     -   **_CHAR, VARCHAR AND TEXT_**
 
@@ -1196,27 +1878,41 @@
 
         -   Output A PostgreSQL Date Value In A Specific Format
 
-            -   `SELECT column_name (NOW() :: DATE, 'dd/mm/yyyy');`
+            -   ```sql
+                SELECT column_name (NOW() :: DATE, 'dd/mm/yyyy');
+                ```
 
         -   Get The Interval Between Two dates
 
-            -   `SELECT username, now() - creating_date AS age FROM accounts;`
+            -   ```sql
+                SELECT username, now() - creating_date AS age FROM accounts;
+                ```
 
         -   Calculate Ages In Years, Months And Days
 
             -   To calculate age at the current date in years, months, and days,
                 you use the AGE() function.
-            -   `SELECT first_name, lastname, AGE(birth_date) FROM employees;`
+            -   ```sql
+                SELECT first_name, lastname, AGE(birth_date) FROM employees;
+                ```
 
         -   If you pass a date value to the AGE() function, it will subtract that
             date value from the current date. If you pass two arguments to the AGE()
             function, it will subtract the second argument from the first argument.
 
-            -   `SELECT first_name, lastname, AGE('2015-01-01', birth_date) FROM employees;`
+            -   ```sql
+                SELECT first_name, lastname, AGE('2015-01-01', birth_date) FROM employees;
+                ```
 
         -   Extract Year, Quarter, Month, Week, Day From A Date Value
 
-            -   `SELECT employee_id, first_name, last_name, EXTRACT (YEAR FROM birth_date) AS YEAR, EXTRACT (MONTH FROM birth_date) AS MONTH, EXTRACT (DAY FROM birth_date) AS DAY FROM employees;`
+            -   ```sql
+                SELECT employee_id, first_name, last_name,
+                EXTRACT (YEAR FROM birth_date) AS YEAR,
+                EXTRACT (MONTH FROM birth_date) AS MONTH,
+                EXTRACT (DAY FROM birth_date) AS DAY
+                FROM employees;
+                ```
 
     -   **_TIMESTAMP_**
 
@@ -1236,36 +1932,50 @@
 
         -   To Change The timezone
 
-            -   `Set timezone = 'your_timezone_location';`
+            -   ```sql
+                Set timezone = 'your_timezone_location';
+                ```
 
         -   To Show Timezone
 
-            -   `SHOW TIMEZONE;`
+            -   ```sql
+                SHOW TIMEZONE;
+                ```
 
         -   Timestamp Functions
 
             -   To get current timestamp
 
-                -   `SELECT NOW();`
+                -   ```sql
+                    SELECT NOW();
+                    ```
 
             -   To get current time
 
-                -   `SELECT CURRENT_TIME;`
+                -   ```sql
+                    SELECT CURRENT_TIME;
+                    ```
 
             -   To get timeofday in the string format
-                -   `SELECT TIMEOFDAY;`
+                -   ```sql
+                    SELECT TIMEOFDAY;
+                    ```
 
         -   Convert Between Timezones
 
             -   To convert a timestamp to another time zone, you use the
                 timezone(zone, timestamp) function.
-            -   `SELECT timezone('America/New_York','2016-06-01 00:00');`
+            -   ```sql
+                SELECT timezone('America/New_York','2016-06-01 00:00');
+                ```
             -   we pass the timestamp as a string to the timezone() function,
                 PostgreSQL casts it to timestamptz implicitly. It is better to cast
                 a timestamp value to the timestamptz data type explicitly as the
                 following statement:
 
-                -   `SELECT timezone('America/New_York','2016-06-01 00:00'::timestamptz);`
+                -   ```sql
+                    SELECT timezone('America/New_York','2016-06-01 00:00'::timestamptz);
+                    ```
 
     -   **_INTERVAL_**
 
@@ -1286,7 +1996,9 @@
 
         -   Example
 
-            -   `SELECT NOW(), NOW() - INTERVAL '1 year 3 month 20 minute' AS "3 months 20 minutes ago of last year";`
+            -   ```sql
+                SELECT NOW(), NOW() INTERVAL '1 year 3 month 20 minute' AS "3 months 20 minutes ago of last year";
+                ```
 
         -   Interval Input Format
 
@@ -1334,20 +2046,30 @@
         -   Interval operators
 
             -   You can apply the arithmetic operator ( +, -, \*, etc.,) to the interval values.
-            -   `SELECT INTERVAL '2h 50m' + INTERVAL '10m'; -- 03:00:00`
-            -   `SELECT INTERVAL '2h 50m' - INTERVAL '50m'; -- 02:00:00`
-            -   `SELECT 600 \* INTERVAL '1 minute'; -- 10:00:00`
+            -   ```sql
+                SELECT INTERVAL '2h 50m' + INTERVAL '10m'; -- 03:00:00
+                ```
+            -   ```sql
+                SELECT INTERVAL '2h 50m' - INTERVAL '50m'; -- 02:00:00
+                ```
+            -   ```sql
+                SELECT 600 \* INTERVAL '1 minute'; -- 10:00:00
+                ```
 
         -   Converting PostgreSQL Interval To String
 
             -   To convert an interval value to string, you use the TO_CHAR()
                 function.
 
-                -   `TO_CHAR(interval,format)`
+                -   ```sql
+                    TO_CHAR(interval,format)
+                    ```
 
             -   Example
 
-                -   `SELECT TO_CHAR( INTERVAL '17h 20m 05s', 'HH24:MI:SS' );`
+                -   ```sql
+                    SELECT TO_CHAR( INTERVAL '17h 20m 05s', 'HH24:MI:SS' );
+                    ```
 
         -   Extracting Data From A 0PostgreSQL Interval
 
@@ -1356,11 +2078,15 @@
 
             -   Syntax
 
-                -   `EXTRACT(field FROM interval)`
+                -   ```sql
+                    EXTRACT(field FROM interval)
+                    ```
 
             -   Example
 
-                -   `SELECT EXTRACT ( MINUTE FROM INTERVAL '5 hours 21 minutes' );`
+                -   ```sql
+                    SELECT EXTRACT ( MINUTE FROM INTERVAL '5 hours 21 minutes' );
+                    ```
 
         -   Adjusting Interval Values
 
@@ -1368,18 +2094,24 @@
                 that allows you to adjust the interval of 30-day as one month and
                 the interval of 24-hour as one day:
 
-                -   `SELECT justify_days(INTERVAL '30 days'), -- 1 mon justify_hours(INTERVAL '24 hours'); -- 1 day`
+                -   ```sql
+                    SELECT justify_days(INTERVAL '30 days'), -- 1 mon justify_hours(INTERVAL '24 hours'); -- 1 day
+                    ```
 
             -   The justify_interval function adjusts interval using justifydays
                 and justifyhours with additional sign adjustments:
 
-                -   `SELECT justify_interval(interval '1 year -1 hour'); -- 11 mons 29 days 23:00:00`
+                -   ```sql
+                    SELECT justify_interval(interval '1 year -1 hour'); -- 11 mons 29 days 23:00:00
+                    ```
 
     -   **_TIME_**
 
         -   Syntax
 
-            -   `column_name TIME(precision);`
+            -   ```sql
+                column_name TIME(precision);
+                ```
             -   A time value may have a precision up to 6 digits. The precision
                 specifies the number of fractional digits placed in the second field.
 
@@ -1401,30 +2133,50 @@
 
         -   Getting Current Time
 
-            -   `SELECT CURRENT_TIME;`
-            -   `SELECT CURRENT_TIME(5); -- 5 is the precision`
+            -   ```sql
+                SELECT CURRENT_TIME;
+                ```
+            -   ```sql
+                SELECT CURRENT_TIME(5); -- 5 is the precision
+                ```
 
         -   Getting Local Time
 
-            -   `SELECT LOCALTIME;`
-            -   `SELECT LOCALTIME(5); -- 5 is the precision`
+            -   ```sql
+                SELECT LOCALTIME;
+                ```
+            -   ```sql
+                SELECT LOCALTIME(5); -- 5 is the precision
+                ```
 
         -   Converting Time To A Different Time Zone
 
             -   [TIME with time zone] AT TIME ZONE time_zone
-            -   `SELECT LOCALTIME AT TIME ZONE 'UTC-7';`
+            -   ```sql
+                SELECT LOCALTIME AT TIME ZONE 'UTC-7';
+                ```
 
         -   Extracting Hours, Minutes, Seconds From A Time Value
 
-            -   `SELECT LOCALTIME, EXTRACT (HOUR FROM LOCALTIME) as hour, EXTRACT (MINUTE FROM LOCALTIME) as minute, EXTRACT (SECOND FROM LOCALTIME) as second, EXTRACT (milliseconds FROM LOCALTIME) as milliseconds;`
+            -   ```sql
+                SELECT LOCALTIME,
+                EXTRACT (HOUR FROM LOCALTIME) as hour,
+                EXTRACT (MINUTE FROM LOCALTIME) as minute,
+                EXTRACT (SECOND FROM LOCALTIME) as second,
+                EXTRACT (milliseconds FROM LOCALTIME) as milliseconds;
+                ```
 
         -   Arithmetic Operations On Time values
 
             -   PostgreSQL allows you to apply arithmetic operators such as +, -,
                 and \* on time values and between time and interval values.
 
-                -   `SELECT time '10:00' - time '02:00' AS result; -- 08:00:00`
-                -   `SELECT LOCALTIME + interval '2 hours' AS result; -- Adding 2 hour to local time`
+                -   ```sql
+                    SELECT time '10:00' - time '02:00' AS result; -- 08:00:00
+                    ```
+                -   ```sql
+                    SELECT LOCALTIME + interval '2 hours' AS result; -- Adding 2 hour to local time
+                    ```
 
     -   **_UUID_**
 
@@ -1448,23 +2200,31 @@
             -   To install the uuid-ossp module, you use the CREATE EXTENSION
                 statement as follows:
 
-                -   `CREATE EXTENSION IF NOT EXISTS "uuid-ossp";`
+                -   ```sql
+                    CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
+                    ```
 
             -   To generate the UUID values based on the combination of computer’s
                 MAC address, current timestamp, and a random value, you use the
                 uuid_generate_v1() function:
 
-                -   `SELECT uuid_generate_v1();`
+                -   ```sql
+                    SELECT uuid_generate_v1();
+                    ```
 
             -   To generate the UUID values based on the combination of computer’s
                 MAC address, current timestamp, and a random value, you use the
                 uuid_generate_v1() function:
 
-                -   `SELECT uuid_generate_v4();`
+                -   ```sql
+                    SELECT uuid_generate_v4();
+                    ```
 
         -   Creating Table With UUID Column
 
-            -   `CREATE TABLE table_name ( ... column_name uuid DEFAULT uuid_generate_v4(); ... );`
+            -   ```sql
+                CREATE TABLE table_name ( ... column_name uuid DEFAULT uuid_generate_v4(); ... );
+                ```
 
     -   **_ARRAY_**
 
@@ -1473,12 +2233,23 @@
 
         -   Creating Table With Array Column
 
-            -   `CREATE TABLE contacts ( id serial PRIMARY KEY, name VARCHAR (100), phones TEXT [] );`
+            -   ```sql
+                CREATE TABLE contacts ( id serial PRIMARY KEY, name VARCHAR (100), phones TEXT [] );
+                ```
 
         -   Inserting Array Values
 
-            -   `INSERT INTO contacts (name, phones) VALUES('John Doe',ARRAY [ '(408)-589-5846','(408)-589-5555' ]);`
-            -   `INSERT INTO contacts (name, phones) VALUES('Lily Bush','{"(408)-589-5841"}'), ('William Gate','{"(408)-589-5842","(408)-589-58423"}');` - When you use curly braces, you need to use single quotes ' to wrap the array and double quotes " to wrap text array items.
+            -   ```sql
+                INSERT INTO contacts (name, phones)
+                VALUES('John Doe',ARRAY [ '(408)-589-5846','(408)-589-5555' ]);
+                ```
+            -   ```sql
+                INSERT INTO contacts (name, phones)
+                VALUES('Lily Bush','{"(408)-589-5841"}'), ('William Gate','{"(408)-589-5842","(408)-589-58423"}');
+                ```
+
+                -   When you use curly braces, you need to use single quotes ' to
+                    wrap the array and double quotes " to wrap text array items.
 
         -   Query Array Data
 
@@ -1486,7 +2257,10 @@
                 brackets []. By default, PostgreSQL uses one-based numbering for
                 array elements. It means the first array element starts with number 1.
 
-                -   `SELECT column_name [1] FROM table_name; -- To get first item of array.`
+                -   ```sql
+                    SELECT column_name [1]
+                    FROM table_name; -- To get first item of array.
+                    ```
 
             -   We can use array element in the WHERE clause as the condition to
                 filter the rows.
@@ -1497,24 +2271,39 @@
                 whole array. The following statement updates the second phone number
                 of William Gate.
 
-                -   `UPDATE contacts SET phones [2] = '(408)-589-5843' WHERE ID = 3;`
+                -   ```sql
+                    UPDATE contacts
+                    SET phones [2] = '(408)-589-5843'
+                    WHERE ID = 3;
+                    ```
 
             -   To change whole array:
 
-                -   `UPDATE contacts SET phones = '(408)-589-5843' WHERE ID = 3;`
+                -   ```sql
+                    UPDATE contacts
+                    SET phones = '(408)-589-5843'
+                    WHERE ID = 3;
+                    ```
 
         -   Search In Array
 
             -   ANY() Function
 
-                -   `SELECT name, phones FROM contacts WHERE '(408)-589-5555' = ANY (phones);`
+                -   ```sql
+                    SELECT name, phones
+                    FROM contacts
+                    WHERE '(408)-589-5555' = ANY (phones);
+                    ```
 
         -   Expand Arrays
 
             -   PostgreSQL provides the unnest() function to expand an array to
                 a list of rows.
 
-                -   `SELECT name, unnest(phones) FROM contacts;`
+                -   ```sql
+                    SELECT name, unnest(phones)
+                    FROM contacts;
+                    ```
 
     -   **_HSTORE_**
 
@@ -1523,19 +2312,36 @@
 
         -   Enable Hstore Extension
 
-            -   `CREATE EXTENSION hstore;`
+            -   ```sql
+                CREATE EXTENSION hstore;
+                ```
 
         -   Create A Table With Hstore Data Type
 
-            -   `CREATE TABLE books ( id SERIAL PRIMARY KEY, title VARCHAR (255), attr hstore );`
+            -   ```sql
+                CREATE TABLE books (
+                    id SERIAL PRIMARY KEY,
+                    title VARCHAR (255),
+                    attr hstore );
+                ```
 
         -   Insert Data Into Hstore Column
 
-            -   `INSERT INTO books (title, attr) VALUES ( 'PostgreSQL Tutorial', '"paperback" => "243", "publisher" => "postgresqltutorial.com", "language" => "English", "ISBN-13" => "978-1449370000", "weight" => "11.2 ounces"' );`
+            -   ```sql
+                INSERT INTO books (title, attr)
+                VALUES ( 'PostgreSQL Tutorial',
+                '"paperback" => "243",
+                "publisher" => "postgresqltutorial.com",
+                "language" => "English",
+                "ISBN-13" => "978-1449370000",
+                "weight"=> "11.2 ounces"' );
+                ```
 
         -   Query Data From An Hstore Column
 
-            -   `SELECT attr FROM books;`
+            -   ```sql
+                SELECT attr FROM books;
+                ```
 
         -   Query Value For A Specific Key
 
@@ -1545,7 +2351,9 @@
             -   If we want to know ISBN-13 of all available books in the books
                 table, we can use the -> operator as follows:
 
-                -   `SELECT attr -> 'ISBN-13' AS isbn FROM books;`
+                -   ```sql
+                    SELECT attr -> 'ISBN-13' AS isbn FROM books;
+                    ```
 
         -   Use Value In The Where Clause
 
@@ -1553,34 +2361,52 @@
                 rows whose values of the hstore column match the input value
             -   The following query retrieves the title and weight of a book that has ISBN-13 value matches 978-1449370000:
 
-                -   `SELECT title, attr -> 'weight' AS weight FROM books WHERE attr -> 'ISBN-13' = '978-1449370000';`
+                -   ```sql
+                    SELECT title, attr -> 'weight' AS weight
+                    FROM books
+                    WHERE attr -> 'ISBN-13' = '978-1449370000';
+                    ```
 
         -   Add key-value pairs to existing rows
 
             -   Syntax
 
-                -   `UPDATE books SET attr = attr || '"freeshipping"=>"yes"' :: hstore;`
+                -   ```sql
+                    UPDATE books SET attr = attr || '"freeshipping"=>"yes"' :: hstore;
+                    ```
 
         -   Update Existing Key-Value Pair
 
             -   Syntax
 
-                -   `UPDATE books SET attr = attr || '"freeshipping"=>"no"' :: hstore;`
+                -   ```sql
+                    UPDATE books SET attr = attr || '"freeshipping"=>"no"' :: hstore;
+                    ```
 
         -   Remove Existing Key-Value Pair
 
-            -   `UPDATE books SET attr = delete(attr, 'freeshipping');`
+            -   ```sql
+                UPDATE books SET attr = delete(attr, 'freeshipping');
+                ```
 
         -   Check For A Specific Key In Hstore Column
 
             -   You can check for a specific key in an hstore column using the
                 ? operator in the WHERE clause.
-            -   `SELECT title, attr->'publisher' as publisher, attr FROM books WHERE attr ? 'publisher';`
+            -   ```sql
+                SELECT title, attr->'publisher' as publisher, attr
+                FROM books
+                WHERE attr ? 'publisher';
+                ```
 
         -   Check For A Key-Value Pair
 
             -   You can query based on the hstore key-value pair using the @> operator.
-            -   `SELECT title FROM books WHERE attr @> '"weight"=>"11.2 ounces"' :: hstore;`
+            -   ```sql
+                SELECT title
+                FROM books
+                WHERE attr @> '"weight"=>"11.2 ounces"' :: hstore;
+                ```
 
         -   Query Rows That Contain Multiple Specified keys
 
@@ -1588,44 +2414,60 @@
                 using ?& operator.
             -   To check if a row whose hstore column contains any key from a
                 list of keys, you use the ?| operator instead of the ?& operator.
-            -   `SELECT title FROM books WHERE attr ?& ARRAY [ 'language', 'weight' ];`
+            -   ```sql
+                SELECT title
+                FROM books
+                WHERE attr ?& ARRAY [ 'language', 'weight' ];
+                ```
 
         -   Get All Keys From An Hstore Column
 
             -   To get all keys from an hstore column, you use the akeys()
                 function as follows:
 
-                -   `SELECT akeys (attr) FROM books;`
+                -   ```sql
+                    SELECT akeys (attr) FROM books;
+                    ```
 
             -   Or you can use the skey() function if you want PostgreSQL
                 to return the result as a set.
 
-                -   `SELECT skeys (attr) FROM books;`
+                -   ```sql
+                    SELECT skeys (attr) FROM books;
+                    ```
 
         -   Get All Values From An Hstore Column
 
             -   Like keys, you can get all values from an hstore column using the
                 avals() function in the form of arrays.
 
-                -   `SELECT avals (attr) FROM books;`
+                -   ```sql
+                    SELECT avals (attr) FROM books;
+                    ```
 
             -   Or you can use the svals() function if you want to get the
                 result as a set.
 
-                -   `SELECT svals (attr) FROM books;`
+                -   ```sql
+                    SELECT svals (attr) FROM books;
+                    ```
 
         -   Convert Hstore Data To Json
 
             -   PostgreSQL provides the hstore_to_json() function to convert
                 hstore data to JSON.
 
-                -   `SELECT title, hstore_to_json (attr) AS json FROM books;`
+                -   ```sql
+                    SELECT title, hstore_to_json (attr) AS json FROM books;
+                    ```
 
         -   Convert Hstore Data To Sets
 
             -   To convert hstore data to sets, you use the each() function as follows:
 
-                -   `SELECT title, (EACH(attr) ).* FROM books;`
+                -   ```sql
+                    SELECT title, (EACH(attr) ).* FROM books;
+                    ```
 
     -   **_JSON_**
 
@@ -1637,7 +2479,11 @@
 
         -   Syntax
 
-            -   `CREATE TABLE orders ( id serial NOT NULL PRIMARY KEY, info json NOT NULL );`
+            -   ```sql
+                CREATE TABLE orders (
+                    id serial NOT NULL PRIMARY KEY,
+                    info json NOT NULL );
+                ```
             -   The orders table consists of two columns:
 
                 -   The id column is the primary key column that identifies the order.
@@ -1648,38 +2494,59 @@
             -   To insert data into a JSON column, you have to ensure that data
                 is in a valid JSON format.
 
-                -   `INSERT INTO orders (info) VALUES('{ "customer": "Lily Bush", "items": {"product": "Diaper","qty": 24}}'), ('{ "customer": "Josh William", "items": {"product": "Toy Car","qty": 1}}'), ('{ "customer": "Mary Clark", "items": {"product": "Toy Train","qty": 2}}');`
+                -   ```sql
+                    INSERT INTO orders (info)
+                    VALUES
+                    ('{ "customer": "Lily Bush", "items": {"product": "Diaper","qty": 24}}'),
+                    ('{ "customer": "Josh William", "items": {"product": "Toy Car","qty": 1}}'),
+                    ('{"customer": "Mary Clark", "items": {"product": "Toy Train","qty": 2}}');
+                    ```
 
         -   Querying Json Data
 
             -   To query JSON data, you use the SELECT statement, which is similar
                 to querying other native data types:
 
-                -   `SELECT info FROM orders;`
+                -   ```sql
+                    SELECT info FROM orders;
+                    ```
 
             -   PostgreSQL provides two native operators -> and ->> to help you
                 query JSON data.
 
                 -   The operator -> returns JSON object field by key.
 
-                    -   `SELECT info -> 'customer' AS customer FROM orders;`
+                    -   ```sql
+                        SELECT info -> 'customer' AS customer FROM orders;
+                        ```
 
                 -   The operator ->> returns JSON object field by text.
 
-                    -   `SELECT info ->> 'customer' AS customer FROM orders;`
+                    -   ```sql
+                        SELECT info ->> 'customer' AS customer FROM orders;
+                        ```
 
             -   Because -> operator returns a JSON object, you can chain it with
                 the operator ->> to retrieve a specific node. For example, the
                 following statement returns all products sold:
 
-                -   `SELECT info -> 'items' ->> 'product' as product FROM orders ORDER BY product;`
+                -   ```sql
+                    SELECT info -> 'items' ->> 'product' as product
+                    FROM orders
+                    ORDER BY product;
+                    ```
 
         -   Use Json Operator In Where Clause
 
             -   We can use the JSON operators in WHERE clause to filter the
                 returning rows.
 
-                -   `SELECT info ->> 'customer' AS customer, info -> 'items' ->> 'product' AS product FROM orders WHERE CAST ( info -> 'items' ->> 'qty' AS INTEGER) = 2;`
+                -   ```sql
+                    SELECT info ->> 'customer' AS customer,
+                    info -> 'items' ->> 'product' AS product
+                    FROM orders
+                    WHERE CAST ( info -> 'items' ->> 'qty' AS INTEGER) = 2;
+                    ```
 
             -   Notice that we used the type cast to convert the qty field
                 into INTEGER type and compare it with two.
@@ -1689,7 +2556,14 @@
             -   We can apply aggregate functions such as MIN, MAX, AVERAGE, SUM,
                 etc., to JSON data.
 
-                -   `SELECT MIN (CAST (info -> 'items' ->> 'qty' AS INTEGER)), MAX (CAST (info -> 'items' ->> 'qty' AS INTEGER)), SUM (CAST (info -> 'items' ->> 'qty' AS INTEGER)), AVG (CAST (info -> 'items' ->> 'qty' AS INTEGER)) FROM orders;`
+                -   ```sql
+                    SELECT
+                    MIN (CAST (info -> 'items' ->> 'qty' AS INTEGER)),
+                    MAX (CAST (info -> 'items' ->> 'qty' AS INTEGER)),
+                    SUM (CAST (info -> 'items' ->> 'qty' AS INTEGER)),
+                    AVG (CAST (info -> 'items'->> 'qty' AS INTEGER))
+                    FROM orders;
+                    ```
 
         -   PostgreSql Json Functions
 
@@ -1697,7 +2571,10 @@
 
                 -   The json_each() function allows us to expand the outermost
                     JSON object into a set of key-value pairs.
-                -   `SELECT json_each (info) FROM orders;`
+                -   ```sql
+                    SELECT json_each (info)
+                    FROM orders;
+                    ```
                 -   If you want to get a set of key-value pairs as text, you
                     use the json_each_text() function instead.
 
@@ -1705,15 +2582,24 @@
 
                 -   To get a set of keys in the outermost JSON object, you use the
                     json_object_keys() function.
-                -   `SELECT json_object_keys (info->'items') FROM orders;`
+                -   ```sql
+                    SELECT json_object_keys (info->'items')
+                    FROM orders;
+                    ```
 
             -   json_typeof function
 
                 -   The json_typeof() function returns type of the outermost JSON
                     value as a string. It can be number, boolean, null, object,
                     array, and string.
-                -   `SELECT json_typeof (info->'items') FROM orders;`
-                -   `SELECT json_typeof (info->'items'->'qty') FROM orders;`
+                -   ```sql
+                    SELECT json_typeof (info->'items')
+                    FROM orders;
+                    ```
+                -   ```sql
+                    SELECT json_typeof (info->'items'->'qty')
+                    FROM orders;
+                    ```
 
     -   **_USER DEFINED DATA TYPES_**
 
@@ -1734,7 +2620,15 @@
 
             -   Example
 
-                -   `CREATE TABLE mailing_list ( id SERIAL PRIMARY KEY, first_name VARCHAR NOT NULL, last_name VARCHAR NOT NULL, email VARCHAR NOT NULL, CHECK ( first_name !~ '\s' AND last_name !~ '\s' ) );`
+                -   ```sql
+                    CREATE TABLE mailing_list (
+                        id SERIAL PRIMARY KEY,
+                        first_name VARCHAR NOT NULL,
+                        last_name VARCHAR NOT NULL,
+                        email VARCHAR NOT NULL,
+                        CHECK ( first_name !~ '\s' AND last_name !~ '\s' )
+                        );
+                    ```
                 -   In this table, both first_name and last_name columns do not
                     accept null and spaces.
 
@@ -1743,19 +2637,34 @@
             -   To get all domains in a specific schema, you use the following
                 query:
 
-                -   `SELECT typname FROM pg_catalog.pg_type JOIN pg_catalog.pg_namespace ON pg_namespace.oid = pg_type.typnamespace WHERE typtype = 'd' and nspname = '<schema_name>';`
+                -   ```sql
+                    SELECT typname
+                    FROM pg_catalog.pg_type
+                    JOIN pg_catalog.pg_namespace
+                    ON pg_namespace.oid = pg_type.typnamespace
+                    WHERE typtype = 'd' and nspname = '<schema_name>';
+                    ```
 
             -   The following statement returns domains in the public schema of
                 the current database:
 
-                -   `SELECT typname FROM pg_catalog.pg_type JOIN pg_catalog.pg_namespace ON pg_namespace.oid = pg_type.typnamespace WHERE typtype = 'd' and nspname = 'public';`
+                -   ```sql
+                    SELECT typname
+                    FROM pg_catalog.pg_type
+                    JOIN pg_catalog.pg_namespace
+                    ON pg_namespace.oid = pg_type.typnamespace
+                    WHERE typtype = 'd' and nspname = 'public';
+                    ```
 
         -   PostgreSQL CREATE TYPE
 
             -   The CREATE TYPE statement allows you to create a composite type,
                 which can be used as the return type of a function.
             -   ```sql
-                CREATE TYPE film_summary AS ( film_id INT, title VARCHAR, release_year SMALLINT );
+                 CREATE TYPE film_summary AS (
+                     film_id INT,
+                     title VARCHAR,
+                     release_year SMALLINT );
                 ```
             -   ```sql
                 CREATE OR REPLACE FUNCTION get_film_summary (f_id INT)
@@ -1793,14 +2702,14 @@
 
             -   Syntax
 
-                -   ````sql
+                -   ```sql
                     CASE
                     WHEN condition_1 THEN result_1
                     WHEN condition_2 THEN result_2
                     [WHEN ...]
                     [ELSE else_result]
-                    END```
-                    ````
+                    END
+                    ```
                 -   In this syntax, each condition (condition_1, condition_2…) is
                     a boolean expression that returns either true or false.
                 -   When a condition evaluates to false, the CASE expression
@@ -1809,7 +2718,7 @@
 
             -   Example
 
-                -   ````sql
+                -   ```sql
                     SELECT title,
                     length,
                     CASE
@@ -1820,12 +2729,12 @@
                     WHEN length> 120 THEN 'Long'
                     END duration
                     FROM film
-                    ORDER BY title;```
-                    ````
+                    ORDER BY title;
+                    ```
 
         -   Using Case With An Aggregate Function Example
 
-            -   ````sql
+            -   ```sql
                 SELECT
                 SUM (CASE
                 WHEN rental_rate = 0.99 THEN 1
@@ -1845,8 +2754,8 @@
                 END
                 ) AS "Premium"
                 FROM
-                film;```
-                ````
+                film;
+                ```
 
         -   Simple PostgreSQL Case Expression
 
@@ -1859,12 +2768,13 @@
                     [WHEN ...]
                     ELSE
                     else_result
-                    END```
+                    END
+                    ```
                     ````
 
             -   Example
 
-                -   ````sql
+                -   ```sql
                     SELECT title,
                     rating,
                     CASE rating
@@ -1875,12 +2785,12 @@
                     WHEN 'NC-17' THEN 'Adults Only'
                     END rating_description
                     FROM film
-                    ORDER BY title;```
-                    ````
+                    ORDER BY title;
+                    ```
 
         -   Using Simple PostgreSQL Case Expression With Aggregate Function Example
 
-            -   ````sql
+            -   ```sql
                 SELECT
                 SUM(CASE rating
                 WHEN 'G' THEN 1
@@ -1902,16 +2812,16 @@
                 WHEN 'NC-17' THEN 1
                 ELSE 0
                 END) "Adults Only"
-                FROM film;```
-                ````
+                FROM film;
+                ```
 
     -   **_COALESCE => to returns the first non-null argument._**
 
         -   Syntax
 
-            -   ````sql
-                COALESCE (argument_1, argument_2, …);```
-                ````
+            -   ```sql
+                COALESCE (argument_1, argument_2, …);
+                ```
 
         -   The COALESCE function accepts an unlimited number of arguments. It
             returns the first argument that is not null. If all arguments are null,
@@ -1922,38 +2832,38 @@
 
         -   Example
 
-            -   ````sql
+            -   ```sql
                 SELECT
                 product,
                 (price - COALESCE(discount,0)) AS net_price
                 FROM
-                items;```
-                ````
+                items;
+                ```
 
         -   Usage With Case Expression
 
-            -   ````sql
+            -   ```sql
                 SELECT
                 product,
                 (price - COALESCE(discount,0)) AS net_price
                 FROM
-                items;```
-                ````
+                items;
+                ```
 
     -   **_NULLIF => to handle null values._**
 
         -   Syntax
 
-            -   ````sql
-                NULLIF(argument_1,argument_2);```
-                ````
+            -   ```sql
+                NULLIF(argument_1,argument_2);
+                ```
 
         -   The NULLIF function returns a null value if argument_1 equals to
             argument_2, otherwise it returns argument_1.
 
         -   Example
 
-            -   ````sql
+            -   ```sql
                 SELECT
                 id,
                 title,
@@ -1962,12 +2872,12 @@
                 LEFT (body, 40)
                 )
                 FROM
-                posts;```
-                ````
+                posts;
+                ```
 
         -   Use NULLIF To Prevent Division-By-Zero Error
 
-            -   ````sql
+            -   ```sql
                 SELECT
                 (
                 SUM (
@@ -1990,74 +2900,74 @@
                 )
                 ) \* 100 AS "Male/Female ratio"
                 FROM
-                members;```
-                ````
+                members;
+                ```
 
     -   **_CAST => to convert a value of one type to another._**
 
         -   Syntax
 
-            -   ````sql
-                CAST ( expression AS target_type );```
-                ````
+            -   ```sql
+                CAST ( expression AS target_type );
+                ```
 
         -   PostgreSQL Type Cast :: Operator
 
             -   Example
 
-                -   ````sql
+                -   ```sql
                     SELECT
                     '100'::INTEGER,
-                    '01-OCT-2015'::DATE;```
-                    ````
+                    '01-OCT-2015'::DATE;
+                    ```
 
         -   Cast A String To An Integer Example
 
-            -   ````sql
+            -   ```sql
                 SELECT
-                CAST ('100' AS INTEGER);```
-                ````
+                CAST ('100' AS INTEGER);
+                ```
 
         -   Cast A String To A Date Example
 
-            -   ````sql
+            -   ```sql
                 SELECT
                 CAST ('2015-01-01' AS DATE), -- convert to January 1st 2015
-                CAST ('01-OCT-2015' AS DATE); -- convert to October 1st 2015```
-                ````
+                CAST ('01-OCT-2015' AS DATE); -- convert to October 1st 2015
+                ```
 
         -   Cast A String To A Double Example
 
-            -   ````sql
+            -   ```sql
                 SELECT
-                CAST ('10.2' AS DOUBLE);```
-                ````
+                CAST ('10.2' AS DOUBLE);
+                ```
 
         -   Cast A String To A Boolean Example
 
-            -   ````sql
+            -   ```sql
                 SELECT
                 CAST('true' AS BOOLEAN),
                 CAST('false' as BOOLEAN),
                 CAST('T' as BOOLEAN),
-                CAST('F' as BOOLEAN);```
-                ````
+                CAST('F' as BOOLEAN);
+                ```
 
         -   Convert A String To A Timestamp Example
 
-            -   ````sql
-                SELECT '2019-06-15 14:30:20'::timestamp;```
-                ````
+            -   ```sql
+                SELECT '2019-06-15 14:30:20'::timestamp;
+                ```
 
         -   Convert A String To A Interval Example
 
-            -   ````sql
+            -   ```sql
                 SELECT '15 minute'::interval,
                 '2 hour'::interval,
                 '1 day'::interval,
                 '2 week'::interval,
-                '3 month'::interval;```
-                ````
+                '3 month'::interval;
+                ```
 
 16. # PSQL COMMANDS
 
@@ -2374,7 +3284,7 @@
             -   SUMMARY [ boolean ]
             -   FORMAT { TEXT | XML | JSON | YAML }
 
-        -   ANALYZE
+        -   **ANALYZE**
 
             -   The ANALYZE option causes the sql_statement to be executed first
                 and then actual run-time statistics in the returned information
@@ -2390,36 +3300,36 @@
                     BEGIN; EXPLAIN ANALYZE sql_statement; ROLLBACK;
                     ```
 
-        -   VERBOSE
+        -   **VERBOSE**
 
             -   The VERBOSE parameter allows you to show additional information
                 regarding the plan. This parameter sets to FALSE by default.
 
-        -   COSTS
+        -   **COSTS**
 
             -   The COSTS option includes the estimated startup and total costs
                 of each plan node, as well as the estimated number of rows and the
                 estimated width of each row in the query plan. The COSTS defaults
                 to TRUE.
 
-        -   BUFFERS
+        -   **BUFFERS**
 
             -   This parameter adds information to the buffer usage. BUFFERS only
                 can be used when ANALYZE is enabled. By default, the BUFFERS
                 parameter set to FALSE.
 
-        -   TIMING
+        -   **TIMING**
 
             -   This parameter includes the actual startup time and time spent in
                 each node in the output. The TIMING defaults to TRUE and it may only
                 be used when ANALYZE is enabled.
 
-        -   SUMMARY
+        -   **SUMMARY**
 
             -   The SUMMARY parameter adds summary information such as total
                 timing after the query plan. Note that when ANALYZE option is used,
                 the summary information is included by default.
 
-        -   FORMAT
+        -   **FORMAT**
             -   Specify the output format of the query plan such as TEXT, XML,
                 JSON, and YAML. This parameter is set to TEXT by default.

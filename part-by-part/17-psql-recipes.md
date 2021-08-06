@@ -226,7 +226,7 @@
             -   SUMMARY [ boolean ]
             -   FORMAT { TEXT | XML | JSON | YAML }
 
-        -   ANALYZE
+        -   **ANALYZE**
 
             -   The ANALYZE option causes the sql_statement to be executed first
                 and then actual run-time statistics in the returned information
@@ -242,36 +242,36 @@
                     BEGIN; EXPLAIN ANALYZE sql_statement; ROLLBACK;
                     ```
 
-        -   VERBOSE
+        -   **VERBOSE**
 
             -   The VERBOSE parameter allows you to show additional information
                 regarding the plan. This parameter sets to FALSE by default.
 
-        -   COSTS
+        -   **COSTS**
 
             -   The COSTS option includes the estimated startup and total costs
                 of each plan node, as well as the estimated number of rows and the
                 estimated width of each row in the query plan. The COSTS defaults
                 to TRUE.
 
-        -   BUFFERS
+        -   **BUFFERS**
 
             -   This parameter adds information to the buffer usage. BUFFERS only
                 can be used when ANALYZE is enabled. By default, the BUFFERS
                 parameter set to FALSE.
 
-        -   TIMING
+        -   **TIMING**
 
             -   This parameter includes the actual startup time and time spent in
                 each node in the output. The TIMING defaults to TRUE and it may only
                 be used when ANALYZE is enabled.
 
-        -   SUMMARY
+        -   **SUMMARY**
 
             -   The SUMMARY parameter adds summary information such as total
                 timing after the query plan. Note that when ANALYZE option is used,
                 the summary information is included by default.
 
-        -   FORMAT
+        -   **FORMAT**
             -   Specify the output format of the query plan such as TEXT, XML,
                 JSON, and YAML. This parameter is set to TEXT by default.

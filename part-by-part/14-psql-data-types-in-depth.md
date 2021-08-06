@@ -7,16 +7,28 @@
 
         -   To Check Boolean Column Are false
 
-            -   `SELECT * FROM table_name WHERE column_name = 'no';`
-            -   `SELECT * FROM table_name WHERE column_name = '0';`
+            -   ```sql
+                SELECT * FROM table_name WHERE column_name = 'no';
+                ```
+            -   ```sql
+                SELECT * FROM table_name WHERE column_name = '0';
+                ```
 
         -   To Check Boolean Column Are true
 
-            -   `SELECT * FROM table_name WHERE column_name = 't';`
-            -   `SELECT * FROM table_name WHERE column_name = '1';`
+            -   ```sql
+                SELECT * FROM table_name WHERE column_name = 't';
+                ```
+            -   ```sql
+                SELECT * FROM table_name WHERE column_name = '1';
+                ```
 
         -   Set A Default Value Of The Boolean Column
-            -   `ALTER TABLE table_name ALTER COLUMN column_name SET DEFAULT FALSE;`
+            -   ```sql
+                ALTER TABLE table_name
+                ALTER COLUMN column_name
+                SET DEFAULT FALSE;
+                ```
 
     -   **_CHAR, VARCHAR AND TEXT_**
 
@@ -85,27 +97,41 @@
 
         -   Output A PostgreSQL Date Value In A Specific Format
 
-            -   `SELECT column_name (NOW() :: DATE, 'dd/mm/yyyy');`
+            -   ```sql
+                SELECT column_name (NOW() :: DATE, 'dd/mm/yyyy');
+                ```
 
         -   Get The Interval Between Two dates
 
-            -   `SELECT username, now() - creating_date AS age FROM accounts;`
+            -   ```sql
+                SELECT username, now() - creating_date AS age FROM accounts;
+                ```
 
         -   Calculate Ages In Years, Months And Days
 
             -   To calculate age at the current date in years, months, and days,
                 you use the AGE() function.
-            -   `SELECT first_name, lastname, AGE(birth_date) FROM employees;`
+            -   ```sql
+                SELECT first_name, lastname, AGE(birth_date) FROM employees;
+                ```
 
         -   If you pass a date value to the AGE() function, it will subtract that
             date value from the current date. If you pass two arguments to the AGE()
             function, it will subtract the second argument from the first argument.
 
-            -   `SELECT first_name, lastname, AGE('2015-01-01', birth_date) FROM employees;`
+            -   ```sql
+                SELECT first_name, lastname, AGE('2015-01-01', birth_date) FROM employees;
+                ```
 
         -   Extract Year, Quarter, Month, Week, Day From A Date Value
 
-            -   `SELECT employee_id, first_name, last_name, EXTRACT (YEAR FROM birth_date) AS YEAR, EXTRACT (MONTH FROM birth_date) AS MONTH, EXTRACT (DAY FROM birth_date) AS DAY FROM employees;`
+            -   ```sql
+                SELECT employee_id, first_name, last_name,
+                EXTRACT (YEAR FROM birth_date) AS YEAR,
+                EXTRACT (MONTH FROM birth_date) AS MONTH,
+                EXTRACT (DAY FROM birth_date) AS DAY
+                FROM employees;
+                ```
 
     -   **_TIMESTAMP_**
 
@@ -125,36 +151,50 @@
 
         -   To Change The timezone
 
-            -   `Set timezone = 'your_timezone_location';`
+            -   ```sql
+                Set timezone = 'your_timezone_location';
+                ```
 
         -   To Show Timezone
 
-            -   `SHOW TIMEZONE;`
+            -   ```sql
+                SHOW TIMEZONE;
+                ```
 
         -   Timestamp Functions
 
             -   To get current timestamp
 
-                -   `SELECT NOW();`
+                -   ```sql
+                    SELECT NOW();
+                    ```
 
             -   To get current time
 
-                -   `SELECT CURRENT_TIME;`
+                -   ```sql
+                    SELECT CURRENT_TIME;
+                    ```
 
             -   To get timeofday in the string format
-                -   `SELECT TIMEOFDAY;`
+                -   ```sql
+                    SELECT TIMEOFDAY;
+                    ```
 
         -   Convert Between Timezones
 
             -   To convert a timestamp to another time zone, you use the
                 timezone(zone, timestamp) function.
-            -   `SELECT timezone('America/New_York','2016-06-01 00:00');`
+            -   ```sql
+                SELECT timezone('America/New_York','2016-06-01 00:00');
+                ```
             -   we pass the timestamp as a string to the timezone() function,
                 PostgreSQL casts it to timestamptz implicitly. It is better to cast
                 a timestamp value to the timestamptz data type explicitly as the
                 following statement:
 
-                -   `SELECT timezone('America/New_York','2016-06-01 00:00'::timestamptz);`
+                -   ```sql
+                    SELECT timezone('America/New_York','2016-06-01 00:00'::timestamptz);
+                    ```
 
     -   **_INTERVAL_**
 
@@ -175,7 +215,9 @@
 
         -   Example
 
-            -   `SELECT NOW(), NOW() - INTERVAL '1 year 3 month 20 minute' AS "3 months 20 minutes ago of last year";`
+            -   ```sql
+                SELECT NOW(), NOW() INTERVAL '1 year 3 month 20 minute' AS "3 months 20 minutes ago of last year";
+                ```
 
         -   Interval Input Format
 
@@ -223,20 +265,30 @@
         -   Interval operators
 
             -   You can apply the arithmetic operator ( +, -, \*, etc.,) to the interval values.
-            -   `SELECT INTERVAL '2h 50m' + INTERVAL '10m'; -- 03:00:00`
-            -   `SELECT INTERVAL '2h 50m' - INTERVAL '50m'; -- 02:00:00`
-            -   `SELECT 600 \* INTERVAL '1 minute'; -- 10:00:00`
+            -   ```sql
+                SELECT INTERVAL '2h 50m' + INTERVAL '10m'; -- 03:00:00
+                ```
+            -   ```sql
+                SELECT INTERVAL '2h 50m' - INTERVAL '50m'; -- 02:00:00
+                ```
+            -   ```sql
+                SELECT 600 \* INTERVAL '1 minute'; -- 10:00:00
+                ```
 
         -   Converting PostgreSQL Interval To String
 
             -   To convert an interval value to string, you use the TO_CHAR()
                 function.
 
-                -   `TO_CHAR(interval,format)`
+                -   ```sql
+                    TO_CHAR(interval,format)
+                    ```
 
             -   Example
 
-                -   `SELECT TO_CHAR( INTERVAL '17h 20m 05s', 'HH24:MI:SS' );`
+                -   ```sql
+                    SELECT TO_CHAR( INTERVAL '17h 20m 05s', 'HH24:MI:SS' );
+                    ```
 
         -   Extracting Data From A 0PostgreSQL Interval
 
@@ -245,11 +297,15 @@
 
             -   Syntax
 
-                -   `EXTRACT(field FROM interval)`
+                -   ```sql
+                    EXTRACT(field FROM interval)
+                    ```
 
             -   Example
 
-                -   `SELECT EXTRACT ( MINUTE FROM INTERVAL '5 hours 21 minutes' );`
+                -   ```sql
+                    SELECT EXTRACT ( MINUTE FROM INTERVAL '5 hours 21 minutes' );
+                    ```
 
         -   Adjusting Interval Values
 
@@ -257,18 +313,24 @@
                 that allows you to adjust the interval of 30-day as one month and
                 the interval of 24-hour as one day:
 
-                -   `SELECT justify_days(INTERVAL '30 days'), -- 1 mon justify_hours(INTERVAL '24 hours'); -- 1 day`
+                -   ```sql
+                    SELECT justify_days(INTERVAL '30 days'), -- 1 mon justify_hours(INTERVAL '24 hours'); -- 1 day
+                    ```
 
             -   The justify_interval function adjusts interval using justifydays
                 and justifyhours with additional sign adjustments:
 
-                -   `SELECT justify_interval(interval '1 year -1 hour'); -- 11 mons 29 days 23:00:00`
+                -   ```sql
+                    SELECT justify_interval(interval '1 year -1 hour'); -- 11 mons 29 days 23:00:00
+                    ```
 
     -   **_TIME_**
 
         -   Syntax
 
-            -   `column_name TIME(precision);`
+            -   ```sql
+                column_name TIME(precision);
+                ```
             -   A time value may have a precision up to 6 digits. The precision
                 specifies the number of fractional digits placed in the second field.
 
@@ -290,30 +352,50 @@
 
         -   Getting Current Time
 
-            -   `SELECT CURRENT_TIME;`
-            -   `SELECT CURRENT_TIME(5); -- 5 is the precision`
+            -   ```sql
+                SELECT CURRENT_TIME;
+                ```
+            -   ```sql
+                SELECT CURRENT_TIME(5); -- 5 is the precision
+                ```
 
         -   Getting Local Time
 
-            -   `SELECT LOCALTIME;`
-            -   `SELECT LOCALTIME(5); -- 5 is the precision`
+            -   ```sql
+                SELECT LOCALTIME;
+                ```
+            -   ```sql
+                SELECT LOCALTIME(5); -- 5 is the precision
+                ```
 
         -   Converting Time To A Different Time Zone
 
             -   [TIME with time zone] AT TIME ZONE time_zone
-            -   `SELECT LOCALTIME AT TIME ZONE 'UTC-7';`
+            -   ```sql
+                SELECT LOCALTIME AT TIME ZONE 'UTC-7';
+                ```
 
         -   Extracting Hours, Minutes, Seconds From A Time Value
 
-            -   `SELECT LOCALTIME, EXTRACT (HOUR FROM LOCALTIME) as hour, EXTRACT (MINUTE FROM LOCALTIME) as minute, EXTRACT (SECOND FROM LOCALTIME) as second, EXTRACT (milliseconds FROM LOCALTIME) as milliseconds;`
+            -   ```sql
+                SELECT LOCALTIME,
+                EXTRACT (HOUR FROM LOCALTIME) as hour,
+                EXTRACT (MINUTE FROM LOCALTIME) as minute,
+                EXTRACT (SECOND FROM LOCALTIME) as second,
+                EXTRACT (milliseconds FROM LOCALTIME) as milliseconds;
+                ```
 
         -   Arithmetic Operations On Time values
 
             -   PostgreSQL allows you to apply arithmetic operators such as +, -,
                 and \* on time values and between time and interval values.
 
-                -   `SELECT time '10:00' - time '02:00' AS result; -- 08:00:00`
-                -   `SELECT LOCALTIME + interval '2 hours' AS result; -- Adding 2 hour to local time`
+                -   ```sql
+                    SELECT time '10:00' - time '02:00' AS result; -- 08:00:00
+                    ```
+                -   ```sql
+                    SELECT LOCALTIME + interval '2 hours' AS result; -- Adding 2 hour to local time
+                    ```
 
     -   **_UUID_**
 
@@ -337,23 +419,31 @@
             -   To install the uuid-ossp module, you use the CREATE EXTENSION
                 statement as follows:
 
-                -   `CREATE EXTENSION IF NOT EXISTS "uuid-ossp";`
+                -   ```sql
+                    CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
+                    ```
 
             -   To generate the UUID values based on the combination of computer’s
                 MAC address, current timestamp, and a random value, you use the
                 uuid_generate_v1() function:
 
-                -   `SELECT uuid_generate_v1();`
+                -   ```sql
+                    SELECT uuid_generate_v1();
+                    ```
 
             -   To generate the UUID values based on the combination of computer’s
                 MAC address, current timestamp, and a random value, you use the
                 uuid_generate_v1() function:
 
-                -   `SELECT uuid_generate_v4();`
+                -   ```sql
+                    SELECT uuid_generate_v4();
+                    ```
 
         -   Creating Table With UUID Column
 
-            -   `CREATE TABLE table_name ( ... column_name uuid DEFAULT uuid_generate_v4(); ... );`
+            -   ```sql
+                CREATE TABLE table_name ( ... column_name uuid DEFAULT uuid_generate_v4(); ... );
+                ```
 
     -   **_ARRAY_**
 
@@ -362,12 +452,23 @@
 
         -   Creating Table With Array Column
 
-            -   `CREATE TABLE contacts ( id serial PRIMARY KEY, name VARCHAR (100), phones TEXT [] );`
+            -   ```sql
+                CREATE TABLE contacts ( id serial PRIMARY KEY, name VARCHAR (100), phones TEXT [] );
+                ```
 
         -   Inserting Array Values
 
-            -   `INSERT INTO contacts (name, phones) VALUES('John Doe',ARRAY [ '(408)-589-5846','(408)-589-5555' ]);`
-            -   `INSERT INTO contacts (name, phones) VALUES('Lily Bush','{"(408)-589-5841"}'), ('William Gate','{"(408)-589-5842","(408)-589-58423"}');` - When you use curly braces, you need to use single quotes ' to wrap the array and double quotes " to wrap text array items.
+            -   ```sql
+                INSERT INTO contacts (name, phones)
+                VALUES('John Doe',ARRAY [ '(408)-589-5846','(408)-589-5555' ]);
+                ```
+            -   ```sql
+                INSERT INTO contacts (name, phones)
+                VALUES('Lily Bush','{"(408)-589-5841"}'), ('William Gate','{"(408)-589-5842","(408)-589-58423"}');
+                ```
+
+                -   When you use curly braces, you need to use single quotes ' to
+                    wrap the array and double quotes " to wrap text array items.
 
         -   Query Array Data
 
@@ -375,7 +476,10 @@
                 brackets []. By default, PostgreSQL uses one-based numbering for
                 array elements. It means the first array element starts with number 1.
 
-                -   `SELECT column_name [1] FROM table_name; -- To get first item of array.`
+                -   ```sql
+                    SELECT column_name [1]
+                    FROM table_name; -- To get first item of array.
+                    ```
 
             -   We can use array element in the WHERE clause as the condition to
                 filter the rows.
@@ -386,24 +490,39 @@
                 whole array. The following statement updates the second phone number
                 of William Gate.
 
-                -   `UPDATE contacts SET phones [2] = '(408)-589-5843' WHERE ID = 3;`
+                -   ```sql
+                    UPDATE contacts
+                    SET phones [2] = '(408)-589-5843'
+                    WHERE ID = 3;
+                    ```
 
             -   To change whole array:
 
-                -   `UPDATE contacts SET phones = '(408)-589-5843' WHERE ID = 3;`
+                -   ```sql
+                    UPDATE contacts
+                    SET phones = '(408)-589-5843'
+                    WHERE ID = 3;
+                    ```
 
         -   Search In Array
 
             -   ANY() Function
 
-                -   `SELECT name, phones FROM contacts WHERE '(408)-589-5555' = ANY (phones);`
+                -   ```sql
+                    SELECT name, phones
+                    FROM contacts
+                    WHERE '(408)-589-5555' = ANY (phones);
+                    ```
 
         -   Expand Arrays
 
             -   PostgreSQL provides the unnest() function to expand an array to
                 a list of rows.
 
-                -   `SELECT name, unnest(phones) FROM contacts;`
+                -   ```sql
+                    SELECT name, unnest(phones)
+                    FROM contacts;
+                    ```
 
     -   **_HSTORE_**
 
@@ -412,19 +531,36 @@
 
         -   Enable Hstore Extension
 
-            -   `CREATE EXTENSION hstore;`
+            -   ```sql
+                CREATE EXTENSION hstore;
+                ```
 
         -   Create A Table With Hstore Data Type
 
-            -   `CREATE TABLE books ( id SERIAL PRIMARY KEY, title VARCHAR (255), attr hstore );`
+            -   ```sql
+                CREATE TABLE books (
+                    id SERIAL PRIMARY KEY,
+                    title VARCHAR (255),
+                    attr hstore );
+                ```
 
         -   Insert Data Into Hstore Column
 
-            -   `INSERT INTO books (title, attr) VALUES ( 'PostgreSQL Tutorial', '"paperback" => "243", "publisher" => "postgresqltutorial.com", "language" => "English", "ISBN-13" => "978-1449370000", "weight" => "11.2 ounces"' );`
+            -   ```sql
+                INSERT INTO books (title, attr)
+                VALUES ( 'PostgreSQL Tutorial',
+                '"paperback" => "243",
+                "publisher" => "postgresqltutorial.com",
+                "language" => "English",
+                "ISBN-13" => "978-1449370000",
+                "weight"=> "11.2 ounces"' );
+                ```
 
         -   Query Data From An Hstore Column
 
-            -   `SELECT attr FROM books;`
+            -   ```sql
+                SELECT attr FROM books;
+                ```
 
         -   Query Value For A Specific Key
 
@@ -434,7 +570,9 @@
             -   If we want to know ISBN-13 of all available books in the books
                 table, we can use the -> operator as follows:
 
-                -   `SELECT attr -> 'ISBN-13' AS isbn FROM books;`
+                -   ```sql
+                    SELECT attr -> 'ISBN-13' AS isbn FROM books;
+                    ```
 
         -   Use Value In The Where Clause
 
@@ -442,34 +580,52 @@
                 rows whose values of the hstore column match the input value
             -   The following query retrieves the title and weight of a book that has ISBN-13 value matches 978-1449370000:
 
-                -   `SELECT title, attr -> 'weight' AS weight FROM books WHERE attr -> 'ISBN-13' = '978-1449370000';`
+                -   ```sql
+                    SELECT title, attr -> 'weight' AS weight
+                    FROM books
+                    WHERE attr -> 'ISBN-13' = '978-1449370000';
+                    ```
 
         -   Add key-value pairs to existing rows
 
             -   Syntax
 
-                -   `UPDATE books SET attr = attr || '"freeshipping"=>"yes"' :: hstore;`
+                -   ```sql
+                    UPDATE books SET attr = attr || '"freeshipping"=>"yes"' :: hstore;
+                    ```
 
         -   Update Existing Key-Value Pair
 
             -   Syntax
 
-                -   `UPDATE books SET attr = attr || '"freeshipping"=>"no"' :: hstore;`
+                -   ```sql
+                    UPDATE books SET attr = attr || '"freeshipping"=>"no"' :: hstore;
+                    ```
 
         -   Remove Existing Key-Value Pair
 
-            -   `UPDATE books SET attr = delete(attr, 'freeshipping');`
+            -   ```sql
+                UPDATE books SET attr = delete(attr, 'freeshipping');
+                ```
 
         -   Check For A Specific Key In Hstore Column
 
             -   You can check for a specific key in an hstore column using the
                 ? operator in the WHERE clause.
-            -   `SELECT title, attr->'publisher' as publisher, attr FROM books WHERE attr ? 'publisher';`
+            -   ```sql
+                SELECT title, attr->'publisher' as publisher, attr
+                FROM books
+                WHERE attr ? 'publisher';
+                ```
 
         -   Check For A Key-Value Pair
 
             -   You can query based on the hstore key-value pair using the @> operator.
-            -   `SELECT title FROM books WHERE attr @> '"weight"=>"11.2 ounces"' :: hstore;`
+            -   ```sql
+                SELECT title
+                FROM books
+                WHERE attr @> '"weight"=>"11.2 ounces"' :: hstore;
+                ```
 
         -   Query Rows That Contain Multiple Specified keys
 
@@ -477,44 +633,60 @@
                 using ?& operator.
             -   To check if a row whose hstore column contains any key from a
                 list of keys, you use the ?| operator instead of the ?& operator.
-            -   `SELECT title FROM books WHERE attr ?& ARRAY [ 'language', 'weight' ];`
+            -   ```sql
+                SELECT title
+                FROM books
+                WHERE attr ?& ARRAY [ 'language', 'weight' ];
+                ```
 
         -   Get All Keys From An Hstore Column
 
             -   To get all keys from an hstore column, you use the akeys()
                 function as follows:
 
-                -   `SELECT akeys (attr) FROM books;`
+                -   ```sql
+                    SELECT akeys (attr) FROM books;
+                    ```
 
             -   Or you can use the skey() function if you want PostgreSQL
                 to return the result as a set.
 
-                -   `SELECT skeys (attr) FROM books;`
+                -   ```sql
+                    SELECT skeys (attr) FROM books;
+                    ```
 
         -   Get All Values From An Hstore Column
 
             -   Like keys, you can get all values from an hstore column using the
                 avals() function in the form of arrays.
 
-                -   `SELECT avals (attr) FROM books;`
+                -   ```sql
+                    SELECT avals (attr) FROM books;
+                    ```
 
             -   Or you can use the svals() function if you want to get the
                 result as a set.
 
-                -   `SELECT svals (attr) FROM books;`
+                -   ```sql
+                    SELECT svals (attr) FROM books;
+                    ```
 
         -   Convert Hstore Data To Json
 
             -   PostgreSQL provides the hstore_to_json() function to convert
                 hstore data to JSON.
 
-                -   `SELECT title, hstore_to_json (attr) AS json FROM books;`
+                -   ```sql
+                    SELECT title, hstore_to_json (attr) AS json FROM books;
+                    ```
 
         -   Convert Hstore Data To Sets
 
             -   To convert hstore data to sets, you use the each() function as follows:
 
-                -   `SELECT title, (EACH(attr) ).* FROM books;`
+                -   ```sql
+                    SELECT title, (EACH(attr) ).* FROM books;
+                    ```
 
     -   **_JSON_**
 
@@ -526,7 +698,11 @@
 
         -   Syntax
 
-            -   `CREATE TABLE orders ( id serial NOT NULL PRIMARY KEY, info json NOT NULL );`
+            -   ```sql
+                CREATE TABLE orders (
+                    id serial NOT NULL PRIMARY KEY,
+                    info json NOT NULL );
+                ```
             -   The orders table consists of two columns:
 
                 -   The id column is the primary key column that identifies the order.
@@ -537,38 +713,59 @@
             -   To insert data into a JSON column, you have to ensure that data
                 is in a valid JSON format.
 
-                -   `INSERT INTO orders (info) VALUES('{ "customer": "Lily Bush", "items": {"product": "Diaper","qty": 24}}'), ('{ "customer": "Josh William", "items": {"product": "Toy Car","qty": 1}}'), ('{ "customer": "Mary Clark", "items": {"product": "Toy Train","qty": 2}}');`
+                -   ```sql
+                    INSERT INTO orders (info)
+                    VALUES
+                    ('{ "customer": "Lily Bush", "items": {"product": "Diaper","qty": 24}}'),
+                    ('{ "customer": "Josh William", "items": {"product": "Toy Car","qty": 1}}'),
+                    ('{"customer": "Mary Clark", "items": {"product": "Toy Train","qty": 2}}');
+                    ```
 
         -   Querying Json Data
 
             -   To query JSON data, you use the SELECT statement, which is similar
                 to querying other native data types:
 
-                -   `SELECT info FROM orders;`
+                -   ```sql
+                    SELECT info FROM orders;
+                    ```
 
             -   PostgreSQL provides two native operators -> and ->> to help you
                 query JSON data.
 
                 -   The operator -> returns JSON object field by key.
 
-                    -   `SELECT info -> 'customer' AS customer FROM orders;`
+                    -   ```sql
+                        SELECT info -> 'customer' AS customer FROM orders;
+                        ```
 
                 -   The operator ->> returns JSON object field by text.
 
-                    -   `SELECT info ->> 'customer' AS customer FROM orders;`
+                    -   ```sql
+                        SELECT info ->> 'customer' AS customer FROM orders;
+                        ```
 
             -   Because -> operator returns a JSON object, you can chain it with
                 the operator ->> to retrieve a specific node. For example, the
                 following statement returns all products sold:
 
-                -   `SELECT info -> 'items' ->> 'product' as product FROM orders ORDER BY product;`
+                -   ```sql
+                    SELECT info -> 'items' ->> 'product' as product
+                    FROM orders
+                    ORDER BY product;
+                    ```
 
         -   Use Json Operator In Where Clause
 
             -   We can use the JSON operators in WHERE clause to filter the
                 returning rows.
 
-                -   `SELECT info ->> 'customer' AS customer, info -> 'items' ->> 'product' AS product FROM orders WHERE CAST ( info -> 'items' ->> 'qty' AS INTEGER) = 2;`
+                -   ```sql
+                    SELECT info ->> 'customer' AS customer,
+                    info -> 'items' ->> 'product' AS product
+                    FROM orders
+                    WHERE CAST ( info -> 'items' ->> 'qty' AS INTEGER) = 2;
+                    ```
 
             -   Notice that we used the type cast to convert the qty field
                 into INTEGER type and compare it with two.
@@ -578,7 +775,14 @@
             -   We can apply aggregate functions such as MIN, MAX, AVERAGE, SUM,
                 etc., to JSON data.
 
-                -   `SELECT MIN (CAST (info -> 'items' ->> 'qty' AS INTEGER)), MAX (CAST (info -> 'items' ->> 'qty' AS INTEGER)), SUM (CAST (info -> 'items' ->> 'qty' AS INTEGER)), AVG (CAST (info -> 'items' ->> 'qty' AS INTEGER)) FROM orders;`
+                -   ```sql
+                    SELECT
+                    MIN (CAST (info -> 'items' ->> 'qty' AS INTEGER)),
+                    MAX (CAST (info -> 'items' ->> 'qty' AS INTEGER)),
+                    SUM (CAST (info -> 'items' ->> 'qty' AS INTEGER)),
+                    AVG (CAST (info -> 'items'->> 'qty' AS INTEGER))
+                    FROM orders;
+                    ```
 
         -   PostgreSql Json Functions
 
@@ -586,7 +790,10 @@
 
                 -   The json_each() function allows us to expand the outermost
                     JSON object into a set of key-value pairs.
-                -   `SELECT json_each (info) FROM orders;`
+                -   ```sql
+                    SELECT json_each (info)
+                    FROM orders;
+                    ```
                 -   If you want to get a set of key-value pairs as text, you
                     use the json_each_text() function instead.
 
@@ -594,15 +801,24 @@
 
                 -   To get a set of keys in the outermost JSON object, you use the
                     json_object_keys() function.
-                -   `SELECT json_object_keys (info->'items') FROM orders;`
+                -   ```sql
+                    SELECT json_object_keys (info->'items')
+                    FROM orders;
+                    ```
 
             -   json_typeof function
 
                 -   The json_typeof() function returns type of the outermost JSON
                     value as a string. It can be number, boolean, null, object,
                     array, and string.
-                -   `SELECT json_typeof (info->'items') FROM orders;`
-                -   `SELECT json_typeof (info->'items'->'qty') FROM orders;`
+                -   ```sql
+                    SELECT json_typeof (info->'items')
+                    FROM orders;
+                    ```
+                -   ```sql
+                    SELECT json_typeof (info->'items'->'qty')
+                    FROM orders;
+                    ```
 
     -   **_USER DEFINED DATA TYPES_**
 
@@ -623,7 +839,15 @@
 
             -   Example
 
-                -   `CREATE TABLE mailing_list ( id SERIAL PRIMARY KEY, first_name VARCHAR NOT NULL, last_name VARCHAR NOT NULL, email VARCHAR NOT NULL, CHECK ( first_name !~ '\s' AND last_name !~ '\s' ) );`
+                -   ```sql
+                    CREATE TABLE mailing_list (
+                        id SERIAL PRIMARY KEY,
+                        first_name VARCHAR NOT NULL,
+                        last_name VARCHAR NOT NULL,
+                        email VARCHAR NOT NULL,
+                        CHECK ( first_name !~ '\s' AND last_name !~ '\s' )
+                        );
+                    ```
                 -   In this table, both first_name and last_name columns do not
                     accept null and spaces.
 
@@ -632,19 +856,34 @@
             -   To get all domains in a specific schema, you use the following
                 query:
 
-                -   `SELECT typname FROM pg_catalog.pg_type JOIN pg_catalog.pg_namespace ON pg_namespace.oid = pg_type.typnamespace WHERE typtype = 'd' and nspname = '<schema_name>';`
+                -   ```sql
+                    SELECT typname
+                    FROM pg_catalog.pg_type
+                    JOIN pg_catalog.pg_namespace
+                    ON pg_namespace.oid = pg_type.typnamespace
+                    WHERE typtype = 'd' and nspname = '<schema_name>';
+                    ```
 
             -   The following statement returns domains in the public schema of
                 the current database:
 
-                -   `SELECT typname FROM pg_catalog.pg_type JOIN pg_catalog.pg_namespace ON pg_namespace.oid = pg_type.typnamespace WHERE typtype = 'd' and nspname = 'public';`
+                -   ```sql
+                    SELECT typname
+                    FROM pg_catalog.pg_type
+                    JOIN pg_catalog.pg_namespace
+                    ON pg_namespace.oid = pg_type.typnamespace
+                    WHERE typtype = 'd' and nspname = 'public';
+                    ```
 
         -   PostgreSQL CREATE TYPE
 
             -   The CREATE TYPE statement allows you to create a composite type,
                 which can be used as the return type of a function.
             -   ```sql
-                CREATE TYPE film_summary AS ( film_id INT, title VARCHAR, release_year SMALLINT );
+                 CREATE TYPE film_summary AS (
+                     film_id INT,
+                     title VARCHAR,
+                     release_year SMALLINT );
                 ```
             -   ```sql
                 CREATE OR REPLACE FUNCTION get_film_summary (f_id INT)

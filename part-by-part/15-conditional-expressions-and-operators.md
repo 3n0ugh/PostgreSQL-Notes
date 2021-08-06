@@ -13,14 +13,14 @@
 
             -   Syntax
 
-                -   ````sql
+                -   ```sql
                     CASE
                     WHEN condition_1 THEN result_1
                     WHEN condition_2 THEN result_2
                     [WHEN ...]
                     [ELSE else_result]
-                    END```
-                    ````
+                    END
+                    ```
                 -   In this syntax, each condition (condition_1, condition_2…) is
                     a boolean expression that returns either true or false.
                 -   When a condition evaluates to false, the CASE expression
@@ -29,7 +29,7 @@
 
             -   Example
 
-                -   ````sql
+                -   ```sql
                     SELECT title,
                     length,
                     CASE
@@ -40,12 +40,12 @@
                     WHEN length> 120 THEN 'Long'
                     END duration
                     FROM film
-                    ORDER BY title;```
-                    ````
+                    ORDER BY title;
+                    ```
 
         -   Using Case With An Aggregate Function Example
 
-            -   ````sql
+            -   ```sql
                 SELECT
                 SUM (CASE
                 WHEN rental_rate = 0.99 THEN 1
@@ -65,8 +65,8 @@
                 END
                 ) AS "Premium"
                 FROM
-                film;```
-                ````
+                film;
+                ```
 
         -   Simple PostgreSQL Case Expression
 
@@ -79,12 +79,13 @@
                     [WHEN ...]
                     ELSE
                     else_result
-                    END```
+                    END
+                    ```
                     ````
 
             -   Example
 
-                -   ````sql
+                -   ```sql
                     SELECT title,
                     rating,
                     CASE rating
@@ -95,12 +96,12 @@
                     WHEN 'NC-17' THEN 'Adults Only'
                     END rating_description
                     FROM film
-                    ORDER BY title;```
-                    ````
+                    ORDER BY title;
+                    ```
 
         -   Using Simple PostgreSQL Case Expression With Aggregate Function Example
 
-            -   ````sql
+            -   ```sql
                 SELECT
                 SUM(CASE rating
                 WHEN 'G' THEN 1
@@ -122,16 +123,16 @@
                 WHEN 'NC-17' THEN 1
                 ELSE 0
                 END) "Adults Only"
-                FROM film;```
-                ````
+                FROM film;
+                ```
 
     -   **_COALESCE => to returns the first non-null argument._**
 
         -   Syntax
 
-            -   ````sql
-                COALESCE (argument_1, argument_2, …);```
-                ````
+            -   ```sql
+                COALESCE (argument_1, argument_2, …);
+                ```
 
         -   The COALESCE function accepts an unlimited number of arguments. It
             returns the first argument that is not null. If all arguments are null,
@@ -142,38 +143,38 @@
 
         -   Example
 
-            -   ````sql
+            -   ```sql
                 SELECT
                 product,
                 (price - COALESCE(discount,0)) AS net_price
                 FROM
-                items;```
-                ````
+                items;
+                ```
 
         -   Usage With Case Expression
 
-            -   ````sql
+            -   ```sql
                 SELECT
                 product,
                 (price - COALESCE(discount,0)) AS net_price
                 FROM
-                items;```
-                ````
+                items;
+                ```
 
     -   **_NULLIF => to handle null values._**
 
         -   Syntax
 
-            -   ````sql
-                NULLIF(argument_1,argument_2);```
-                ````
+            -   ```sql
+                NULLIF(argument_1,argument_2);
+                ```
 
         -   The NULLIF function returns a null value if argument_1 equals to
             argument_2, otherwise it returns argument_1.
 
         -   Example
 
-            -   ````sql
+            -   ```sql
                 SELECT
                 id,
                 title,
@@ -182,12 +183,12 @@
                 LEFT (body, 40)
                 )
                 FROM
-                posts;```
-                ````
+                posts;
+                ```
 
         -   Use NULLIF To Prevent Division-By-Zero Error
 
-            -   ````sql
+            -   ```sql
                 SELECT
                 (
                 SUM (
@@ -210,71 +211,71 @@
                 )
                 ) \* 100 AS "Male/Female ratio"
                 FROM
-                members;```
-                ````
+                members;
+                ```
 
     -   **_CAST => to convert a value of one type to another._**
 
         -   Syntax
 
-            -   ````sql
-                CAST ( expression AS target_type );```
-                ````
+            -   ```sql
+                CAST ( expression AS target_type );
+                ```
 
         -   PostgreSQL Type Cast :: Operator
 
             -   Example
 
-                -   ````sql
+                -   ```sql
                     SELECT
                     '100'::INTEGER,
-                    '01-OCT-2015'::DATE;```
-                    ````
+                    '01-OCT-2015'::DATE;
+                    ```
 
         -   Cast A String To An Integer Example
 
-            -   ````sql
+            -   ```sql
                 SELECT
-                CAST ('100' AS INTEGER);```
-                ````
+                CAST ('100' AS INTEGER);
+                ```
 
         -   Cast A String To A Date Example
 
-            -   ````sql
+            -   ```sql
                 SELECT
                 CAST ('2015-01-01' AS DATE), -- convert to January 1st 2015
-                CAST ('01-OCT-2015' AS DATE); -- convert to October 1st 2015```
-                ````
+                CAST ('01-OCT-2015' AS DATE); -- convert to October 1st 2015
+                ```
 
         -   Cast A String To A Double Example
 
-            -   ````sql
+            -   ```sql
                 SELECT
-                CAST ('10.2' AS DOUBLE);```
-                ````
+                CAST ('10.2' AS DOUBLE);
+                ```
 
         -   Cast A String To A Boolean Example
 
-            -   ````sql
+            -   ```sql
                 SELECT
                 CAST('true' AS BOOLEAN),
                 CAST('false' as BOOLEAN),
                 CAST('T' as BOOLEAN),
-                CAST('F' as BOOLEAN);```
-                ````
+                CAST('F' as BOOLEAN);
+                ```
 
         -   Convert A String To A Timestamp Example
 
-            -   ````sql
-                SELECT '2019-06-15 14:30:20'::timestamp;```
-                ````
+            -   ```sql
+                SELECT '2019-06-15 14:30:20'::timestamp;
+                ```
 
         -   Convert A String To A Interval Example
 
-            -   ````sql
+            -   ```sql
                 SELECT '15 minute'::interval,
                 '2 hour'::interval,
                 '1 day'::interval,
                 '2 week'::interval,
-                '3 month'::interval;```
-                ````
+                '3 month'::interval;
+                ```

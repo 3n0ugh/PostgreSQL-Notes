@@ -18,24 +18,45 @@
 
         -   To Start A Transaction
 
-            -   `BEGIN;`
+            -   ```sql
+                BEGIN;
+                ```
 
         -   Commit A Transaction
 
-            -   `COMMIT;`
+            -   ```sql
+                COMMIT;
+                ```
 
         -   Rolling Back A Transaction
 
-            -   `ROLLBACK;`
+            -   ```sql
+                ROLLBACK;
+                ```
 
         -   Bank Account Example
 
-            -   `-- start a transaction BEGIN;`
+            -   ```sql
+                    -- start a transaction
+                    BEGIN;
+                ```
 
-                `-- deduct 1000 from account 1 UPDATE accounts SET balance = balance - 1000 WHERE id = 1;`
+                ```sql
+                    -- deduct 1000 from account 1
+                    UPDATE accounts SET balance = balance - 1000 WHERE id = 1;
+                ```
 
-                `-- add 1000 to account 2 UPDATE accounts SET balance = balance + 1000 WHERE id = 2;`
+                ```sql
+                    -- add 1000 to account 2
+                    UPDATE accounts SET balance = balance + 1000 WHERE id = 2;
+                ```
 
-                ` -- select the data from accounts SELECT id, name, balance FROM accounts;`
+                ```sql
+                    -- select the data from accounts
+                    SELECT id, name, balance FROM accounts;
+                ```
 
-                `-- commit the transaction / -- or roll back the transaction COMMIT; / ROLLBACK;`
+                ```sql
+                    -- commit the transaction / -- or roll back the transaction
+                    COMMIT; / ROLLBACK;
+                ```

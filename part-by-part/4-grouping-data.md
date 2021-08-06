@@ -4,28 +4,56 @@
 
         -   Without An Aggregate Function Example (similar to SELECT DISTINCT)
 
-            -   `SELECT customer_id FROM payment GROUP BY customer_id;`
-            -   `SELECT DISTINCT customer_id FROM payment;`
+            -   ```sql
+                SELECT customer_id FROM payment GROUP BY customer_id;
+                ```
+            -   ```sql
+                SELECT DISTINCT customer_id FROM payment;
+                ```
 
         -   With SUM () Function Example
 
-            -   `SELECT customer_id, SUM (amounts) AS amount FROM payment GROUP BY customer_id ORDER BY amount DESC;`
+            -   ```sql
+                SELECT customer_id, SUM (amounts) AS amount
+                FROM payment
+                GROUP BY customer_id
+                ORDER BY amount DESC;
+                ```
 
         -   Clause With The JOIN Clause
 
-            -   `SELECT first_name || '*' || last_name full_name, SUM (amounts) amount FROM payment INNER JOIN customer USING (customer_id) GROUP BY full_name ORDER BY customer_id DESC;`
+            -   ```sql
+                SELECT first_name || '*' || last_name full_name, SUM (amounts) amount
+                FROM payment
+                INNER JOIN customer USING (customer_id)
+                GROUP BY full_name
+                ORDER BY customer_id DESC;
+                ```
 
         -   With COUNT () Function Example
 
-            -   ` SELECT staff_id, COUNT (payment_id) FROM payment GROUP BY staff_id;`
+            -   ```sql
+                 SELECT staff_id, COUNT (payment_id)
+                 FROM payment
+                 GROUP BY staff_id;
+                ```
 
         -   With Multiple Columns
 
-            -   `SELECT customer_id, staff_id, SUM(amount) FROM payment GROUP BY staff_id, customer_id ORDER BY customer_id;`
+            -   ```sql
+                SELECT customer_id, staff_id, SUM(amount)
+                FROM payment
+                GROUP BY staff_id, customer_id
+                ORDER BY customer_id;
+                ```
 
         -   With Date Column
 
-            -   `SELECT DATE(payment_date) paid_date, SUM(amount) sum FROM payment GROUP BY DATE(payment_date);`
+            -   ```sql
+                SELECT DATE(payment_date) paid_date, SUM(amount) sum
+                FROM payment
+                GROUP BY DATE(payment_date);
+                ```
 
     -   **_HAVING => to specify a search condition for a group or an aggregate._**
 
@@ -37,8 +65,18 @@
 
         -   Clause With SUM () Function Example
 
-            -   `SELECT customer_id, SUM (amount) FROM payment GROUP BY customer_id HAVING SUM (amount) > 200;`
+            -   ```sql
+                SELECT customer_id, SUM (amount)
+                FROM payment
+                GROUP BY customer_id
+                HAVING SUM (amount) > 200;
+                ```
 
         -   Clause With COUNT () Function Example
 
-            -   `SELECT store_id, COUNT (customer_id) FROM customer GROUP BY store_id HAVING COUNT (customer_id) > 300;`
+            -   ```sql
+                SELECT store_id, COUNT (customer_id)
+                FROM customer
+                GROUP BY store_id
+                HAVING COUNT (customer_id) > 300;
+                ```

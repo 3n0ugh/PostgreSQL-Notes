@@ -5,10 +5,14 @@
         - psql -d database -U user -W
 
         - If you want to connect to a database that resides on another host,
-          you add the -h option as follows: - psql -h host -d database -U user -W
+          you add the -h option as follows:
+
+            - psql -h host -d database -U user -W
 
         - In case you want to use SSL mode for the connection, just specify it as
-          shown in the following command: - psql -U user -h host "dbname=db sslmode=require"
+          shown in the following command:
+
+            - psql -U user -h host "dbname=db sslmode=require"
 
     2. **_Switch Connection To A New Database_**
 

@@ -4,29 +4,53 @@
 
         -   Define Primary Key While Creating A Table
 
-            -   ` CREATE TABLE TABLE ( column_1 data_type PRIMARY KEY, column_2 data_type, … );`
+            -   ```sql
+                 CREATE TABLE TABLE (
+                     column_1 data_type PRIMARY KEY,
+                     column_2 data_type, … );
+                ```
 
         -   To Define Primary Key For Two Or More Column
 
-            -   `CREATE TABLE TABLE ( column_1 data_type, column_2 data_type, … PRIMARY KEY (column_1, column_2) );`
+            -   ```sql
+                CREATE TABLE TABLE (
+                    column_1 data_type,
+                    column_2 data_type, …
+                    PRIMARY KEY (column_1, column_2) );
+                ```
 
         -   Define Primary Key While Changing The Existing Table Structure
 
-            -   `ALTER TABLE table_name ADD PRIMARY KEY (column_1, column_2);`
+            -   ```sql
+                ALTER TABLE table_name
+                ADD PRIMARY KEY (column_1, column_2);
+                ```
 
         -   To Add An Auto-Incremented Primary Key To An Existing Table
 
-            -   `ALTER TABLE existing_table_name ADD COLUMN column_name SERIAL PRIMARY KEY;`
+            -   ```sql
+                ALTER TABLE existing_table_name
+                ADD COLUMN column_name SERIAL PRIMARY KEY;
+                ```
 
         -   Remove Primary Key
 
-            -   ` ALTER TABLE table_name DROP CONSTRAINT primary_key_constraint;`
+            -   ```sql
+                 ALTER TABLE table_name
+                 DROP CONSTRAINT primary_key_constraint;
+                ```
 
     -   **_FOREIGN KEY => A foreign key is a column or a group of columns in a table that reference the primary key of another table._**
 
         -   Syntax
 
-            -   `[CONSTRAINT fk_name] FOREIGN KEY(fk_columns) REFERENCES parent_table(parent_key_columns) [ON DELETE delete_action] [ON UPDATE update_action]`
+            -   ```sql
+                [CONSTRAINT fk_name]
+                FOREIGN KEY(fk_columns)
+                REFERENCES parent_table(parent_key_columns)
+                [ON DELETE delete_action]
+                [ON UPDATE update_action]
+                ```
 
         -   NO ACTION
 
@@ -37,14 +61,38 @@
             -   The SET NULL automatically sets NULL to the foreign key columns in
                 the referencing rows of the child table when the referenced rows in
                 the parent table are deleted.
-            -   `CREATE TABLE contacts( contact_id INT GENERATED ALWAYS AS IDENTITY, customer_id INT, contact_name VARCHAR(255) NOT NULL, phone VARCHAR(15), email VARCHAR(100), PRIMARY KEY(contact_id), CONSTRAINT fk_customer FOREIGN KEY(customer_id) REFERENCES customers(customer_id) ON DELETE SET NULL -- Important!!!! );`
+            -   ```sql
+                CREATE TABLE contacts(
+                    contact_id INT GENERATED ALWAYS AS IDENTITY,
+                    customer_id INT,
+                    contact_name VARCHAR(255) NOT NULL,
+                    phone VARCHAR(15),
+                    email VARCHAR(100),
+                    PRIMARY KEY(contact_id),
+                    CONSTRAINT fk_customer
+                    FOREIGN KEY(customer_id)
+                    REFERENCES customers(customer_id)
+                    ON DELETE SET NULL -- Important!!!! );
+                ```
 
         -   CASCADE
 
             -   The ON DELETE CASCADE automatically deletes all the referencing
                 rows in the child table when the referenced rows in the parent
                 table are deleted.
-            -   `CREATE TABLE contacts( contact_id INT GENERATED ALWAYS AS IDENTITY, customer_id INT, contact_name VARCHAR(255) NOT NULL, phone VARCHAR(15), email VARCHAR(100), PRIMARY KEY(contact_id), CONSTRAINT fk_customer FOREIGN KEY(customer_id) REFERENCES customers(customer_id) ON DELETE CASCADE );`
+            -   ```sql
+                CREATE TABLE contacts(
+                    contact_id INT GENERATED ALWAYS AS IDENTITY,
+                    customer_id INT,
+                    contact_name VARCHAR(255) NOT NULL,
+                    phone VARCHAR(15),
+                    email VARCHAR(100),
+                    PRIMARY KEY(contact_id),
+                    CONSTRAINT fk_customer
+                    FOREIGN KEY(customer_id)
+                    REFERENCES customers(customer_id)
+                    ON DELETE CASCADE );
+                ```
 
         -   SET DEFAULT
 
@@ -54,17 +102,35 @@
 
         -   Add A Foreign Key Constraint To An Existing Table
 
-            -   `ALTER TABLE child_table ADD CONSTRAINT constraint_name FOREIGN KEY (fk_columns) REFERENCES parent_table (parent_key_columns);`
+            -   ```sql
+                ALTER TABLE child_table
+                ADD CONSTRAINT constraint_name
+                FOREIGN KEY (fk_columns)
+                REFERENCES parent_table (parent_key_columns);
+                ```
 
     -   **_CHECK => A CHECK constraint is a kind of constraint that allows you to specify if values in a column must meet a specific requirement._**
 
         -   Define PostgreSQL CHECK Constraint For New Tables
 
-            -   `DROP TABLE IF EXISTS employees; CREATE TABLE employees ( id SERIAL PRIMARY KEY, first_name VARCHAR (50), last_name VARCHAR (50), birth_date DATE CHECK (birth_date > '1900-01-01'), joined_date DATE CHECK (joined_date > birth_date), salary numeric CHECK(salary > 0) );`
+            -   ```sql
+                DROP TABLE IF EXISTS employees;
+                CREATE TABLE employees (
+                    id SERIAL PRIMARY KEY,
+                    first_name VARCHAR (50),
+                    last_name VARCHAR (50),
+                    birth_date DATE CHECK (birth_date > '1900-01-01'
+                ), joined_date DATE CHECK (joined_date > birth_date),
+                salary numeric CHECK(salary > 0) );
+                ```
 
         -   Define PostgreSQL CHECK Constraint For Existing Tables
 
-            -   `ALTER TABLE prices_list ADD CONSTRAINT price_discount_check CHECK ( price > 0 AND discount >= 0 AND price > discount );`
+            -   ```sql
+                ALTER TABLE prices_list
+                ADD CONSTRAINT price_discount_check
+                CHECK ( price > 0 AND discount >= 0 AND price > discount );
+                ```
 
     -   **_UNIQUE => to constraint the uniqueness of the data correctly._**
 
@@ -75,16 +141,39 @@
 
         -   Syntax (two variant)
 
-            -   `email VARCHAR (50) UNIQUE UNIQUE (email) CREATE TABLE person ( id SERIAL PRIMARY KEY, first_name VARCHAR (50), last_name VARCHAR (50), email VARCHAR (50) UNIQUE );`
+            -   ```sql
+                email VARCHAR (50) UNIQUE UNIQUE (email)
+                CREATE TABLE person (
+                    id SERIAL PRIMARY KEY,
+                    first_name VARCHAR (50),
+                    last_name VARCHAR (50),
+                    email VARCHAR (50) UNIQUE );
+                ```
 
         -   Creating A UNIQUE Constraint On Multiple Columns
 
-            -   `CREATE TABLE table ( c1 data_type, c2 data_type, c3 data_type UNIQUE (c2, c3) );`
+            -   ```sql
+                CREATE TABLE table (
+                    c1 data_type,
+                    c2 data_type,
+                    c3 data_type
+                    UNIQUE (c2, c3) );
+                ```
 
         -   Adding UNIQUE Constraint Using A UNIQUE INDEX
 
-            -   `CREATE UNIQUE INDEX CONCURRENTLY equipment_equip_id ON equipment (equip_id);`
-            -   `Add a unique constraint to the equipment table using the equipment_equip_id index. - ALTER TABLE equipment ADD CONSTRAINT unique_equip_id UNIQUE USING INDEX equipment_equip_id;`
+            -   ```sql
+                CREATE UNIQUE INDEX CONCURRENTLY
+                equipment_equip_id ON equipment (equip_id);
+                ```
+            -   Add a unique constraint to the equipment
+                table using the equipment_equip_id index.
+
+            -   ```sql
+                ALTER TABLE equipment
+                ADD CONSTRAINT unique_equip_id
+                UNIQUE USING INDEX equipment_equip_id;
+                ```
 
         -   ALTER TABLE statement acquires an exclusive lock on the table. If you
             have any pending transactions, it will wait for all transactions to
@@ -94,19 +183,45 @@
 
         -   NOT NULL CONSTRAINT
 
-            -   `CREATE TABLE table_name ( ... column_name data_type NOT NULL, ... );`
+            -   ```sql
+                CREATE TABLE table_name (
+                    ... column_name data_type NOT NULL,
+                    ... );
+                ```
 
         -   Declaring NOT NULL Columns
 
-            -   `CREATE TABLE invocies ( id SERIAL PRIMARY KEY, product_id INT NOT NULL, qty NUMERIC NOT NULL CHECK (qty > 0), net_price numeric CHECK (net_price > 0) );`
+            -   ```sql
+                CREATE TABLE invocies (
+                    id SERIAL PRIMARY KEY,
+                    product_id INT NOT NULL,
+                    qty NUMERIC NOT NULL CHECK (qty > 0),
+                    net_price numeric CHECK (net_price > 0) );
+                ```
 
         -   Adding NOT NULL Constraint To An Existing Table
 
-            -   `ALTER TABLE table_name ALTER COLUMN column_name SET NOT NULL;`
+            -   ```sql
+                ALTER TABLE table_name
+                ALTER COLUMN column_name SET NOT NULL;
+                ```
 
         -   The Special Case Of NOT NULL Constraint
 
             -   Besides the NOT NULL constraint, you can use a CHECK constraint
                 to force a column to accept not NULL values.
-            -   `CHECK (column IS NOT NULL)`
-            -   `CREATE TABLE users ( id serial PRIMARY KEY, username VARCHAR (50), password VARCHAR (50), email VARCHAR (50), CONSTRAINT username_email_notnull CHECK ( NOT ( ( username IS NULL OR username = '' ) AND ( email IS NULL OR email = '' ) ) ) );`
+            -   ```sql
+                CHECK (column IS NOT NULL)
+                ```
+            -   ```sql
+                CREATE TABLE users (
+                    id serial PRIMARY KEY,
+                    username VARCHAR (50),
+                    password VARCHAR (50),
+                    email VARCHAR (50),
+                    CONSTRAINT username_email_notnull CHECK ( NOT ( (
+                        username IS NULL OR username = ''
+                        ) AND (
+                            email IS NULL OR email = ''
+                            ) ) ) );
+                ```

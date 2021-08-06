@@ -94,7 +94,14 @@
 
         -   Example
 
-            -   `CREATE TABLE [IF NOT EXISTS] table_name ( column1 datatype(length) column_constraint, column2 datatype(length) column_constraint, column3 datatype(length) column_constraint, table_constraints );`
+            -   ```sql
+                CREATE TABLE [IF NOT EXISTS] table_name (
+                    column1 datatype(length) column_constraint,
+                    column2 datatype(length) column_constraint,
+                    column3 datatype(length) column_constraint,
+                    table_constraints );
+                ```
+
                 Code language: SQL (Structured Query Language) (sql)
 
         -   Constraints
@@ -113,53 +120,106 @@
 
         -   Example
 
-            -   `CREATE TABLE accounts ( user_id serial PRIMARY KEY, username VARCHAR ( 50 ) UNIQUE NOT NULL, password VARCHAR ( 50 ) NOT NULL, email VARCHAR ( 255 ) UNIQUE NOT NULL, created_on TIMESTAMP NOT NULL, last_login TIMESTAMP );`
+            -   ```sql
+                CREATE TABLE accounts (
+                    user_id serial PRIMARY KEY,
+                    username VARCHAR ( 50 ) UNIQUE NOT NULL,
+                    password VARCHAR ( 50 ) NOT NULL,
+                    email VARCHAR ( 255 ) UNIQUE NOT NULL,
+                    created_on TIMESTAMP NOT NULL,
+                    last_login TIMESTAMP );
+                ```
 
-            -   `CREATE TABLE account_roles ( user_id INT NOT NULL, role_id INT NOT NULL, grant_date TIMESTAMP, PRIMARY KEY (user_id, role_id), FOREIGN KEY (role_id) REFERENCES roles (role_id), FOREIGN KEY (user_id) REFERENCES accounts (user_id) );`
+            -   ```sql
+                CREATE TABLE account_roles (
+                    user_id INT NOT NULL,
+                    role_id INT NOT NULL,
+                    grant_date TIMESTAMP,
+                    PRIMARY KEY (user_id, role_id),
+                    FOREIGN KEY (role_id)
+                    REFERENCES roles (role_id),
+                    FOREIGN KEY (user_id)
+                     REFERENCES accounts (user_id) );
+                ```
 
     -   **_SELECT INTO => to create a new table from the result set of a query._**
 
         -   Example
 
-            -   `SELECT select_list INTO [ TEMPORARY | TEMP | UNLOGGED ] [ TABLE ] new_table_name FROM table_name WHERE search_condition;`
+            -   ```sql
+                SELECT select_list
+                INTO [ TEMPORARY | TEMP | UNLOGGED ] [ TABLE ] new_table_name
+                FROM table_name
+                WHERE search_condition;
+                ```
 
-            -   `SELECT film_id, title, rental_rate INTO TABLE film_r FROM film WHERE rating = 'R' AND rental_duration = 5 ORDER BY title;`
+            -   ```sql
+                SELECT film_id, title, rental_rate
+                INTO TABLE film_r
+                FROM film
+                WHERE rating = 'R' AND rental_duration = 5
+                ORDER BY title;
+                ```
 
         -   Temporary Table => TEMP
 
-            -   `SELECT film_id, title, length INTO TEMP TABLE short_film FROM film WHERE length < 60 ORDER BY title;`
+            -   ```sql
+                SELECT film_id, title, length
+                INTO TEMP TABLE short_film
+                FROM film
+                WHERE length < 60
+                ORDER BY title;
+                ```
 
     -   **_CREATE TABLE AS => to create a new table from the result set of a query._**
 
         -   Syntax
 
-            -   `CREATE TABLE new_table_name AS query;`
+            -   ```sql
+                CREATE TABLE new_table_name AS query;
+                ```
 
         -   To Create Temporary Table
 
-            -   `CREATE TEMP TABLE new_table_name AS query;`
+            -   ```sql
+                CREATE TEMP TABLE new_table_name AS query;
+                ```
 
         -   To Create Unlogged Table
 
-            -   `CREATE UNLOGGED TABLE new_table_name AS query;`
+            -   ```sql
+                CREATE UNLOGGED TABLE new_table_name AS query;
+                ```
 
         -   To Rename Columns
 
-            -   `CREATE TABLE new_table_name ( column_name_list ) AS query;`
+            -   ```sql
+                CREATE TABLE new_table_name ( column_name_list ) AS query;
+                ```
 
         -   To Check Table Exists Or Not
 
-            -   `CREATE TABLE IF NOT EXISTS new_table_name AS query;`
+            -   ```sql
+                CREATE TABLE IF NOT EXISTS new_table_name AS query;
+                ```
 
         -   Example
 
-            -   `CREATE TABLE IF NOT EXISTS film_rating (rating, film_count) AS SELECT rating, COUNT (film_id) FROM film GROUP BY rating;`
+            -   ```sql
+                CREATE TABLE IF NOT EXISTS film_rating (
+                    rating, film_count
+                    ) AS SELECT rating, COUNT (film_id)
+                    FROM film
+                    GROUP BY rating;
+                ```
 
     -   **_AUTO-INCREMENT => SERIAL pseudo-type to define auto-incremenet columns in table._**
 
         -   Example
 
-            -   `CREATE TABLE table_name ( id SERIAL );`
+            -   ```sql
+                CREATE TABLE table_name ( id SERIAL );
+                ```
 
         -   Three SERIAL pseudo-types
 
@@ -169,16 +229,30 @@
 
         -   To Get The Sequence Name Of A SERIAL Column In A Table
 
-            -   `pg_get_serial_sequence('table_name', 'column_name')`
+            -   ```sql
+                pg_get_serial_sequence('table_name', 'column_name')
+                ```
 
         -   You can pass a sequence name to the currval() function to get the
             recent value generated by the sequence.
 
-            -   `SELECT currval(pg_get_serial_sequence('fruits', 'id'));`
+            -   ```sql
+                SELECT currval(pg_get_serial_sequence('fruits', 'id'));
+                ```
 
     -   **_SEQUENCES => sequence object to generate a sequence of numbers._**
 
-        -   `CREATE SEQUENCE [ IF NOT EXISTS ] sequence_name [ AS { SMALLINT | INT | BIGINT } ] [ INCREMENT [ BY ] increment ] [ MINVALUE minvalue | NO MINVALUE ] [ MAXVALUE maxvalue | NO MAXVALUE ] [ START [ WITH ] start ] [ CACHE cache ] [ [ NO ] CYCLE ] [ OWNED BY { table_name.column_name | NONE } ];`
+        -   ```sql
+            CREATE SEQUENCE [ IF NOT EXISTS ] sequence_name
+            [ AS { SMALLINT | INT | BIGINT } ]
+            [ INCREMENT [ BY ] increment ]
+            [ MINVALUE minvalue | NO MINVALUE ]
+            [ MAXVALUE maxvalue | NO MAXVALUE ]
+             [ START [WITH ] start ]
+             [ CACHE cache ]
+             [ [ NO ] CYCLE ]
+             [ OWNED BY { table_name.column_name | NONE } ];
+            ```
 
             -   [ AS { SMALLINT | INT | BIGINT } ]
 
@@ -232,29 +306,47 @@
 
         -   Creating An Ascending Sequence Example
 
-            -   `CREATE SEQUENCE mysequence INCREMENT 5 START 100;`
+            -   ```sql
+                CREATE SEQUENCE mysequence INCREMENT 5
+                START 100;
+                ```
             -   to get next value
 
-                -   `SELECT nextval(mysequence);`
+                -   ```sql
+                    SELECT nextval(mysequence);
+                    ```
 
         -   Creating An Descending Sequence Example
 
-            -   `CREATE SEQUENCE three INCREMENT -1 MINVALUE 1 MAXVALUE 3 START 3 CYCLE;`
+            -   ```sql
+                CREATE SEQUENCE three INCREMENT -1 MINVALUE 1 MAXVALUE 3
+                START 3 CYCLE;
+                ```
 
         -   Creating A Sequence Associated With A Table Column
 
-            -   `CREATE SEQUENCE order_item_id START 10 INCREMENT 10 MINVALUE 10 OWNED BY order_details.item_id;`
+            -   ```sql
+                CREATE SEQUENCE order_item_id
+                START 10 INCREMENT 10 MINVALUE 10
+                OWNED BY order_details.item_id;
+                ```
 
         -   Listing All Sequences In A Database
 
-            -   `SELECT relname sequence_name FROM pg_class WHERE relkind = 'S';`
+            -   ```sql
+                SELECT relname sequence_name
+                FROM pg_class
+                WHERE relkind = 'S';
+                ```
 
         -   Deleting Sequences
 
             -   If a sequence is associated with a table column, it will be
                 automatically dropped once the table column is removed or the table
                 is dropped.
-            -   `DROP SEQUENCE [ IF EXISTS ] sequence_name [, ...] [ CASCADE | RESTRICT ];`
+            -   ```sql
+                DROP SEQUENCE [ IF EXISTS ] sequence_name [, ...] [ CASCADE | RESTRICT ];
+                ```
 
     -   **_IDENTITY COLUMN => to automatically assign a unique number to a column._**
 
@@ -272,82 +364,154 @@
 
         -   GENERATED ALWAYS EXAMPLE
 
-            -   `CREATE TABLE colors ( color_id INT GENERATED ALWAYS AS IDENTITY, color_name VARCHAR NOT NULL );`
+            -   ```sql
+                CREATE TABLE colors (
+                    color_id INT GENERATED ALWAYS AS IDENTITY,
+                    color_name VARCHAR NOT NULL );
+                ```
 
         -   GENERATED BY DEFAULT AS IDENTITY
 
-            -   `CREATE TABLE colors ( color_id INT GENERATED BY DEFAULT AS IDENTITY, color_name VARCHAR NOT NULL );`
+            -   ```sql
+                CREATE TABLE colors (
+                    color_id INT GENERATED BY DEFAULT AS IDENTITY,
+                    color_name VARCHAR NOT NULL );
+                ```
 
         -   SEQUENCE OPTIONS EXAMPLE
 
-            -   `CREATE TABLE colors ( color_id INT GENERATED ALWAYS AS IDENTITY (STARTS WITH 10 INCREMENT BY 10), color_name VARCHAR NOT NULL, );`
+            -   ```sql
+                CREATE TABLE colors (
+                    color_id INT GENERATED ALWAYS AS IDENTITY (STARTS WITH 10 INCREMENT BY 10),
+                    color_name VARCHAR NOT NULL, );
+                ```
 
         -   Adding An Identity Column To An Existing Table
 
-            -   `ALTER TABLE table_name ALTER COLUMN column_name ADD GENERATED { ALWAYS | BY DEFAULT } AS IDENTITY { ( sequence_option ) }`
+            -   ```sql
+                ALTER TABLE table_name
+                ALTER COLUMN column_name
+                ADD GENERATED { ALWAYS | BY DEFAULT }
+                AS IDENTITY { ( sequence_option ) }
+                ```
 
             -   Creating a table, Then adding an identity column
 
-                -   `CREATE TABLE shape ( shape_id INT NOT NULL, shape_name VARCHAR NOT NULL );`
-                -   `ALTER TABLE shape ALTER COLUMN shape_id ADD GENERATED ALWAYS AS IDENTITY;`
+                -   ```sql
+                    CREATE TABLE shape (
+                        shape_id INT NOT NULL,
+                        shape_name VARCHAR NOT NULL );
+                    ```
+                -   ```sql
+                    ALTER TABLE shape
+                    ALTER COLUMN shape_id
+                    ADD GENERATED ALWAYS AS IDENTITY;
+                    ```
 
         -   Changing An Identity Column
 
-            -   `ALTER TABLE table_name ALTER COLUMN column_name { SET GENERATED { ALWAYS| BY DEFAULT } | SET sequence_option | RESTART [ [ WITH ] restart ] }`
-            -   `ALTER TABLE shape ALTER COLUMN shape_id SET GENERATED BY DEFAULT;`
+            -   ```sql
+                ALTER TABLE table_name
+                ALTER COLUMN column_name
+                { SET GENERATED { ALWAYS| BY DEFAULT }
+                | SET sequence_option |
+                RESTART [ [ WITH ] restart ] }
+                ```
+            -   ```sql
+                ALTER TABLE shape
+                ALTER COLUMN shape_id
+                SET GENERATED BY DEFAULT;
+                ```
 
         -   Removing The GENERATED AS IDENTITY Constraint
 
-            -   ` ALTER TABLE table_name ALTER COLUMN column_name DROP IDENTITY [ IF EXISTS ]`
+            -   ```sql
+                 ALTER TABLE table_name
+                 ALTER COLUMN column_name
+                 DROP IDENTITY [ IF EXISTS ]
+                ```
 
     -   **_ALTER TABLE => to modify the structure of table._**
 
         -   Syntax
 
-            -   `ALTER TABLE table_name action;`
+            -   ```sql
+                ALTER TABLE table_name action;
+                ```
 
         -   To Add A New Column
 
-            -   `ALTER TABLE table_name ADD COLUMN column_name data_type column_constraint;`
+            -   ```sql
+                ALTER TABLE table_name
+                ADD COLUMN column_name data_type column_constraint;
+                ```
 
         -   To Drop A Column
 
-            -   `ALTER TABLE table_name DROP COLUMN column_name;`
+            -   ```sql
+                ALTER TABLE table_name
+                DROP COLUMN column_name;
+                ```
 
         -   To Rename A Column
 
-            -   `ALTER TABLE table_name ALTER COLUMN column_name To new_column_name;`
+            -   ```sql
+                ALTER TABLE table_name
+                ALTER COLUMN column_name To new_column_name;
+                ```
 
         -   To Change A Default Value Of The Column
 
-            -   `ALTER TABLE table_name ALTER COLUMN column_name [SET DEFAULT value | DROP DEFAULT];`
+            -   ```sql
+                ALTER TABLE table_name
+                ALTER COLUMN column_name
+                [SET DEFAULT value | DROP DEFAULT];
+                ```
 
         -   To Change the NOT NULL Constraint
 
-            -   `ALTER TABLE table_name ALTER COLUMN column_name [SET NOT NULL value | DROP NOT NULL];`
+            -   ```sql
+                ALTER TABLE table_name
+                ALTER COLUMN column_name
+                [SET NOT NULL value | DROP NOT NULL];
+                ```
 
         -   To Add A Check Constraint
 
-            -   `ALTER TABLE table_name ADD CHECK expression;`
+            -   ```sql
+                ALTER TABLE table_name
+                ADD CHECK expression;
+                ```
 
         -   To Add A Constraint To A Table
 
-            -   `ALTER TABLE table_name ADD CONSTRAINT constraint_name constraint_definition;`
+            -   ```sql
+                ALTER TABLE table_name
+                ADD CONSTRAINT constraint_name constraint_definition;
+                ```
 
         -   To Rename A Table
 
-            -   `ALTER TABLE RENAME TO new_table_name;`
+            -   ```sql
+                ALTER TABLE RENAME TO new_table_name;
+                ```
 
     -   **_TRUNCATE TABLE => to quickly delete all data from large tables._**
 
         -   Remove All Data From One Table
 
-            -   `TRUNCATE TABLE table_name;`
+            -   ```sql
+                TRUNCATE TABLE table_name;
+                ```
 
         -   To Reset The Values In The Identity Column
 
-            -   `TRUNCATE TABLE table_name RESTART IDENTITY;`
+            -   ```sql
+                TRUNCATE TABLE table_name RESTART IDENTITY;
+                ```
 
         -   Remove All Data From A Table That Has Foreign Key References
 
-            -   `TRUNCATE TABLE table_name CASCADE;`
+            -   ```sql
+                TRUNCATE TABLE table_name CASCADE;
+                ```
