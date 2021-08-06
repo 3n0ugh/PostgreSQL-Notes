@@ -48,20 +48,22 @@ I hope it will be useful for you.
        
 ## Table Of Content For Notes
 
-* ***[Querying Data](https://github.com/3n0ugh/PostgreSQL-Notes/blob/main/part-by-part/1-querying-data.md)***
-* ***[]()
-* ***[]()
-* ***[]()
-* ***[]()
-* ***[]()
-* ***[]()
-* ***[]()
-* ***[]()
-* ***[]()
-* ***[]()
-* ***[]()
-* ***[]()
-* ***[]()
-* ***[]()
-* ***[]()
-* ***[]()
+
+* ***[QUERYING DATA](https://github.com/3n0ugh/PostgreSQL-Notes/blob/main/part-by-part/1-querying-data.md)***
+* ***[FILTERING DATA](https://github.com/3n0ugh/PostgreSQL-Notes/blob/main/part-by-part/2-filtering-data.md)***
+* ***[JOINING MULTIPLE TABLES](https://github.com/3n0ugh/PostgreSQL-Notes/blob/main/part-by-part/3-joining-multiple-tables.md)***
+* ***[GROUPING DATA](https://github.com/3n0ugh/PostgreSQL-Notes/blob/main/part-by-part/4-grouping-data.md)***
+* ***[SET OPERATIONS](https://github.com/3n0ugh/PostgreSQL-Notes/blob/main/part-by-part/5-set-operations.md)***
+* ***[GROUPING SETS, CUBE AND ROLLUP](https://github.com/3n0ugh/PostgreSQL-Notes/blob/main/part-by-part/6-grouping-sets-cube-and-rollup.md)***
+* ***[SUBQUERY](https://github.com/3n0ugh/PostgreSQL-Notes/blob/main/part-by-part/7-subquery.md)***
+* ***[COMMON TABLE EXPRESSIONS](https://github.com/3n0ugh/PostgreSQL-Notes/blob/main/part-by-part/8-common-table-expressions.md)***
+* ***[MODIFYING DATA](https://github.com/3n0ugh/PostgreSQL-Notes/blob/main/part-by-part/9-modifiying-data.md)***
+* ***[TRANSACTIONS](https://github.com/3n0ugh/PostgreSQL-Notes/blob/main/part-by-part/10-transactions.md)***
+* ***[IMPORT & EXPORT DATA (FROM/TO CSV)](https://github.com/3n0ugh/PostgreSQL-Notes/blob/main/part-by-part/11-import-export-data.md)***
+* ***[MANAGING TABLES](https://github.com/3n0ugh/PostgreSQL-Notes/blob/main/part-by-part/12-managing-tables.md)***
+* ***[UNDERSTANDING POSTGRESQL CONSTRAINTS](https://github.com/3n0ugh/PostgreSQL-Notes/blob/main/part-by-part/13-understanding-psql-constraints.md)***
+* ***[POSTGRESQL DATA TYPES IN DEPTH](https://github.com/3n0ugh/PostgreSQL-Notes/blob/main/part-by-part/14-psql-data-types-in-depth.md)***
+* ***[CONDITIONAL EXPRESSIONS AND OPERATORS](https://github.com/3n0ugh/PostgreSQL-Notes/blob/main/part-by-part/15-conditional-expressions-and-operators.md)***
+* ***[PSQL COMMANDS](https://github.com/3n0ugh/PostgreSQL-Notes/blob/main/part-by-part/16-psql-commands.md)***
+* ***[POSTGRESQL RECIPES](https://github.com/3n0ugh/PostgreSQL-Notes/blob/main/part-by-part/17-psql-recipes.md)***
+
