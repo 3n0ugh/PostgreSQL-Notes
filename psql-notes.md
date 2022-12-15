@@ -125,14 +125,14 @@
         -   "<>" or "!=" -> Not equal
 
             -   ```sql
-                SELECT username, password FROM accounts WHERE username <> 'melek';
+                SELECT username, password FROM accounts WHERE username <> 'serhat';
                 ```
 
         -   AND
 
             -   Logical operator AND
             -   ```sql
-                SELECT username, password FROM accounts WHERE username = 'serhat' AND username = 'melek';
+                SELECT username, password FROM accounts WHERE username = 'serhat' AND username = 'serhat';
                 ```
 
         -   OR
@@ -146,7 +146,7 @@
 
             -   Return true if a value matches any value in a list
             -   ```sql
-                SELECT username, password FROM accounts WHERE username IN ('serhat', 'melek');
+                SELECT username, password FROM accounts WHERE username IN ('serhat', 'serhat');
                 ```
 
         -   LIKE
@@ -821,7 +821,7 @@
             -   RETURNING clause that returns the information of the inserted row.
             -   ```sql
                 INSERT INTO accounts (name, lastname, password)
-                VALUES ('melek', 'yildiz', 'qwEr123!')
+                VALUES ('serhat', 'krblt', 'qwEr123!')
                 RETURNING *;
                 ```
 
@@ -829,7 +829,7 @@
 
             -   ```sql
                 INSERT INTO accounts (name, lastname, password)
-                VALUES ('melek', 'yildiz', 'qwEr123!');
+                VALUES ('serhat', 'krblt', 'qwEr123!');
                 ```
 
         -   Inserting Character String That Contains A Single Quote
